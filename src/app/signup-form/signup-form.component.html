@@ -1,0 +1,53 @@
+<div class="container" >
+  <form [formGroup]="form" (ngSubmit)="dadada(form)" class="card">
+    <div formGroupName="account" class="card-body">
+      <h2>Sign Up</h2>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input formControlName="username" appInputFormat id="username" type="text" class="form-control" placeholder="use lowercase characters">
+        <div *ngIf="username?.pending">Checking for uniqueness...</div>
+        <div *ngIf="username?.touched && username?.invalid" class="alert alert-danger p-2">
+          <div *ngIf="username?.errors?.['required']">
+            Username is required
+          </div>
+          <div *ngIf="username?.errors?.['minlength']">
+            Username should be minimum {{ username?.errors?.['minlength'].requiredLength }} characters
+          </div>
+          <div *ngIf="username?.errors?.['cannotContainSpace']">
+            Username cannot contain space
+          </div>
+          <div *ngIf="username?.errors?.['shouldBeUnique']">
+            Username already exists
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          formControlName="password" id="password"
+          type="password" class="form-control">
+      </div>
+
+      <br>
+
+      <div class="form-check">
+        <input
+          formControlName="admin" [value]="true"
+          type="radio" class="form-check-input">
+        <label class="form-check-label">admin</label>
+      </div>
+      <div class="form-check">
+        <input
+          formControlName="admin" [value]="false"
+          type="radio" class="form-check-input">
+          <label class="form-check-label">regular</label>
+      </div>
+    </div>
+
+    <button [disabled]="!form.valid" class="btn btn-primary">Submit</button>
+    <div *ngIf="form.errors" class="alert alert-danger">
+      The username or password is invalid
+    </div>
+  </form>
+</div>

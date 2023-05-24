@@ -1,0 +1,47 @@
+div.container {
+  margin-top: 2rem;
+  max-width: 769px;
+}
+
+input {
+  margin-top: 1rem;
+}
+
+ul.nav-pills li {
+  margin-left: 1rem;
+  &:nth-child(1) { margin-left: 0; }
+
+  a {
+    cursor: pointer;
+    color: rgb(128, 128, 128) !important;
+  }
+
+  .active{
+    border: 2px solid rgb(100, 100, 100);
+    background-color: transparent !important;
+    color: rgb(100, 100, 100) !important;
+ }
+}
+
+
+ul.list-group {
+  a {
+    text-decoration: none;
+    margin-left: 2rem;
+    color: rgb(128, 128, 128);
+    &:hover { color: rgb(0, 0, 0, 0.9) }
+  }
+}
+
+.even {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+@media only screen and (max-width: 769px) {
+  ul.list-group {
+    div.viewMode {
+      margin-left: 1rem;
+      a { margin-left: 0 }
+    }
+  }
+}

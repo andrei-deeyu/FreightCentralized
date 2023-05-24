@@ -1,0 +1,13 @@
+<div class="container">
+  <ul class="list-group" *ngIf="post">
+    <li class="list-group-item title">
+      {{ post.title }}
+    </li>
+    <li class="list-group-item">
+      {{ post.body }}
+    </li>
+    <li class="list-group-item">
+      <span class="user">userId</span> - {{ post.userId }}
+    </li>
+  </ul>
+</div>

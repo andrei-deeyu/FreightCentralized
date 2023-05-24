@@ -1,0 +1,12 @@
+<div class="container card">
+  <h2 *ngIf="authService.isLoggedIn()" class="card-title">
+    {{ authService.currentUser.name }}
+  </h2>
+
+  <div class="showEventCode card-body">
+    <input class="form-control" #email (keyup)="onKeyUp($event)" placeholder="send $event"/>
+    <p class="eventCode">EventCode: <span>{{ eventCode }}</span></p>
+    <p *ngIf="name">Hello, <span>{{ name }}</span></p>
+  </div>
+
+</div>

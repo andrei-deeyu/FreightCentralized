@@ -1,0 +1,8 @@
+<span
+  class="bi"
+  [ngClass]="{
+    'bi-heart-fill': isSelected,
+    'bi-heart': !isSelected
+  }"
+  (click)="onClick()"
+></span>
