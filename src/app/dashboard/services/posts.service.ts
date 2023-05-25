@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DataService } from "./data.service";
+import { DataService } from 'src/app/shared/services/data.service';
+
 
 @Injectable()
 export class PostsService extends DataService {
