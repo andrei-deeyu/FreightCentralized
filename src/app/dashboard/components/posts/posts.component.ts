@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { PostsService } from '../services/posts.service';
-import { AppError } from '../common/app-error';
 
-import { BadInput } from '../common/bad-input';
-import { NotFoundError } from '../common/not-found-error';
+import { AppError } from '../../../shared/services/app-error';
+import { BadInput } from '../../../shared/services/bad-input';
+import { NotFoundError } from '../../../shared/services/not-found-error';
 
-import { FavoriteChangedEventArgs } from '../favorite/favorite.component';
+
+import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
+import { PostsService } from '../../services/posts.service';
 
 @Component({
   selector: 'posts',

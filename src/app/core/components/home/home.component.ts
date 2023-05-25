@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FavoriteChangedEventArgs } from '../favorite/favorite.component';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +18,5 @@ export class HomeComponent {
     const target = $event.target as HTMLInputElement;
     if(target && $event.key == 'Enter') this.name = target.value;
     this.eventCode = $event.code;
-  }
-
-  onFavoriteChanged(eventArgs: FavoriteChangedEventArgs) {
-    console.log(eventArgs)
   }
 }
