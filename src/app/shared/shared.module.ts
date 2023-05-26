@@ -5,9 +5,6 @@ import { FavoriteComponent } from './components/favorite/favorite.component';
 import { InputFormatDirective } from './services/input-format.directive';
 import { SummaryPipe } from './services/summary.pipe';
 
-import { PostsService } from '../dashboard/services/posts.service';
-import { PostService } from '../dashboard/services/post.service';
-
 
 
 @NgModule({
@@ -21,8 +18,7 @@ import { PostService } from '../dashboard/services/post.service';
   ],
 
   providers: [
-    PostsService,
-    PostService
+
   ],
 
   exports: [

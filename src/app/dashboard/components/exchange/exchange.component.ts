@@ -6,32 +6,34 @@ import { NotFoundError } from '../../../shared/services/not-found-error';
 
 
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
-import { PostsService } from '../../services/posts.service';
+
+import { ExchangeService } from '../../services/exchange.service';
+
 
 @Component({
-  selector: 'posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+  selector: 'exchange',
+  templateUrl: './exchange.component.html',
+  styleUrls: ['./exchange.component.scss']
 })
-export class PostsComponent implements OnInit {
-  posts: any;
+export class ExchangeComponent implements OnInit {
+  exchange: any;
   thePost: any;
   viewMode = '';
 
-  constructor (private service: PostsService) {
+  constructor (private service: ExchangeService) {
 
   }
 
   ngOnInit() {
     this.service.getAll()
       .subscribe({
-        next: (response) => this.posts = response
+        next: (response) => this.exchange = response
       });
   }
 
   createPost(input: HTMLInputElement) {
     let post: any = { title: input.value };
-    this.posts.splice(0, 0, post);
+    this.exchange.splice(0, 0, post);
 
     input.value = '';
 
@@ -42,7 +44,7 @@ export class PostsComponent implements OnInit {
           post.id = response.id;
         },
         error: (error: AppError) => {
-          this.posts.splice(0, 1);
+          this.exchange.splice(0, 1);
 
           if(error instanceof BadInput)  {
              // this.form.setErrors(error.originalError)
@@ -59,13 +61,13 @@ export class PostsComponent implements OnInit {
   }
 
   deletePost(post: any) {
-    let index = this.posts.indexOf(post);
-    this.posts.splice(index, 1);
+    let index = this.exchange.indexOf(post);
+    this.exchange.splice(index, 1);
 
     this.service.delete(post.id)
     .subscribe({
       error: (error: AppError) => {
-        this.posts.splice(index, 0, post);
+        this.exchange.splice(index, 0, post);
 
         if(error instanceof NotFoundError)
           alert('This post already been deleted')
@@ -76,6 +78,6 @@ export class PostsComponent implements OnInit {
 
 
   onFavoriteChanged(eventArgs: FavoriteChangedEventArgs, index: number) {
-    this.posts[index].isLiked = Object.values(eventArgs)[0]
+    this.exchange[index].isLiked = Object.values(eventArgs)[0]
   }
 }

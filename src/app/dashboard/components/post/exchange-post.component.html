@@ -1,4 +1,17 @@
 <div class="container">
+  <ul class="list-group" *ngIf="!post">
+    <li class="list-group-item title">
+      Not found
+    </li>
+    <li class="list-group-item">
+      This post is unavailable. Return to the exchange
+    </li>
+    <li class="list-group-item">
+      <span class="user">error</span> - not found
+    </li>
+  </ul>
+
+
   <ul class="list-group" *ngIf="post">
     <li class="list-group-item title">
       {{ post.title }}

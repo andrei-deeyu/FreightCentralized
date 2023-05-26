@@ -1,23 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PostComponent } from './components/post/post.component';
-import { PostsComponent } from './components/posts/posts.component';
+import { ExchangeComponent } from './components/exchange/exchange.component';
+import { ExchangePostComponent } from './components/post/exchange-post.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-
+import { ExchangeService } from './services/exchange.service';
+import { ExchangePostService } from './services/exchange-post.service';
 
 
 @NgModule({
-  declarations: [
-    PostsComponent,
-    PostComponent
+  providers: [
+    ExchangeService,
+    ExchangePostService
   ],
+
+  declarations: [
+    ExchangeComponent,
+    ExchangePostComponent
+  ],
+
   imports: [
     CommonModule,
     SharedModule,
     RouterModule.forChild([
-      { path: 'posts', component: PostsComponent },
-      { path: 'post/:id', component: PostComponent },
+      { path: 'exchange', component: ExchangeComponent },
+      { path: 'exchange/:id', component: ExchangePostComponent },
     ])
   ]
 })

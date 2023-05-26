@@ -8,12 +8,12 @@
   <input (keyup.enter)="createPost(title)" #title type="text" class="form-control" placeholder="Add a post">
 
   <ul class="list-group">
-    <li *ngFor="let post of posts; even as isEven, index as i" class="list-group-item d-flex align-items-center" [class.even]="isEven">
+    <li *ngFor="let post of exchange; even as isEven, index as i" class="list-group-item d-flex align-items-center" [class.even]="isEven">
       <button (click)="deletePost(post)" class="btn bi bi-x p-0"></button>
       <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
-        <a [routerLink]="['/post', post.id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
-        <a [routerLink]="['/post', post.id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
-        <a [routerLink]="['/post', post.id]" *ngSwitchDefault>{{ post.title }}</a>
+        <a [routerLink]="['/exchange', post.id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
+        <a [routerLink]="['/exchange', post.id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
+        <a [routerLink]="['/exchange', post.id]" *ngSwitchDefault>{{ post.title }}</a>
       </div>
       <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged($event, i)"></favorite>
     </li>

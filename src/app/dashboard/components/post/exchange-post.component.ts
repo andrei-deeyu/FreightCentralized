@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../../services/post.service';
+import { ExchangePostService } from '../../services/exchange-post.service';
 import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss']
+  selector: 'exchange-post',
+  templateUrl: './exchange-post.component.html',
+  styleUrls: ['./exchange-post.component.scss']
 })
 
-export class PostComponent implements OnInit {
+export class ExchangePostComponent implements OnInit {
   post: any;
 
-  constructor ( private route: ActivatedRoute, private service: PostService ) {
+  constructor ( private route: ActivatedRoute, private service: ExchangePostService ) {
   }
 
   ngOnInit() {
@@ -23,7 +23,8 @@ export class PostComponent implements OnInit {
 
         this.service.getSingle(id)
           .subscribe({
-            next: (response) => this.post = response
+            next: (response) => this.post = response,
+            error: (err) => console.log(err)
           })
       })
   }
