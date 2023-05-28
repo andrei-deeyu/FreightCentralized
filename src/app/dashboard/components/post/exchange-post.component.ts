@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ExchangePostService } from '../../services/exchange-post.service';
 import { ActivatedRoute } from '@angular/router';
-
 import { Store } from '@ngrx/store';
 
 import { selectSinglePost } from 'src/app/state/exchange.selectors';
-import { ExchangeApiActions, SinglePostApiActions } from 'src/app/state/exchange.actions';
+import { SinglePostApiActions } from 'src/app/state/exchange.actions';
 import { Exchange } from '../../models/exchange.model';
 
 @Component({

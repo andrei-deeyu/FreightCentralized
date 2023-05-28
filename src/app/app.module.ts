@@ -23,17 +23,14 @@ import { AdminModule } from './admin/admin.module';
 import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { WildCardRouteModule } from './wild-card-route.module';
-
-
-export function tokenGetter() {
-  return localStorage.getItem('token');
-}
-
+import { StoreModule } from '@ngrx/store';
 
 import { exchangeReducer, singlePostReducer } from './state/exchange.reducer';
 // import { notificationsReducer } from './state/notifications.reducer';
 
-import { StoreModule } from '@ngrx/store';
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -60,7 +57,6 @@ import { StoreModule } from '@ngrx/store';
     AdminModule,
     DashboardModule,
     WildCardRouteModule,
-    StoreModule.forRoot({}, {})
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },

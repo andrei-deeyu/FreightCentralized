@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { Store } from '@ngrx/store';
+import { selectExchange } from 'src/app/state/exchange.selectors';
+import { Exchange } from '../../models/exchange.model';
+import { ExchangeApiActions } from 'src/app/state/exchange.actions';
+
+import { ExchangeService } from '../../services/exchange.service';
 
 import { AppError } from 'sharedServices/app-error';
 import { BadInput } from 'sharedServices/bad-input';
 import { NotFoundError } from 'sharedServices/not-found-error';
 
-
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
-
-import { ExchangeService } from '../../services/exchange.service';
-import { ExchangeApiActions } from 'src/app/state/exchange.actions';
-
-
-import { Store } from '@ngrx/store';
-import { selectExchange } from 'src/app/state/exchange.selectors';
-import { Exchange } from '../../models/exchange.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 
 @Component({
   selector: 'exchange',
@@ -24,7 +21,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
-  thePost: any;
   viewMode = '';
 
   form = new FormGroup({
@@ -50,29 +46,20 @@ export class ExchangeComponent implements OnInit {
     };
 
     f.reset();
-    // TODOs: implement optimistic approach
+
     this.service.create(post)
-    .subscribe(
-      {
-        next: (response:any) => {
-          post.id = response.id;
-          this.store.dispatch(ExchangeApiActions.addPost({ post }));
-        },
-        error: (error: AppError) => {
-          if(error instanceof BadInput)  {
-             // this.form.setErrors(error.originalError)
-          } else throw error;
-        }
-      })
+    .subscribe({
+      next: (response: Exchange) => {
+        post.id = response.id;
+        this.store.dispatch(ExchangeApiActions.addPost({ post }));
+      },
+      error: (error: AppError) => {
+        if(error instanceof BadInput)  {
+            // this.form.setErrors(error.originalError)
+        } else throw error;
+      }
+    })
   }
-
-  updatePost(post: any) {
-    this.service.update(post)
-      .subscribe(response => {
-        console.log(response)
-      });
-  }
-
 
   deletePost(postId: number) {
     this.service.remove(postId)
@@ -91,14 +78,13 @@ export class ExchangeComponent implements OnInit {
 
   onFavoriteChanged(postId: number, eventArgs: FavoriteChangedEventArgs, ) {
     let eventValue = Object.values(eventArgs)[0];
-    this.service.likePost(postId, eventValue)
-    .subscribe({
-      next: () => {
-        this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }));
-      },
-      error: (error: AppError) => {
 
-      }
-    })
+    this.service.likePost(postId, eventValue)
+      .subscribe({
+        next: () => {
+          this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }));
+        },
+        error: (error: AppError) => {}
+      })
   }
 }

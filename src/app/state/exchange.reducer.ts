@@ -2,8 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import { Exchange } from '../dashboard/models/exchange.model';
 import { ExchangeApiActions, SinglePostApiActions } from './exchange.actions';
 
-// export const initialState: ReadonlyArray<Exchange> = [];
-
 export const initialState: Array<Exchange> = [];
 export const SinglePostInitialState: Exchange = {
   userId: 0,

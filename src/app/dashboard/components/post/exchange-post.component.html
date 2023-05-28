@@ -1,5 +1,5 @@
-<div class="container">
-  <ul class="list-group" *ngIf="singlePost$ | async as data">
+<div class="container" *ngIf="singlePost$ | async as data">
+  <ul class="list-group" *ngIf="data.id">
     <li class="list-group-item title">
       {{ data.title }}
     </li>
