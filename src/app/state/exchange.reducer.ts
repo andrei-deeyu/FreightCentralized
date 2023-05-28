@@ -1,10 +1,22 @@
 import { createReducer, on } from '@ngrx/store';
 import { Exchange } from '../dashboard/models/exchange.model';
-import { ExchangeApiActions } from './exchange.actions';
+import { ExchangeApiActions, NotificationActions, SinglePostApiActions } from './exchange.actions';
+import { map } from 'rxjs/operators';
 
-// export const initialState: ReadonlyArray<Exchange> = [];
+export const initialState: Array<Exchange> = [];
 
-export const initialState: Array<Exchange> = []
+export const SinglePostInitialState: Exchange = {
+  userId: 0,
+  id: 0,
+  title: '',
+  body: ''
+};
+export const NotificationInitialState: Exchange = {
+  userId: 0,
+  id: 0,
+  title: '',
+  body: ''
+}
 
 export const exchangeReducer = createReducer(
   initialState,
@@ -18,21 +30,22 @@ export const exchangeReducer = createReducer(
     }),
 
     on(ExchangeApiActions.removePost, (state, { postId }) =>
-    state.filter((chestie1, index, chestie3) => chestie1.id !== postId)),
+      state.filter((value) => value.id !== postId)),
 
     on(ExchangeApiActions.likePost, (state, { postId, eventValue }) =>
-      state.map((value, index) => value.id === postId ? {...value, isLiked: eventValue } : value)
+      state.map((value) => value.id === postId ? {...value, isLiked: eventValue } : value)
   )
-
-
-
-    //state.filter((chestie1, index, chestie3) => chestie1.id !== postId),
-    /*
-    on(ExchangeApiActions.likePost, (state, { postId, eventValue }) => {
-      let thePost = state.indexOf()
-      if (_state.indexOf(postId) > -1) return _state;
-      return [ post, ..._state];
-    }),
-    */
-
 );
+
+export const singlePostReducer = createReducer(
+  SinglePostInitialState,
+
+  on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
+  on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
+);
+
+export const notificationReducer = createReducer(
+  NotificationInitialState,
+  on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange[exchange.length-1]),
+  on(NotificationActions.removeNotification, () => NotificationInitialState)
+)

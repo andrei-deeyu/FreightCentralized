@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, delay, map } from 'rxjs/operators';
 
 import { AppError } from './app-error';
 import { NotFoundError } from './not-found-error';
@@ -14,8 +14,9 @@ export class DataService {
 
   }
 
-  getSingle(id: number) {
-    return this.http.get(this.url + id)
+  getSingle(id: number): Observable<Exchange> {
+    return this.http
+    .get<Exchange>(this.url + id)
     .pipe(
       catchError(this.handleError)
     )
@@ -24,7 +25,7 @@ export class DataService {
 
   getAll(): Observable<Array<Exchange>> {
     return this.http
-      .get<Exchange[]>('https://jsonplaceholder.typicode.com/posts/')
+      .get<Exchange[]>(this.url)
       .pipe(
         map((res) => {
           return res || [];
@@ -32,9 +33,9 @@ export class DataService {
       );
   }
 
-  create(post: Object): Observable<Object> {
+  create(post: Object): Observable<Exchange> {
     return this.http
-      .post(this.url, JSON.stringify(post))
+      .post<Exchange>(this.url, JSON.stringify(post))
       .pipe(
         catchError(this.handleError)
       )
@@ -49,13 +50,6 @@ export class DataService {
 
   likePost(postId: number, eventArgs: boolean):Observable<Object> {
     return this.http.patch(this.url + '/' + postId, { isLiked: eventArgs })
-      .pipe(
-        catchError(this.handleError)
-      )
-  }
-
-  update(resource: any) {
-    return this.http.patch(this.url + '/' + resource.id, { isRead: true })
       .pipe(
         catchError(this.handleError)
       )

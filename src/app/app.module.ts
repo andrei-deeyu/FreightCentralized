@@ -23,25 +23,14 @@ import { AdminModule } from './admin/admin.module';
 import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { WildCardRouteModule } from './wild-card-route.module';
+import { StoreModule } from '@ngrx/store';
 
+import { exchangeReducer, notificationReducer, singlePostReducer } from './state/exchange.reducer';
+// import { notificationsReducer } from './state/notifications.reducer';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
-
-
-import { exchangeReducer } from './state/exchange.reducer';
-// import { collectionReducer } from './state/collection.reducer';
-// import { notificationsReducer } from './state/notifications.reducer';
-
-import { StoreModule } from '@ngrx/store';
-
-
-// import { BookListComponent } from './book-list/book-list.component';
-// import { BookCollectionComponent } from './book-collection/book-collection.component';
-// import { NotificationsComponent } from './notifications/notifications.component';
-
-
 
 @NgModule({
   declarations: [
@@ -58,15 +47,16 @@ import { StoreModule } from '@ngrx/store';
       }
     }),
     StoreModule.forRoot({
-      exchange: exchangeReducer
-      // notifications: notificationsReducer,
+      exchange: exchangeReducer,
+      singlePost: singlePostReducer,
+      notification: notificationReducer,
     }),
     AppRoutingModule,
     SharedModule,
     CoreModule,
     AdminModule,
     DashboardModule,
-    WildCardRouteModule
+    WildCardRouteModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
