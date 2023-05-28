@@ -25,7 +25,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { WildCardRouteModule } from './wild-card-route.module';
 import { StoreModule } from '@ngrx/store';
 
-import { exchangeReducer, singlePostReducer } from './state/exchange.reducer';
+import { exchangeReducer, notificationReducer, singlePostReducer } from './state/exchange.reducer';
 // import { notificationsReducer } from './state/notifications.reducer';
 
 export function tokenGetter() {
@@ -48,8 +48,8 @@ export function tokenGetter() {
     }),
     StoreModule.forRoot({
       exchange: exchangeReducer,
-      singlePost: singlePostReducer
-      // notifications: notificationsReducer,
+      singlePost: singlePostReducer,
+      notification: notificationReducer,
     }),
     AppRoutingModule,
     SharedModule,

@@ -19,3 +19,10 @@ export const SinglePostApiActions = createActionGroup({
     'Retrieved Single Post': props<{ singlePost: Exchange }>(),
   },
 });
+
+export const NotificationActions = createActionGroup({
+  source: 'Notification',
+  events: {
+    'Remove Notification': props<any>(),//: props(),
+  },
+});

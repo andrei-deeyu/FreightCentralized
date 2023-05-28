@@ -1,9 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { Exchange } from '../dashboard/models/exchange.model';
-import { ExchangeApiActions, SinglePostApiActions } from './exchange.actions';
+import { ExchangeApiActions, NotificationActions, SinglePostApiActions } from './exchange.actions';
+import { map } from 'rxjs/operators';
 
 export const initialState: Array<Exchange> = [];
+
 export const SinglePostInitialState: Exchange = {
+  userId: 0,
+  id: 0,
+  title: '',
+  body: ''
+};
+export const NotificationInitialState: Exchange = {
   userId: 0,
   id: 0,
   title: '',
@@ -35,3 +43,9 @@ export const singlePostReducer = createReducer(
   on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
   on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
 );
+
+export const notificationReducer = createReducer(
+  NotificationInitialState,
+  on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange[exchange.length-1]),
+  on(NotificationActions.removeNotification, () => NotificationInitialState)
+)

@@ -12,15 +12,45 @@ input {
   width: 12rem;
 }
 
-
-div.showEventCode {
-  margin-top: 2rem;
-}
-
 .eventCode {
   margin-top: .5rem;
 }
 
 span {
   font-weight: bold;
+}
+
+.lastPost {
+  position: absolute;
+  bottom: 0.5rem;
+  width: 100%;
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  span {
+    margin-left: .5rem;
+  }
+
+  button {
+    margin-left: 1rem;
+  }
+
+  a {
+    margin-left: 1rem;
+    margin-bottom: 0;
+    text-decoration: none;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  span {
+    margin-left: .5rem;
+    width: min-content;
+  }
+
+  button {
+    margin-left: .5rem;
+  }
 }
