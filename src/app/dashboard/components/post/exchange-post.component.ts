@@ -28,12 +28,4 @@ export class ExchangePostComponent implements OnInit {
           })
       })
   }
-
-  ceva() {
-    this.service.getSomething()
-    .subscribe({
-      next: (response) => console.log(response)
-    })
-  }
-
 }

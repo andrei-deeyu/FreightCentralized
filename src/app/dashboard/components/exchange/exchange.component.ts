@@ -8,6 +8,13 @@ import { NotFoundError } from '../../../shared/services/not-found-error';
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
 
 import { ExchangeService } from '../../services/exchange.service';
+import { ExchangeApiActions } from 'src/app/state/exchange.actions';
+
+
+import { Store } from '@ngrx/store';
+import { selectExchange } from 'src/app/state/exchange.selectors';
+import { Exchange } from '../../models/exchange.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -16,36 +23,42 @@ import { ExchangeService } from '../../services/exchange.service';
   styleUrls: ['./exchange.component.scss']
 })
 export class ExchangeComponent implements OnInit {
-  exchange: any;
+  exchange$ = this.store.select(selectExchange)
   thePost: any;
   viewMode = '';
 
-  constructor (private service: ExchangeService) {
+  form = new FormGroup({
+    title: new FormControl('', [ Validators.required ]),
+    body: new FormControl('', [ Validators.required ]),
+  });
 
-  }
+
+  constructor (private service: ExchangeService, private store: Store) { }
 
   ngOnInit() {
     this.service.getAll()
-      .subscribe({
-        next: (response) => this.exchange = response
-      });
+      .subscribe((exchange) =>
+        this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
+      );
   }
 
-  createPost(input: HTMLInputElement) {
-    let post: any = { title: input.value };
-    this.exchange.splice(0, 0, post);
+  createPost(f: FormGroup) {
+    let post: any = {
+      userId: 1007,
+      title: f.value.title,
+      body: f.value.body
+    };
 
-    input.value = '';
-
+    f.reset();
+    // TODOs: implement optimistic approach
     this.service.create(post)
     .subscribe(
       {
         next: (response:any) => {
           post.id = response.id;
+          this.store.dispatch(ExchangeApiActions.addPost({ post }));
         },
         error: (error: AppError) => {
-          this.exchange.splice(0, 1);
-
           if(error instanceof BadInput)  {
              // this.form.setErrors(error.originalError)
           } else throw error;
@@ -60,15 +73,14 @@ export class ExchangeComponent implements OnInit {
       });
   }
 
-  deletePost(post: any) {
-    let index = this.exchange.indexOf(post);
-    this.exchange.splice(index, 1);
 
-    this.service.delete(post.id)
+  deletePost(postId: number) {
+    this.service.remove(postId)
     .subscribe({
+      next: () => {
+        this.store.dispatch(ExchangeApiActions.removePost({ postId }));
+      },
       error: (error: AppError) => {
-        this.exchange.splice(index, 0, post);
-
         if(error instanceof NotFoundError)
           alert('This post already been deleted')
         else throw error;
@@ -77,7 +89,16 @@ export class ExchangeComponent implements OnInit {
   }
 
 
-  onFavoriteChanged(eventArgs: FavoriteChangedEventArgs, index: number) {
-    this.exchange[index].isLiked = Object.values(eventArgs)[0]
+  onFavoriteChanged(postId: number, eventArgs: FavoriteChangedEventArgs, ) {
+    let eventValue = Object.values(eventArgs)[0];
+    this.service.likePost(postId, eventValue)
+    .subscribe({
+      next: () => {
+        this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }));
+      },
+      error: (error: AppError) => {
+
+      }
+    })
   }
 }

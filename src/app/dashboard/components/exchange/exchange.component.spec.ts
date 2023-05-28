@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PostsComponent } from './exchange.component';
+import { ExchangeComponent } from './exchange.component';
 
-describe('PostsComponent', () => {
-  let component: PostsComponent;
-  let fixture: ComponentFixture<PostsComponent>;
+describe('ExchangeComponent', () => {
+  let component: ExchangeComponent;
+  let fixture: ComponentFixture<ExchangeComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PostsComponent]
+      declarations: [ExchangeComponent]
     });
-    fixture = TestBed.createComponent(PostsComponent);
+    fixture = TestBed.createComponent(ExchangeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

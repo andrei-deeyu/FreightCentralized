@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { ExchangeService } from './services/exchange.service';
 import { ExchangePostService } from './services/exchange-post.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ExchangePostService } from './services/exchange-post.service';
     RouterModule.forChild([
       { path: 'exchange', component: ExchangeComponent },
       { path: 'exchange/:id', component: ExchangePostComponent },
-    ])
+    ]),
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }

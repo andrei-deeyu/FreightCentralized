@@ -5,17 +5,30 @@
     <li class="nav-item"><a class="nav-link" [class.active]="viewMode == 'id'" (click)="viewMode = 'id'">UserId</a></li>
   </ul>
 
-  <input (keyup.enter)="createPost(title)" #title type="text" class="form-control" placeholder="Add a post">
+  <form [formGroup]="form" (ngSubmit)="createPost(form)" class="card">
+    <div class="card-body">
+      <div class="form-group">
+        <input formControlName="title" id="title" type="text" class="form-control" placeholder="Add a post title">
+      </div>
+        <br>
+      <div class="form-group">
+        <input formControlName="body" id="body" type="text" class="form-control" placeholder="Write a post body">
+      </div>
+    </div>
+
+    <button class="btn btn-primary">Submit</button>
+  </form>
+
 
   <ul class="list-group">
-    <li *ngFor="let post of exchange; even as isEven, index as i" class="list-group-item d-flex align-items-center" [class.even]="isEven">
-      <button (click)="deletePost(post)" class="btn bi bi-x p-0"></button>
+    <li *ngFor="let post of exchange$ | async; even as isEven, index as i" class="list-group-item d-flex align-items-center" [class.even]="isEven">
+      <button (click)="deletePost(post.id)" class="btn bi bi-x p-0"></button>
       <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
         <a [routerLink]="['/exchange', post.id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
         <a [routerLink]="['/exchange', post.id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
         <a [routerLink]="['/exchange', post.id]" *ngSwitchDefault>{{ post.title }}</a>
       </div>
-      <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged($event, i)"></favorite>
+      <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post.id, $event)"></favorite>
     </li>
   </ul>
 </div>
