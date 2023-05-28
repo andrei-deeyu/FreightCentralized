@@ -1,10 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
 import { Exchange } from '../dashboard/models/exchange.model';
-import { ExchangeApiActions } from './exchange.actions';
+import { ExchangeApiActions, SinglePostApiActions } from './exchange.actions';
 
 // export const initialState: ReadonlyArray<Exchange> = [];
 
-export const initialState: Array<Exchange> = []
+export const initialState: Array<Exchange> = [];
+export const SinglePostInitialState: Exchange = {
+  userId: 0,
+  id: 0,
+  title: '',
+  body: ''
+}
 
 export const exchangeReducer = createReducer(
   initialState,
@@ -18,21 +24,16 @@ export const exchangeReducer = createReducer(
     }),
 
     on(ExchangeApiActions.removePost, (state, { postId }) =>
-    state.filter((chestie1, index, chestie3) => chestie1.id !== postId)),
+      state.filter((value) => value.id !== postId)),
 
     on(ExchangeApiActions.likePost, (state, { postId, eventValue }) =>
-      state.map((value, index) => value.id === postId ? {...value, isLiked: eventValue } : value)
+      state.map((value) => value.id === postId ? {...value, isLiked: eventValue } : value)
   )
+);
 
+export const singlePostReducer = createReducer(
+  SinglePostInitialState,
 
-
-    //state.filter((chestie1, index, chestie3) => chestie1.id !== postId),
-    /*
-    on(ExchangeApiActions.likePost, (state, { postId, eventValue }) => {
-      let thePost = state.indexOf()
-      if (_state.indexOf(postId) > -1) return _state;
-      return [ post, ..._state];
-    }),
-    */
-
+  on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
+  on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
 );

@@ -11,3 +11,11 @@ export const ExchangeApiActions = createActionGroup({
     'Like Post': props<{postId: number, eventValue: boolean}>()
   },
 });
+
+export const SinglePostApiActions = createActionGroup({
+  source: 'Single Post API',
+  events: {
+    'Init Single Post': props<any>(),//: props(),
+    'Retrieved Single Post': props<{ singlePost: Exchange }>(),
+  },
+});

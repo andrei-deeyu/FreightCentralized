@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 
 import { AppError } from './app-error';
 import { NotFoundError } from './not-found-error';
@@ -14,9 +14,11 @@ export class DataService {
 
   }
 
-  getSingle(id: number) {
-    return this.http.get(this.url + id)
+  getSingle(id: number): Observable<Exchange> {
+    return this.http
+    .get<Exchange>(this.url + id)
     .pipe(
+      delay(1000),
       catchError(this.handleError)
     )
   }
@@ -24,7 +26,7 @@ export class DataService {
 
   getAll(): Observable<Array<Exchange>> {
     return this.http
-      .get<Exchange[]>('https://jsonplaceholder.typicode.com/posts/')
+      .get<Exchange[]>(this.url)
       .pipe(
         map((res) => {
           return res || [];

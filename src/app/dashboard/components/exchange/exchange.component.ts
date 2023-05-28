@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AppError } from '../../../shared/services/app-error';
-import { BadInput } from '../../../shared/services/bad-input';
-import { NotFoundError } from '../../../shared/services/not-found-error';
+import { AppError } from 'sharedServices/app-error';
+import { BadInput } from 'sharedServices/bad-input';
+import { NotFoundError } from 'sharedServices/not-found-error';
 
 
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';

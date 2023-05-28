@@ -1,26 +1,13 @@
 <div class="container">
-  <ul class="list-group" *ngIf="!post">
+  <ul class="list-group" *ngIf="singlePost$ | async as data">
     <li class="list-group-item title">
-      Not found
+      {{ data.title }}
     </li>
     <li class="list-group-item">
-      This post is unavailable. Return to the exchange
+      {{ data.body }}
     </li>
     <li class="list-group-item">
-      <span class="user">error</span> - not found
-    </li>
-  </ul>
-
-
-  <ul class="list-group" *ngIf="post">
-    <li class="list-group-item title">
-      {{ post.title }}
-    </li>
-    <li class="list-group-item">
-      {{ post.body }}
-    </li>
-    <li class="list-group-item">
-      <span class="user">userId</span> - {{ post.userId }}
+      <span class="user">userId</span> - {{ data.userId }}
     </li>
   </ul>
 </div>

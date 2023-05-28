@@ -30,18 +30,10 @@ export function tokenGetter() {
 }
 
 
-import { exchangeReducer } from './state/exchange.reducer';
-// import { collectionReducer } from './state/collection.reducer';
+import { exchangeReducer, singlePostReducer } from './state/exchange.reducer';
 // import { notificationsReducer } from './state/notifications.reducer';
 
 import { StoreModule } from '@ngrx/store';
-
-
-// import { BookListComponent } from './book-list/book-list.component';
-// import { BookCollectionComponent } from './book-collection/book-collection.component';
-// import { NotificationsComponent } from './notifications/notifications.component';
-
-
 
 @NgModule({
   declarations: [
@@ -58,7 +50,8 @@ import { StoreModule } from '@ngrx/store';
       }
     }),
     StoreModule.forRoot({
-      exchange: exchangeReducer
+      exchange: exchangeReducer,
+      singlePost: singlePostReducer
       // notifications: notificationsReducer,
     }),
     AppRoutingModule,
@@ -66,7 +59,8 @@ import { StoreModule } from '@ngrx/store';
     CoreModule,
     AdminModule,
     DashboardModule,
-    WildCardRouteModule
+    WildCardRouteModule,
+    StoreModule.forRoot({}, {})
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
