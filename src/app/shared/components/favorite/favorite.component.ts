@@ -6,7 +6,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
   styleUrls: ['./favorite.component.scss']
 })
 export class FavoriteComponent implements OnInit {
-  @Input('isLiked') isSelected: boolean = false;
+  @Input('isLiked') isSelected: boolean | undefined = false;
   @Output('change') change = new EventEmitter();
 
   constructor() {

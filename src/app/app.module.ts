@@ -29,6 +29,20 @@ export function tokenGetter() {
   return localStorage.getItem('token');
 }
 
+
+import { exchangeReducer } from './state/exchange.reducer';
+// import { collectionReducer } from './state/collection.reducer';
+// import { notificationsReducer } from './state/notifications.reducer';
+
+import { StoreModule } from '@ngrx/store';
+
+
+// import { BookListComponent } from './book-list/book-list.component';
+// import { BookCollectionComponent } from './book-collection/book-collection.component';
+// import { NotificationsComponent } from './notifications/notifications.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +57,10 @@ export function tokenGetter() {
         // disallowedDomains: [']
       }
     }),
-
+    StoreModule.forRoot({
+      exchange: exchangeReducer
+      // notifications: notificationsReducer,
+    }),
     AppRoutingModule,
     SharedModule,
     CoreModule,
