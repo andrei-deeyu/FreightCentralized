@@ -22,13 +22,33 @@
 
   <ul class="list-group">
     <li *ngFor="let post of exchange$ | async; even as isEven, index as i" class="list-group-item d-flex align-items-center" [class.even]="isEven">
-      <button (click)="deletePost(post.id)" class="btn bi bi-x p-0"></button>
+      <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
       <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
-        <a [routerLink]="['/exchange', post.id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
-        <a [routerLink]="['/exchange', post.id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
-        <a [routerLink]="['/exchange', post.id]" *ngSwitchDefault>{{ post.title }}</a>
+        <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
+        <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
+        <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
       </div>
-      <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post.id, $event)"></favorite>
+      <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
+    </li>
+  </ul>
+
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <a [class.disabled]="pageActive == 1" class="page-link" (click)="changePage(1)">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    <li
+      *ngFor="let item of [].constructor(pagesToShow);let i = 'index+1'"
+       [class.active]="pageActive == i" class="page-item">
+      <a class="page-link" (click)="changePage(i)">{{ i }}</a>
+    </li>
+
+    <li class="page-item">
+      <a [class.disabled]="pageActive == pagesToShow" class="page-link" (click)="changePage(pagesToShow)">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
     </li>
   </ul>
 </div>

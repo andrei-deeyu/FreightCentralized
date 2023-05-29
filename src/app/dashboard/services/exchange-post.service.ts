@@ -5,7 +5,7 @@ import { DataService } from "../../shared/services/data.service";
 @Injectable()
 export class ExchangePostService extends DataService {
   constructor(http: HttpClient) {
-    let url:string = 'https://jsonplaceholder.typicode.com/posts/'
+    let url:string = 'http://localhost:5000/api/v1'
     super(url, http);
   }
 }

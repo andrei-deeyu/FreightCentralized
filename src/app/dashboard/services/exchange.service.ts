@@ -6,6 +6,6 @@ import { DataService } from 'src/app/shared/services/data.service';
 @Injectable()
 export class ExchangeService extends DataService {
   constructor(http: HttpClient) {
-    super('https://jsonplaceholder.typicode.com/posts', http)
+    super('http://localhost:5000/api/v1', http)
   }
 }

@@ -37,6 +37,10 @@ ul.list-group {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
+.pagination li a {
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 769px) {
   ul.list-group {
     div.viewMode {
