@@ -1,7 +1,8 @@
 export interface Exchange {
   userId: number;
-  id: number;
+  _id: string;
   title: string;
   body: string;
-  isLiked?: boolean
+  isLiked?: boolean,
+  createdAt: Date
 }

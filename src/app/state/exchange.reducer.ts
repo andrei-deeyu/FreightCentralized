@@ -1,21 +1,22 @@
 import { createReducer, on } from '@ngrx/store';
 import { Exchange } from '../dashboard/models/exchange.model';
 import { ExchangeApiActions, NotificationActions, SinglePostApiActions } from './exchange.actions';
-import { map } from 'rxjs/operators';
 
 export const initialState: Array<Exchange> = [];
 
 export const SinglePostInitialState: Exchange = {
   userId: 0,
-  id: 0,
+  _id: '',
   title: '',
-  body: ''
+  body: '',
+  createdAt: new Date()
 };
 export const NotificationInitialState: Exchange = {
   userId: 0,
-  id: 0,
+  _id: '',
   title: '',
-  body: ''
+  body: '',
+  createdAt: new Date()
 }
 
 export const exchangeReducer = createReducer(
@@ -30,10 +31,10 @@ export const exchangeReducer = createReducer(
     }),
 
     on(ExchangeApiActions.removePost, (state, { postId }) =>
-      state.filter((value) => value.id !== postId)),
+      state.filter((value) => value._id !== postId)),
 
     on(ExchangeApiActions.likePost, (state, { postId, eventValue }) =>
-      state.map((value) => value.id === postId ? {...value, isLiked: eventValue } : value)
+      state.map((value) => value._id === postId ? {...value, isLiked: eventValue } : value)
   )
 );
 
@@ -46,6 +47,7 @@ export const singlePostReducer = createReducer(
 
 export const notificationReducer = createReducer(
   NotificationInitialState,
-  on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange[exchange.length-1]),
+  on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange[0]),
+  on(ExchangeApiActions.addPost, (_state, { post }) => post),
   on(NotificationActions.removeNotification, () => NotificationInitialState)
 )

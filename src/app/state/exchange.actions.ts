@@ -7,8 +7,8 @@ export const ExchangeApiActions = createActionGroup({
   events: {
     'Retrieved Exchange Posts': props<{ exchange: Array<Exchange> }>(),
     'Add Post': props<{ post: Exchange }>(),
-    'Remove Post': props<{postId: number}>(),
-    'Like Post': props<{postId: number, eventValue: boolean}>()
+    'Remove Post': props<{postId: string}>(),
+    'Like Post': props<{postId: string, eventValue: boolean}>()
   },
 });
 

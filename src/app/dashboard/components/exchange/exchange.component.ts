@@ -22,6 +22,8 @@ import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/fa
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   viewMode = '';
+  pagesToShow:number = 0;
+  pageActive:number = 0;
 
   form = new FormGroup({
     title: new FormControl('', [ Validators.required ]),
@@ -32,14 +34,29 @@ export class ExchangeComponent implements OnInit {
   constructor (private service: ExchangeService, private store: Store) { }
 
   ngOnInit() {
-    this.service.getAll()
-      .subscribe((exchange) =>
+    this.service.getAll(1)
+      .subscribe((response) => {
+        this.pagesToShow = response.pagesToShow;
+        this.pageActive = response.pageActive;
+
+        let exchange:Exchange[] = response.result
         this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
-      );
+      });
+  }
+
+  changePage(choosePage: number) {
+    this.service.getAll(choosePage)
+    .subscribe((response) => {
+      this.pagesToShow = response.pagesToShow;
+      this.pageActive = response.pageActive;
+
+      let exchange:Exchange[] = response.result
+      this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
+    });
   }
 
   createPost(f: FormGroup) {
-    let post: any = {
+    let insertPost: any = {
       userId: 1007,
       title: f.value.title,
       body: f.value.body
@@ -47,10 +64,11 @@ export class ExchangeComponent implements OnInit {
 
     f.reset();
 
-    this.service.create(post)
+    this.service.create(insertPost)
     .subscribe({
-      next: (response: Exchange) => {
-        post.id = response.id;
+      next: (post: Exchange) => {
+        console.log(post);
+        this.changePage(1);
         this.store.dispatch(ExchangeApiActions.addPost({ post }));
       },
       error: (error: AppError) => {
@@ -61,7 +79,7 @@ export class ExchangeComponent implements OnInit {
     })
   }
 
-  deletePost(postId: number) {
+  deletePost(postId: string) {
     this.service.remove(postId)
     .subscribe({
       next: () => {
@@ -76,7 +94,7 @@ export class ExchangeComponent implements OnInit {
   }
 
 
-  onFavoriteChanged(postId: number, eventArgs: FavoriteChangedEventArgs, ) {
+  onFavoriteChanged(postId: string, eventArgs: FavoriteChangedEventArgs, ) {
     let eventValue = Object.values(eventArgs)[0];
 
     this.service.likePost(postId, eventValue)

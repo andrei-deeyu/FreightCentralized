@@ -26,8 +26,7 @@ export class ExchangePostComponent implements OnInit {
     this.store.dispatch(SinglePostApiActions.initSinglePost());
     this.route.paramMap
       .subscribe(params => {
-        let idstr:string = params.get('id') || '0';
-        let id:number = parseInt(idstr);
+        let id:string = params.get('id') || '';
 
         this.service.getSingle(id)
           .subscribe((singlePost: Exchange) =>
