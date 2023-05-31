@@ -1,5 +1,6 @@
 import { createActionGroup, props } from '@ngrx/store';
 import { Exchange } from '../dashboard/models/exchange.model';
+import { CurrentPage } from '../shared/models/currentPage.model';
 
 
 export const ExchangeApiActions = createActionGroup({
@@ -24,5 +25,13 @@ export const NotificationActions = createActionGroup({
   source: 'Notification',
   events: {
     'Remove Notification': props<any>(),//: props(),
+    'Add Notification': props<{post: Exchange}>()
+  },
+});
+
+export const pageActiveActions = createActionGroup({
+  source: 'Current Page',
+  events: {
+    'Change Page': props<{ currentPage: CurrentPage }>(),
   },
 });

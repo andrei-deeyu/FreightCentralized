@@ -34,19 +34,19 @@
 
   <ul class="pagination justify-content-center">
     <li class="page-item">
-      <a [class.disabled]="pageActive == 1" class="page-link" (click)="changePage(1)">
+      <a [class.disabled]="(currentPage$ | async)?.pageActive == 1" class="page-link" (click)="changePage(1)">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
 
     <li
       *ngFor="let item of [].constructor(pagesToShow);let i = 'index+1'"
-       [class.active]="pageActive == i" class="page-item">
+       [class.active]="(currentPage$ | async)?.pageActive == i" class="page-item">
       <a class="page-link" (click)="changePage(i)">{{ i }}</a>
     </li>
 
     <li class="page-item">
-      <a [class.disabled]="pageActive == pagesToShow" class="page-link" (click)="changePage(pagesToShow)">
+      <a [class.disabled]="(currentPage$ | async)?.pageActive == pagesToShow" class="page-link" (click)="changePage(pagesToShow)">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
