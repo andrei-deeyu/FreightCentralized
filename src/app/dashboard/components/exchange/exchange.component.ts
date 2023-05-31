@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { selectExchange } from 'src/app/state/exchange.selectors';
+import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
 import { Exchange } from '../../models/exchange.model';
-import { ExchangeApiActions } from 'src/app/state/exchange.actions';
+import { ExchangeApiActions, pageActiveActions } from 'src/app/state/exchange.actions';
 
 import { ExchangeService } from '../../services/exchange.service';
 
@@ -13,6 +13,7 @@ import { BadInput } from 'sharedServices/bad-input';
 import { NotFoundError } from 'sharedServices/not-found-error';
 
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
+import { CurrentPage } from 'src/app/shared/models/currentPage.model';
 
 @Component({
   selector: 'exchange',
@@ -21,9 +22,9 @@ import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/fa
 })
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
+  currentPage$ = this.store.select(selectCurrentPage);
   viewMode = '';
   pagesToShow:number = 0;
-  pageActive:number = 0;
 
   form = new FormGroup({
     title: new FormControl('', [ Validators.required ]),
@@ -37,7 +38,6 @@ export class ExchangeComponent implements OnInit {
     this.service.getAll(1)
       .subscribe((response) => {
         this.pagesToShow = response.pagesToShow;
-        this.pageActive = response.pageActive;
 
         let exchange:Exchange[] = response.result
         this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
@@ -48,7 +48,9 @@ export class ExchangeComponent implements OnInit {
     this.service.getAll(choosePage)
     .subscribe((response) => {
       this.pagesToShow = response.pagesToShow;
-      this.pageActive = response.pageActive;
+
+      let currentPage:CurrentPage = { pageActive: response.pageActive } ;
+      this.store.dispatch(pageActiveActions.changePage({ currentPage }))
 
       let exchange:Exchange[] = response.result
       this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
