@@ -4,11 +4,12 @@ import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Exchange } from 'src/app/dashboard/models/exchange.model';
 import { selectCurrentPage } from 'src/app/state/exchange.selectors';
 import { CurrentPage } from '../models/currentPage.model';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { ExchangeApiActions, NotificationActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
-const socket:WebSocketSubject<Exchange> = webSocket('ws://localhost:3000');
+const socket:WebSocketSubject<Exchange> = webSocket(environment.WS_URL);
 
 @Injectable({
   providedIn: 'root'
