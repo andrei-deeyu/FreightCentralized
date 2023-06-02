@@ -66,6 +66,12 @@ export class ExchangeNotificationsService {
           let postId = post.removed;
           this.store.dispatch(ExchangeApiActions.removePost({ postId }))
         }
+
+        if( post.liked ) {
+          let postId = post.liked;
+          let eventValue = post.eventValue;
+          this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
+        }
       },
       error: ( err ) => { throw new NoInternetConnection(err) },
       complete: () => console.log('logged out from sockets')
