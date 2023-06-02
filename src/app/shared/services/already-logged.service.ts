@@ -7,7 +7,9 @@ export const AlreadyLogged = () => {
     const authService = inject(AuthService);
 
     if(authService.isLoggedIn()) {
-        router.navigate(['']);
+        router
+            .navigate([''])
+            .catch(err => { throw err });
         return false;
     }
 

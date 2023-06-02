@@ -8,8 +8,6 @@ export class ErrorNotificationService {
   readonly errorNotification$: Observable<string> =
         this._errorNotification.asObservable().pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
-  constructor() {}
-
   notify(message: string) {
     this._errorNotification.next(message);
     setTimeout(() => this._errorNotification.next(null), 3000);

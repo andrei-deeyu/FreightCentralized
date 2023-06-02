@@ -15,14 +15,18 @@ export class LoginComponent {
     private route: ActivatedRoute,
     private authService: AuthService) { }
 
-    signIn(credentials: any) {
+    logIn(credentials: Object) {
       this.authService.login(credentials)
-        .subscribe(( result: any ) => {
-          if(result && result.token) {
-            localStorage.setItem('token', result.token);
+        .subscribe(( result:{ [index: string]:Object }) => {
+          let token: string = result?.['token'].toString();
 
+          if( token ) {
+            localStorage.setItem('token', token);
             let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-            this.router.navigate([returnUrl || '/']);
+
+            this.router
+              .navigate([returnUrl ?? '/'])
+              .catch((err) => { throw err });
           }
           this.invalidLogin = true;
           return false;

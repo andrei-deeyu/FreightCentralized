@@ -1,11 +1,9 @@
+<not-found *ngIf="singlePostError"></not-found>
+
 <div class="container" *ngIf="singlePost$ | async as data">
   <ul class="list-group" *ngIf="data._id">
-    <li class="list-group-item title">
-      {{ data.title }}
-    </li>
-    <li class="list-group-item">
-      {{ data.body }}
-    </li>
+    <li class="list-group-item title">{{ data.title }}</li>
+    <li class="list-group-item">{{ data.body }}</li>
     <li class="list-group-item d-flex">
       <div class="flex-fill">
         <span class="user">userId</span> - {{ data.userId }}

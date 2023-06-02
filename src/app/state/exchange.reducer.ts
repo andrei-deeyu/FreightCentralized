@@ -43,10 +43,7 @@ export const singlePostReducer = createReducer(
   SinglePostInitialState,
 
   on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
-  on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => {
-    console.log(singlePost);
-    return singlePost
-  }),
+  on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
 );
 
 export const notificationReducer = createReducer(

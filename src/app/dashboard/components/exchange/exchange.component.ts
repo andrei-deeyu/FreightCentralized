@@ -38,7 +38,7 @@ export class ExchangeComponent implements OnInit {
 
   ngOnInit() {
     this.service.getAll(1)
-      .subscribe((response) => {
+      .subscribe(( response ) => {
         this.pagesToShow = response.pagesToShow;
 
         let exchange:Exchange[] = response.result
@@ -48,7 +48,7 @@ export class ExchangeComponent implements OnInit {
 
   changePage(choosePage: number) {
     this.service.getAll(choosePage)
-    .subscribe((response) => {
+    .subscribe(( response ) => {
       this.pagesToShow = response.pagesToShow;
 
       let currentPage:CurrentPage = { pageActive: response.pageActive } ;
@@ -71,7 +71,6 @@ export class ExchangeComponent implements OnInit {
     this.service.create(insertPost)
     .subscribe({
       next: (post: Exchange) => {
-        console.log(post);
         this.changePage(1);
         this.store.dispatch(ExchangeApiActions.addPost({ post }));
       },

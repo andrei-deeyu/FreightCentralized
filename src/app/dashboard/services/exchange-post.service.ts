@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class ExchangePostService extends DataService {
   constructor(http: HttpClient) {
-    let url:string = environment.API_URL
-    super(url, http);
+    super(environment.API_URL, http);
   }
 }

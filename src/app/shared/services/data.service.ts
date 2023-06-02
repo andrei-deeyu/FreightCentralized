@@ -7,6 +7,7 @@ import { AppError } from './app-error';
 import { NotFoundError } from './not-found-error';
 import { BadInput } from './bad-input';
 import { Exchange } from 'src/app/dashboard/models/exchange.model';
+import { NoInternetConnection } from './no-internet-connection';
 
 export interface GetPagination {
   pagesToShow: number;
@@ -66,12 +67,15 @@ export class DataService {
 
 
   private handleError(error: Response) {
-    if(error.status === 422)
-      return throwError(() => new BadInput(error))
-
-    if(error.status === 404)
-      return throwError(() => new NotFoundError())
-
-    return throwError(() => new AppError(error))
+    switch(true) {
+      case error.status === 0:
+        return throwError(() => new NoInternetConnection(error))
+      case error.status === 422:
+        return throwError(() => new BadInput(error))
+      case error.status === 404:
+        return throwError(() => new NotFoundError())
+      default:
+        return throwError(() => new AppError(error))
+    }
   }
 }

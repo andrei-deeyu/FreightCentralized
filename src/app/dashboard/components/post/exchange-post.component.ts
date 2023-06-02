@@ -14,7 +14,9 @@ import { Exchange } from '../../models/exchange.model';
 })
 
 export class ExchangePostComponent implements OnInit {
-  singlePost$ = this.store.select(selectSinglePost)
+  singlePost$ = this.store.select(selectSinglePost);
+  singlePostLoaded: boolean = false;
+  singlePostError: boolean = false;
 
   constructor (
     private route: ActivatedRoute,
@@ -26,12 +28,16 @@ export class ExchangePostComponent implements OnInit {
     this.store.dispatch(SinglePostApiActions.initSinglePost());
     this.route.paramMap
       .subscribe(params => {
-        let id:string = params.get('id') || '';
+        let id:string = params.get('id') ?? '';
 
         this.service.getSingle(id)
-          .subscribe((singlePost: Exchange) =>
+          .subscribe({
+           next: ( singlePost: Exchange ) => {
             this.store.dispatch(SinglePostApiActions.retrievedSinglePost({ singlePost }))
-          );
-      })
-  }
+            this.singlePostLoaded = true;
+          },
+           error: (err) => this.singlePostError = true
+          });
+        })
+    }
 }

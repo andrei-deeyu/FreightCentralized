@@ -8,6 +8,7 @@ import { ReplaySubject } from 'rxjs';
 import { ExchangeApiActions, NotificationActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { NoInternetConnection } from './no-internet-connection';
 
 const socket:WebSocketSubject<Exchange> = webSocket(environment.WS_URL);
 
@@ -32,11 +33,11 @@ export class NotificationsService {
     }
 
     let ExchangeKeys = [
-    'userId',
-    '_id',
-    'title',
-    'body',
-    'createdAt',
+      'userId',
+      '_id',
+      'title',
+      'body',
+      'createdAt',
     ];
 
     let result:Array<boolean> = [];
@@ -61,7 +62,7 @@ export class NotificationsService {
           });
         }
       },
-      error: ( err ) => console.log(err),
+      error: ( err ) => { throw new NoInternetConnection(err) },
       complete: () => console.log('logged out from sockets')
     })
   }
