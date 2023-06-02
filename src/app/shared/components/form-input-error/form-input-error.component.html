@@ -1,0 +1,8 @@
+<div *ngIf="control?.dirty && control?.invalid" class="alert alert-warning p-2">
+  <div *ngIf="control?.errors?.['required']">
+     {{ controlName }} is required
+  </div>
+  <div *ngIf="control?.errors?.['minlength']">
+    {{ controlName }} should be minimum {{ control?.errors?.['minlength'].requiredLength }} characters
+  </div>
+</div>
