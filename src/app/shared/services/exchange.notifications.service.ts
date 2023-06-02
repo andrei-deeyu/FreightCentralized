@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NoInternetConnection } from './Errors/no-internet-connection';
 
-const socket:WebSocketSubject<Exchange> = webSocket(environment.WS_URL);
+const socket:WebSocketSubject<any> = webSocket(environment.WS_URL);
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +52,7 @@ export class ExchangeNotificationsService {
 
    connect() {
     socket.subscribe({
-      next: ( post:Exchange ) => {
+      next: ( post: any ) => {
         if( this.validKeys(post) ) {
           this.currentPage().subscribe(_currentPage => {
             if( this.router.url == '/exchange' && _currentPage.pageActive === 1 ) {
@@ -60,6 +60,11 @@ export class ExchangeNotificationsService {
             }
             this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
           });
+        }
+
+        if( post.removed ) {
+          let postId = post.removed;
+          this.store.dispatch(ExchangeApiActions.removePost({ postId }))
         }
       },
       error: ( err ) => { throw new NoInternetConnection(err) },
