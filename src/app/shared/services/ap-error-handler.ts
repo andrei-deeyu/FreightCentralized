@@ -1,7 +1,7 @@
-import { ErrorHandler, Injectable, Injector, NgZone } from "@angular/core";
+import { ErrorHandler, Injectable, Injector } from "@angular/core";
 import { ErrorNotificationService } from "./error.notification";
-import { NotFoundError } from "./not-found-error";
-import { NoInternetConnection } from "./no-internet-connection";
+import { NotFoundError } from "./Errors/not-found-error";
+import { NoInternetConnection } from "./Errors/no-internet-connection";
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {

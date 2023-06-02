@@ -3,11 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { AppError } from './app-error';
-import { NotFoundError } from './not-found-error';
-import { BadInput } from './bad-input';
+import { AppError } from './Errors/app-error';
+import { NotFoundError } from './Errors/not-found-error';
+import { BadInput } from './Errors/bad-input';
+import { NoInternetConnection } from './Errors/no-internet-connection';
 import { Exchange } from 'src/app/dashboard/models/exchange.model';
-import { NoInternetConnection } from './no-internet-connection';
 
 export interface GetPagination {
   pagesToShow: number;

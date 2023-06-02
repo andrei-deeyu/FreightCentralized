@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ErrorNotificationService } from 'sharedServices/error.notification';
-import { NotificationsService } from 'sharedServices/notifications.service';
+import { ExchangeNotificationsService } from 'sharedServices/exchange.notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +12,13 @@ export class AppComponent {
   showErrorNotification: boolean = false;
 
   constructor(
-    private service: NotificationsService,
+    private exchangeNotificationsService: ExchangeNotificationsService,
     private errorNotificationService: ErrorNotificationService,
     private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.service.connect();
+    this.exchangeNotificationsService.connect();
+
     this.errorNotificationService
       .errorNotification$
       .subscribe(( message ) => {

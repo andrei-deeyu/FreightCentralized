@@ -5,17 +5,17 @@ import { Exchange } from 'src/app/dashboard/models/exchange.model';
 import { selectCurrentPage } from 'src/app/state/exchange.selectors';
 import { CurrentPage } from '../models/currentPage.model';
 import { ReplaySubject } from 'rxjs';
-import { ExchangeApiActions, NotificationActions } from 'src/app/state/exchange.actions';
+import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { NoInternetConnection } from './no-internet-connection';
+import { NoInternetConnection } from './Errors/no-internet-connection';
 
 const socket:WebSocketSubject<Exchange> = webSocket(environment.WS_URL);
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationsService {
+export class ExchangeNotificationsService {
   currentPage$ = this.store.select(selectCurrentPage);
 
   constructor(private store: Store, private router: Router) {}
@@ -58,7 +58,7 @@ export class NotificationsService {
             if( this.router.url == '/exchange' && _currentPage.pageActive === 1 ) {
               this.store.dispatch(ExchangeApiActions.addPost({ post }));
             }
-            this.store.dispatch(NotificationActions.addNotification({ post }))
+            this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
           });
         }
       },

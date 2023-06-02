@@ -21,8 +21,8 @@ export const SinglePostApiActions = createActionGroup({
   },
 });
 
-export const NotificationActions = createActionGroup({
-  source: 'Notification',
+export const ExchangeNotificationsActions = createActionGroup({
+  source: 'Exchange Notifications',
   events: {
     'Remove Notification': props<any>(),
     'Add Notification': props<{post: Exchange}>()

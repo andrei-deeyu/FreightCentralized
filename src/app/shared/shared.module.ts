@@ -8,7 +8,6 @@ import { FormInputErrorComponent } from './components/form-input-error/form-inpu
 import { ErrorNotificationService } from 'sharedServices/error.notification';
 
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -28,8 +27,7 @@ import { ErrorNotificationService } from 'sharedServices/error.notification';
     FavoriteComponent,
     InputFormatDirective,
     SummaryPipe,
-    FormInputErrorComponent,
-
+    FormInputErrorComponent
   ]
 })
 export class SharedModule { }

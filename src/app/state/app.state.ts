@@ -4,6 +4,6 @@ import { CurrentPage } from '../shared/models/currentPage.model';
 export interface AppState {
   exchange: Array<Exchange>,
   singlePost: Exchange,
-  notification: Exchange,
+  exchangeNotifications: Exchange,
   currentPage: CurrentPage
 }

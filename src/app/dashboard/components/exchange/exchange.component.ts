@@ -8,9 +8,9 @@ import { ExchangeApiActions, pageActiveActions } from 'src/app/state/exchange.ac
 
 import { ExchangeService } from '../../services/exchange.service';
 
-import { AppError } from 'sharedServices/app-error';
-import { BadInput } from 'sharedServices/bad-input';
-import { NotFoundError } from 'sharedServices/not-found-error';
+import { AppError } from 'sharedServices/Errors/app-error';
+import { BadInput } from 'sharedServices/Errors/bad-input';
+import { NotFoundError } from 'sharedServices/Errors/not-found-error';
 
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
 import { CurrentPage } from 'src/app/shared/models/currentPage.model';
