@@ -23,6 +23,7 @@ import { CurrentPage } from 'src/app/shared/models/currentPage.model';
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
+  selectedPagination = 0;
   viewMode = '';
   pagesToShow:number = 0;
 
@@ -52,6 +53,7 @@ export class ExchangeComponent implements OnInit {
       this.pagesToShow = response.pagesToShow;
 
       let currentPage:CurrentPage = { pageActive: response.pageActive } ;
+      this.selectedPagination = response.pageActive;
       this.store.dispatch(pageActiveActions.changePage({ currentPage }))
 
       let exchange:Exchange[] = response.result
