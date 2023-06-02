@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 
 /* Services */
 import { AuthService } from './shared/services/auth.service';
-import { NotificationsService } from 'sharedServices/notifications.service';
+import { ExchangeNotificationsService } from 'sharedServices/exchange.notifications.service';
 
 /* Global Error Handler */
 import { AppErrorHandler } from './shared/services/ap-error-handler';
@@ -26,7 +26,11 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { WildCardRouteModule } from './wild-card-route.module';
 import { StoreModule } from '@ngrx/store';
 
-import { currentPageReducer, exchangeReducer, notificationReducer, singlePostReducer } from './state/exchange.reducer';
+import {  ExchangeNotificationReducer,
+          currentPageReducer,
+          exchangeReducer,
+          singlePostReducer
+} from './state/exchange.reducer';
 
 
 export function tokenGetter() {
@@ -50,7 +54,7 @@ export function tokenGetter() {
     StoreModule.forRoot({
       exchange: exchangeReducer,
       singlePost: singlePostReducer,
-      notification: notificationReducer,
+      exchangeNotifications: ExchangeNotificationReducer,
       currentPage: currentPageReducer
     }),
     AppRoutingModule,
@@ -69,7 +73,7 @@ export function tokenGetter() {
     },
 
     AuthService,
-    NotificationsService
+    ExchangeNotificationsService
   ],
   bootstrap: [
     AppComponent

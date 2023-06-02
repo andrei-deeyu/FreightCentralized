@@ -10,11 +10,15 @@
       <div class="form-group">
         <input formControlName="title" id="title" type="text" class="form-control" placeholder="Add a post title">
       </div>
+      <form-input-error [control]="title" [controlName]="'title'"></form-input-error> <!-- while writing the input -->
         <br>
       <div class="form-group">
         <input formControlName="body" id="body" type="text" class="form-control" placeholder="Write a post body">
       </div>
+      <form-input-error [control]="body" [controlName]="'body'"></form-input-error> <!-- while writing the input -->
     </div>
+
+    <div *ngIf="form.errors" class="alert alert-danger">{{ form.errors }}</div> <!-- after submitting the input -->
 
     <button class="btn btn-primary">Submit</button>
   </form>
@@ -32,6 +36,7 @@
     </li>
   </ul>
 
+
   <ul class="pagination justify-content-center">
     <li class="page-item">
       <a [class.disabled]="(currentPage$ | async)?.pageActive == 1" class="page-link" (click)="changePage(1)">
@@ -42,7 +47,19 @@
     <li
       *ngFor="let item of [].constructor(pagesToShow);let i = 'index+1'"
        [class.active]="(currentPage$ | async)?.pageActive == i" class="page-item">
-      <a class="page-link" (click)="changePage(i)">{{ i }}</a>
+      <a *ngIf="i < 3+1 || i > pagesToShow-3"
+         class="page-link"
+         (click)="changePage(i)">{{ i }} <!-- first and last 3 elements -->
+      </a>
+
+      <a *ngIf="i > 3 && i < pagesToShow-3  &&  i < selectedPagination+4 && i > selectedPagination-4"
+         class="page-link" (click)="changePage(i)">{{ i }} <!-- next/previous 3 elements besides the first/last ones-->
+      </a>
+
+      <a *ngIf="i > 3 && i == selectedPagination-4  ||  i < pagesToShow-3 && i == selectedPagination+4"
+         class="page-link"
+         (click)="changePage(i)">... <!-- there are more elements to show -->
+      </a>
     </li>
 
     <li class="page-item">

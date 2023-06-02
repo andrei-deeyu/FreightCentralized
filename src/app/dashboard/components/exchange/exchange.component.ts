@@ -8,9 +8,9 @@ import { ExchangeApiActions, pageActiveActions } from 'src/app/state/exchange.ac
 
 import { ExchangeService } from '../../services/exchange.service';
 
-import { AppError } from 'sharedServices/app-error';
-import { BadInput } from 'sharedServices/bad-input';
-import { NotFoundError } from 'sharedServices/not-found-error';
+import { AppError } from 'sharedServices/Errors/app-error';
+import { BadInput } from 'sharedServices/Errors/bad-input';
+import { NotFoundError } from 'sharedServices/Errors/not-found-error';
 
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
 import { CurrentPage } from 'src/app/shared/models/currentPage.model';
@@ -23,20 +23,23 @@ import { CurrentPage } from 'src/app/shared/models/currentPage.model';
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
+  selectedPagination = 0;
   viewMode = '';
   pagesToShow:number = 0;
 
   form = new FormGroup({
-    title: new FormControl('', [ Validators.required ]),
+    title: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
     body: new FormControl('', [ Validators.required ]),
   });
+  get title() { return this.form.get('title') }
+  get body() { return this.form.get('body') }
 
 
   constructor (private service: ExchangeService, private store: Store) { }
 
   ngOnInit() {
     this.service.getAll(1)
-      .subscribe((response) => {
+      .subscribe(( response ) => {
         this.pagesToShow = response.pagesToShow;
 
         let exchange:Exchange[] = response.result
@@ -46,10 +49,11 @@ export class ExchangeComponent implements OnInit {
 
   changePage(choosePage: number) {
     this.service.getAll(choosePage)
-    .subscribe((response) => {
+    .subscribe(( response ) => {
       this.pagesToShow = response.pagesToShow;
 
       let currentPage:CurrentPage = { pageActive: response.pageActive } ;
+      this.selectedPagination = response.pageActive;
       this.store.dispatch(pageActiveActions.changePage({ currentPage }))
 
       let exchange:Exchange[] = response.result
@@ -69,13 +73,12 @@ export class ExchangeComponent implements OnInit {
     this.service.create(insertPost)
     .subscribe({
       next: (post: Exchange) => {
-        console.log(post);
         this.changePage(1);
         this.store.dispatch(ExchangeApiActions.addPost({ post }));
       },
       error: (error: AppError) => {
         if(error instanceof BadInput)  {
-            // this.form.setErrors(error.originalError)
+          this.form.setErrors(error.originalError.error.message)
         } else throw error;
       }
     })
@@ -104,7 +107,7 @@ export class ExchangeComponent implements OnInit {
         next: () => {
           this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }));
         },
-        error: (error: AppError) => {}
+        error: (error: AppError) => { throw error; }
       })
   }
 }

@@ -1,2 +1,7 @@
 <navbar></navbar>
+<div *ngIf="errorNotification && showErrorNotification"
+     (click)="showErrorNotification = !showErrorNotification"
+     class="alert alert-danger position-absolute bottom-0">
+  {{ errorNotification }}
+</div>
 <router-outlet></router-outlet>

@@ -9,7 +9,7 @@ export class AuthService {
     private http: HttpClient) {}
 
   login(credentials: object) {
-    return this.http.post('/api/authenticate', credentials);
+    return this.http.post<{ [index: string]:Object }>('/api/authenticate', credentials);
   }
 
   logout() {

@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Exchange } from '../dashboard/models/exchange.model';
-import { ExchangeApiActions, NotificationActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
+import { ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
 import { CurrentPage } from '../shared/models/currentPage.model';
 
 export const initialState: Array<Exchange> = [];
@@ -14,7 +14,7 @@ export const SinglePostInitialState: Exchange = {
   body: '',
   createdAt: new Date()
 };
-export const NotificationInitialState: Exchange = {
+export const ExchangeNotificationsInitialState: Exchange = {
   userId: 0,
   _id: '',
   title: '',
@@ -43,18 +43,15 @@ export const singlePostReducer = createReducer(
   SinglePostInitialState,
 
   on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
-  on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => {
-    console.log(singlePost);
-    return singlePost
-  }),
+  on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
 );
 
-export const notificationReducer = createReducer(
-  NotificationInitialState,
+export const ExchangeNotificationReducer = createReducer(
+  ExchangeNotificationsInitialState,
 
-  on(NotificationActions.addNotification, (_state, { post }) => post),
+  on(ExchangeNotificationsActions.addNotification, (_state, { post }) => post),
   on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange[0]),
-  on(NotificationActions.removeNotification, () => NotificationInitialState)
+  on(ExchangeNotificationsActions.removeNotification, () => ExchangeNotificationsInitialState)
 )
 
 export const currentPageReducer = createReducer(

@@ -3,9 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { AppError } from './app-error';
-import { NotFoundError } from './not-found-error';
-import { BadInput } from './bad-input';
+import { AppError } from './Errors/app-error';
+import { NotFoundError } from './Errors/not-found-error';
+import { BadInput } from './Errors/bad-input';
+import { NoInternetConnection } from './Errors/no-internet-connection';
 import { Exchange } from 'src/app/dashboard/models/exchange.model';
 
 export interface GetPagination {
@@ -37,7 +38,8 @@ export class DataService {
       .pipe(
         map((res) => {
           return res || [];
-        })
+        }),
+        catchError(this.handleError)
       );
   }
 
@@ -65,12 +67,15 @@ export class DataService {
 
 
   private handleError(error: Response) {
-    if(error.status === 400)
-      return throwError(() => new BadInput(error.json()))
-
-    if(error.status === 404)
-      return throwError(() => new NotFoundError())
-
-    return throwError(() => new AppError(error))
+    switch(true) {
+      case error.status === 0:
+        return throwError(() => new NoInternetConnection(error))
+      case error.status === 422:
+        return throwError(() => new BadInput(error))
+      case error.status === 404:
+        return throwError(() => new NotFoundError())
+      default:
+        return throwError(() => new AppError(error))
+    }
   }
 }

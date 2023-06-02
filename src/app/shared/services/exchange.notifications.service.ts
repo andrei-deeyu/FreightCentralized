@@ -4,16 +4,18 @@ import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Exchange } from 'src/app/dashboard/models/exchange.model';
 import { selectCurrentPage } from 'src/app/state/exchange.selectors';
 import { CurrentPage } from '../models/currentPage.model';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { ExchangeApiActions, NotificationActions } from 'src/app/state/exchange.actions';
+import { ReplaySubject } from 'rxjs';
+import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { NoInternetConnection } from './Errors/no-internet-connection';
 
-const socket:WebSocketSubject<Exchange> = webSocket('ws://localhost:3000');
+const socket:WebSocketSubject<any> = webSocket(environment.WS_URL);
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationsService {
+export class ExchangeNotificationsService {
   currentPage$ = this.store.select(selectCurrentPage);
 
   constructor(private store: Store, private router: Router) {}
@@ -31,11 +33,11 @@ export class NotificationsService {
     }
 
     let ExchangeKeys = [
-    'userId',
-    '_id',
-    'title',
-    'body',
-    'createdAt',
+      'userId',
+      '_id',
+      'title',
+      'body',
+      'createdAt',
     ];
 
     let result:Array<boolean> = [];
@@ -50,17 +52,28 @@ export class NotificationsService {
 
    connect() {
     socket.subscribe({
-      next: ( post:Exchange ) => {
+      next: ( post: any ) => {
         if( this.validKeys(post) ) {
           this.currentPage().subscribe(_currentPage => {
             if( this.router.url == '/exchange' && _currentPage.pageActive === 1 ) {
               this.store.dispatch(ExchangeApiActions.addPost({ post }));
             }
-            this.store.dispatch(NotificationActions.addNotification({ post }))
+            this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
           });
         }
+
+        if( post.removed ) {
+          let postId = post.removed;
+          this.store.dispatch(ExchangeApiActions.removePost({ postId }))
+        }
+
+        if( post.liked ) {
+          let postId = post.liked;
+          let eventValue = post.eventValue;
+          this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
+        }
       },
-      error: ( err ) => console.log(err),
+      error: ( err ) => { throw new NoInternetConnection(err) },
       complete: () => console.log('logged out from sockets')
     })
   }

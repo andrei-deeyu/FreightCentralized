@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { NotificationsService } from 'sharedServices/notifications.service';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { ErrorNotificationService } from 'sharedServices/error.notification';
+import { ExchangeNotificationsService } from 'sharedServices/exchange.notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,23 @@ import { NotificationsService } from 'sharedServices/notifications.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private service: NotificationsService) { }
+  errorNotification: string = '';
+  showErrorNotification: boolean = false;
+
+  constructor(
+    private exchangeNotificationsService: ExchangeNotificationsService,
+    private errorNotificationService: ErrorNotificationService,
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.service.connect();
+    this.exchangeNotificationsService.connect();
+
+    this.errorNotificationService
+      .errorNotification$
+      .subscribe(( message ) => {
+        this.errorNotification = message;
+        this.showErrorNotification = true;
+        this.cdr.detectChanges();
+      });
   }
 }

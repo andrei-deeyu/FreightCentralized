@@ -36,6 +36,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 
   exports: [
     NavbarComponent,
+    NotFoundComponent
   ]
 })
 export class CoreModule { }

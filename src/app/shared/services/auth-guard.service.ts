@@ -8,6 +8,8 @@ export const AuthGuard = (state: RouterStateSnapshot) => {
 
     if(authService.isLoggedIn()) return true;
 
-    router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+    router
+        .navigate(['/login'], { queryParams: { returnUrl: state.url }})
+        .catch(err => { throw err });
     return false;
 }

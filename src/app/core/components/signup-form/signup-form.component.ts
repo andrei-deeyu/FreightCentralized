@@ -21,22 +21,10 @@ export class SignupFormComponent {
         UsernameValidators.shouldBeUnique
       ]),
       password: new FormControl('', Validators.required),
-
       admin: new FormControl(false)
-
-      //([admin, regular], Validators.required)
     })
   });
 
-/* = new FormGroup({
-    name: new FormControl('', Validators.required),
-    contact: new FormGroup({
-      email: new FormControl(),
-      phone: new FormControl()
-    }),
-    topics: new FormArray([])
-  })
-*/
 /*
 constructor(fb: FormBuilder) {
   this.form = fb.group({
@@ -50,13 +38,11 @@ constructor(fb: FormBuilder) {
 }
 */
 
-  dadada(f: FormGroup) {
+  submit(f: FormGroup) {
   let account = f.controls['account'] as FormGroup;
   let admin = account.controls['admin'] as FormControl;
-console.log(admin.value)
-console.log(typeof admin.value)
-  // console.log(admin.controls[0].value);
-  // console.log(admin.controls[1].value);
+  console.log(admin.value)
+  console.log(typeof admin.value);
 }
 
   login() {

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Store } from '@ngrx/store';
-import { selectNotification } from 'src/app/state/exchange.selectors';
-import { NotificationActions } from 'src/app/state/exchange.actions';
+import { selectExchangeNotifications } from 'src/app/state/exchange.selectors';
+import { ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +10,14 @@ import { NotificationActions } from 'src/app/state/exchange.actions';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  notifications$ = this.store.select(selectNotification);
+  notifications$ = this.store.select(selectExchangeNotifications);
   name = '';
   eventCode = ''
 
   constructor(public authService: AuthService, private store: Store) { }
 
   deleteNotification() {
-    this.store.dispatch(NotificationActions.removeNotification());
+    this.store.dispatch(ExchangeNotificationsActions.removeNotification());
   }
 
   onKeyUp($event: KeyboardEvent) {
