@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FavoriteComponent } from './components/favorite/favorite.component';
 import { InputFormatDirective } from './services/input-format.directive';
 import { SummaryPipe } from './services/summary.pipe';
+import { FormInputErrorComponent } from './components/form-input-error/form-input-error.component';
+import { ErrorNotificationService } from 'sharedServices/error.notification';
 
 
 
@@ -15,16 +17,19 @@ import { SummaryPipe } from './services/summary.pipe';
     FavoriteComponent,
     InputFormatDirective,
     SummaryPipe,
+    FormInputErrorComponent,
   ],
 
   providers: [
-
+    ErrorNotificationService
   ],
 
   exports: [
     FavoriteComponent,
     InputFormatDirective,
-    SummaryPipe
+    SummaryPipe,
+    FormInputErrorComponent,
+
   ]
 })
 export class SharedModule { }

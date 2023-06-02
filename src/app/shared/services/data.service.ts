@@ -37,7 +37,8 @@ export class DataService {
       .pipe(
         map((res) => {
           return res || [];
-        })
+        }),
+        catchError(this.handleError)
       );
   }
 
@@ -65,8 +66,8 @@ export class DataService {
 
 
   private handleError(error: Response) {
-    if(error.status === 400)
-      return throwError(() => new BadInput(error.json()))
+    if(error.status === 422)
+      return throwError(() => new BadInput(error))
 
     if(error.status === 404)
       return throwError(() => new NotFoundError())

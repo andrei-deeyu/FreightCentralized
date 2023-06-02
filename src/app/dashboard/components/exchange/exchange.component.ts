@@ -27,9 +27,11 @@ export class ExchangeComponent implements OnInit {
   pagesToShow:number = 0;
 
   form = new FormGroup({
-    title: new FormControl('', [ Validators.required ]),
+    title: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
     body: new FormControl('', [ Validators.required ]),
   });
+  get title() { return this.form.get('title') }
+  get body() { return this.form.get('body') }
 
 
   constructor (private service: ExchangeService, private store: Store) { }
@@ -75,7 +77,7 @@ export class ExchangeComponent implements OnInit {
       },
       error: (error: AppError) => {
         if(error instanceof BadInput)  {
-            // this.form.setErrors(error.originalError)
+          this.form.setErrors(error.originalError.error.message)
         } else throw error;
       }
     })
@@ -104,7 +106,7 @@ export class ExchangeComponent implements OnInit {
         next: () => {
           this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }));
         },
-        error: (error: AppError) => {}
+        error: (error: AppError) => { throw error; }
       })
   }
 }
