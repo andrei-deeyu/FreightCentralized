@@ -6,6 +6,9 @@ import { InputFormatDirective } from './services/input-format.directive';
 import { SummaryPipe } from './services/summary.pipe';
 import { FormInputErrorComponent } from './components/form-input-error/form-input-error.component';
 import { ErrorNotificationService } from 'sharedServices/error.notification';
+import { LoginButtonComponent } from './components/buttons/login-button.component';
+import { SignupButtonComponent } from './components/buttons/signup-button.component';
+import { LogoutButtonComponent } from './components/buttons/logout-button.component';
 
 
 @NgModule({
@@ -17,6 +20,9 @@ import { ErrorNotificationService } from 'sharedServices/error.notification';
     InputFormatDirective,
     SummaryPipe,
     FormInputErrorComponent,
+    LoginButtonComponent,
+    SignupButtonComponent,
+    LogoutButtonComponent,
   ],
 
   providers: [
@@ -27,7 +33,10 @@ import { ErrorNotificationService } from 'sharedServices/error.notification';
     FavoriteComponent,
     InputFormatDirective,
     SummaryPipe,
-    FormInputErrorComponent
+    FormInputErrorComponent,
+    LoginButtonComponent,
+    SignupButtonComponent,
+    LogoutButtonComponent
   ]
 })
 export class SharedModule { }

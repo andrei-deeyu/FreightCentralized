@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../shared/services/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'navbar',
@@ -7,7 +7,9 @@ import { AuthService } from '../../../shared/services/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  constructor(public authService: AuthService) {
+  isAuthenticated$ = this.authService.isAuthenticated$
+
+  constructor(private authService: AuthService) {
 
   }
 }

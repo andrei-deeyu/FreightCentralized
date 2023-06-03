@@ -9,7 +9,7 @@ export class AppErrorHandler implements ErrorHandler {
 
   handleError( error: Error ) {
     const notificationService = this.injector.get(ErrorNotificationService);
-
+    console.log(error)
     switch(true) {
       case error instanceof NoInternetConnection:
         return notificationService.notify('No Internet Connection')

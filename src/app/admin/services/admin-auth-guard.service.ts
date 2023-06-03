@@ -1,14 +1,16 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
+
 
 export const AdminAuthGuard = () => {
     const router = inject(Router)
     const authService = inject(AuthService);
 
-    let user = authService.currentUser;
-    if(user && user.admin) return true;
+    authService.user$.subscribe(user => {
+        if(user?.['app_metadata'].admin) return true;
+        router.navigate(['/no-access']);
+        return false;
+    });
 
-    router.navigate(['/no-access']);
-    return false;
 }

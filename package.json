@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
     "@auth0/angular-jwt": "^5.1.2",
+    "@auth0/auth0-angular": "^2.1.0",
     "@ngrx/store": "^16.0.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
