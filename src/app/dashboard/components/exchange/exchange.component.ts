@@ -14,6 +14,7 @@ import { NotFoundError } from 'sharedServices/Errors/not-found-error';
 
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
 import { CurrentPage } from 'src/app/shared/models/currentPage.model';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'exchange',
@@ -35,7 +36,7 @@ export class ExchangeComponent implements OnInit {
   get body() { return this.form.get('body') }
 
 
-  constructor (private service: ExchangeService, private store: Store) { }
+  constructor (private service: ExchangeService, private store: Store, private authService: AuthService) { }
 
   ngOnInit() {
     this.service.getAll(1)

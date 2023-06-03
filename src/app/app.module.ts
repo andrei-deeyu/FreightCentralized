@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 /* Mock Backend */
 import { MockBackendInterceptor } from './mock-backend';
@@ -25,6 +26,7 @@ import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { WildCardRouteModule } from './wild-card-route.module';
 import { StoreModule } from '@ngrx/store';
+import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 
 import {  ExchangeNotificationReducer,
           currentPageReducer,
@@ -44,11 +46,20 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        // allowedDomains: [ 'server.com/api/v1/function' ],
-        // disallowedDomains: [']
+    AuthModule.forRoot({
+      ...environment.auth0,
+      cacheLocation: "localstorage",
+      httpInterceptor: {
+        allowedList: [
+          {
+            uri: environment.API_URL + '/*',
+            tokenOptions: {
+              authorizationParams: {
+                ...environment.auth0.authorizationParams
+              }
+            }
+          }
+        ],
       }
     }),
     StoreModule.forRoot({
@@ -68,10 +79,9 @@ export function tokenGetter() {
     { provide: ErrorHandler, useClass: AppErrorHandler },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: MockBackendInterceptor,
+      useClass: AuthHttpInterceptor, //MockBackendInterceptor,
       multi: true
     },
-
     AuthService,
     ExchangeNotificationsService
   ],

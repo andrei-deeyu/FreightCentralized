@@ -30,11 +30,10 @@ export class DataService {
 
 
   getAll(choosePage: number): Observable<GetPagination> {
-    const headers = new HttpHeaders()
-      .set("choosePage", JSON.stringify(choosePage))
+    const headers = new HttpHeaders().set("choosePage", JSON.stringify(choosePage),)
 
     return this.http
-      .get<GetPagination>(this.url + '/exchange', { headers })
+      .get<GetPagination>(this.url + '/exchange', {  headers })
       .pipe(
         map((res) => {
           return res || [];

@@ -1,15 +1,40 @@
-<div class="container card">
-  <h2 *ngIf="authService.isLoggedIn()" class="card-title">
-    {{ authService.currentUser.name }}
-  </h2>
+<div class="container">
+  <ng-container *ngIf="user$ | async as user">
+    <div class="card">
+      <div class="card-header d-flex">
+        <img [src]="user.picture" alt="profile" />
+        <div class="card-title d-flex flex-column justify-content-start">
+          <h2 class="p-0">{{ user.nickname }}</h2>
+          <input class="form-control p-0" [placeholder]="user.email" disabled>
 
+          <span
+            *ngIf="user.email_verified"
+            class="email_verification_status email_verified">
+            email is verified <span class="bi bi-check-lg"></span>
+          </span>
+          <span
+            *ngIf="!user.email_verified"
+            class="email_verification_status email_not_verified">
+            email is <strong>not</strong> verified <span class="bi bi-exclamation-octagon-fill"></span>
+          </span>
+        </div>
+      </div>
+      <ng-container class="card-body" *ngIf="code$ | async as code">
+        <code class="profile__details">{{ code }}</code>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>
+
+
+<div class="container card eventCodeContainer">
   <div class="showEventCode card-body">
     <input class="form-control" #email (keyup)="onKeyUp($event)" placeholder="send $event"/>
     <p class="eventCode">EventCode: <span>{{ eventCode }}</span></p>
     <p *ngIf="name">Hello, <span>{{ name }}</span></p>
   </div>
-
 </div>
+
 
 <div *ngIf="notifications$ | async as data" [class]="data.userId ? 'card lastPost' : ''">
   <div *ngIf="data.userId">

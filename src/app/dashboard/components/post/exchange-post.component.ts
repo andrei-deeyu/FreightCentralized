@@ -6,6 +6,9 @@ import { Store } from '@ngrx/store';
 import { selectSinglePost } from 'src/app/state/exchange.selectors';
 import { SinglePostApiActions } from 'src/app/state/exchange.actions';
 import { Exchange } from '../../models/exchange.model';
+import { AuthService } from '@auth0/auth0-angular';
+import { ExchangePost_PublicService } from '../../services/exchange-post.public.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'exchange-post',
@@ -20,24 +23,47 @@ export class ExchangePostComponent implements OnInit {
 
   constructor (
     private route: ActivatedRoute,
+    private authService: AuthService,
+    private store: Store,
     private service: ExchangePostService,
-    private store: Store ) { }
+    private public_service: ExchangePost_PublicService ) { }
 
 
   ngOnInit() {
+    this.authService.user$.subscribe(user => {
+      if( user ) {
+        this.getSinglePost(this.service);
+      } else {
+        this.getSinglePost(this.public_service);
+      }
+    })
+  }
+
+  getSinglePost(theService: ExchangePostService | ExchangePost_PublicService) {
     this.store.dispatch(SinglePostApiActions.initSinglePost());
     this.route.paramMap
       .subscribe(params => {
         let id:string = params.get('id') ?? '';
 
-        this.service.getSingle(id)
+        theService.getSingle(id)
           .subscribe({
-           next: ( singlePost: Exchange ) => {
-            this.store.dispatch(SinglePostApiActions.retrievedSinglePost({ singlePost }))
-            this.singlePostLoaded = true;
-          },
-           error: (err) => this.singlePostError = true
+            next: ( singlePost: Exchange ) => {
+              this.store.dispatch(SinglePostApiActions.retrievedSinglePost({ singlePost }))
+              this.singlePostLoaded = true;
+            },
+            error: (err) => this.singlePostError = true
           });
         })
-    }
+  }
+
+  share(where: string) {
+    this.singlePost$.subscribe(post => {
+      let postLink = `${environment.domainName}exchange/${post._id}`;
+      console.log(postLink)
+      if(where == 'whatsapp') {
+        window.location.href =
+          'https://api.whatsapp.com/send?text=' + postLink;
+      }
+    })
+  }
 }

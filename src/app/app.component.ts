@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { ErrorNotificationService } from 'sharedServices/error.notification';
 import { ExchangeNotificationsService } from 'sharedServices/exchange.notifications.service';
 
@@ -8,13 +9,16 @@ import { ExchangeNotificationsService } from 'sharedServices/exchange.notificati
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  isAuth0Loading$ = this.authService.isLoading$;
   errorNotification: string = '';
   showErrorNotification: boolean = false;
 
   constructor(
+    private authService: AuthService,
     private exchangeNotificationsService: ExchangeNotificationsService,
     private errorNotificationService: ErrorNotificationService,
-    private cdr: ChangeDetectorRef) {}
+    private cdr: ChangeDetectorRef
+    ) {}
 
   ngOnInit() {
     this.exchangeNotificationsService.connect();

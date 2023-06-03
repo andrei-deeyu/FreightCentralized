@@ -1,31 +1,32 @@
 <nav class="navbar navbar-expand bg-body-tertiary">
-  <div class="container-fluid">
-      <ul class="navbar-nav">
+  <ul class="navbar-nav">
+    <div class="d-flex align-items-center">
+      <li class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
+      </li>
+      <li class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="form-test">Form Test</a>
+      </li>
+    </div>
+
+    <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
+      <li class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
+      </li>
+      <li *ngIf="isAdmin" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
+      </li>
+      <div class="flex-fill d-flex align-items-center flex-row-reverse">
+        <logout-button [stylingClasses]="'nav-link cursor-pointer'"></logout-button>
+      </div>
+    </ng-container>
+    <ng-template #unAuthenticated>
+      <div class="flex-fill d-flex align-items-center flex-row-reverse">
+        <signup-button [stylingClasses]="'btn btn-outline-primary'"></signup-button>
         <li class="nav-item">
-          <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
+          <login-button [stylingClasses]="'nav-link cursor-pointer'"></login-button>
         </li>
-
-        <li class="nav-item">
-          <a routerLinkActive="active" class="nav-link" routerLink="signup">Signup</a>
-        </li>
-
-        <li class="nav-item">
-          <a *ngIf="authService.isLoggedIn()" routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
-        </li>
-
-        <li class="nav-item">
-          <a *ngIf="authService.isLoggedIn() && authService.currentUser.admin" routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
-        </li>
-
-        <li class="nav-item">
-          <a *ngIf="authService.isLoggedIn()" class="nav-link" (click)="authService.logout()">Logout</a>
-        </li>
-
-        <li class="nav-item">
-          <a *ngIf="!authService.isLoggedIn()" routerLinkActive="active" class="nav-link" routerLink="login">Login</a>
-        </li>
-
-      </ul>
-
-  </div>
+      </div>
+    </ng-template>
+  </ul>
 </nav>

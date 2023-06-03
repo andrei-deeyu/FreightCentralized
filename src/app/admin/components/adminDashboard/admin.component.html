@@ -1,3 +1,8 @@
-<div class="container">
-  <h2>Admin page</h2>
-</div>
+<ng-container *ngIf="isAdmin; else unAuthorized">
+  <div class="container">
+    <h2>Admin page</h2>
+  </div>
+</ng-container>
+<ng-template #unAuthorized>
+  <h2>No Access</h2>
+</ng-template>

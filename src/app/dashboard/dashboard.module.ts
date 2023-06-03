@@ -10,11 +10,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ExchangeComponent } from './components/exchange/exchange.component';
 import { ExchangePostComponent } from './components/post/exchange-post.component';
+import { AuthGuard } from '@auth0/auth0-angular';
+import { ExchangePost_PublicService } from './services/exchange-post.public.service';
 
 @NgModule({
   providers: [
     ExchangeService,
     ExchangePostService,
+    ExchangePost_PublicService
   ],
 
   declarations: [
@@ -27,7 +30,7 @@ import { ExchangePostComponent } from './components/post/exchange-post.component
     CoreModule,
     SharedModule,
     RouterModule.forChild([
-      { path: 'exchange', component: ExchangeComponent },
+      { path: 'exchange', canActivate: [AuthGuard], component: ExchangeComponent },
       { path: 'exchange/:id', component: ExchangePostComponent},
     ]),
     ReactiveFormsModule
