@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'signup-button',
   template: `
-    <button class="button__sign-up btn btn-primary" (click)="handleSignUp()">Sign Up</button>
+    <button [class]="stylingClasses" (click)="handleSignUp()">Sign Up</button>
   `,
 })
 export class SignupButtonComponent {
+  @Input('stylingClasses') stylingClasses:string = '';
+
   constructor(private auth: AuthService) {}
 
   handleSignUp(): void {

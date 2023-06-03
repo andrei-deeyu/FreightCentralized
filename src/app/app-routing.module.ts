@@ -16,8 +16,8 @@ const routes: Routes = [
     component: LoginComponent,
     canMatch: [AlreadyLogged]
   },
-  { path: 'signup', component: SignupFormComponent },
   */
+  { path: 'form-test', component: SignupFormComponent },
   { path: 'no-access', component: NoAccessComponent },
 ];
 

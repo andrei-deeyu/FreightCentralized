@@ -46,24 +46,22 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     HttpClientModule,
-/*
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        // allowedDomains: [ 'server.com/api/v1/function' ],
-        // disallowedDomains: [']
+    AuthModule.forRoot({
+      ...environment.auth0,
+      cacheLocation: "localstorage",
+      httpInterceptor: {
+        allowedList: [
+          {
+            uri: environment.API_URL + '/*',
+            tokenOptions: {
+              authorizationParams: {
+                ...environment.auth0.authorizationParams
+              }
+            }
+          }
+        ],
       }
     }),
-    */
-
-   AuthModule.forRoot({
-    ...environment.auth0,
-    httpInterceptor: {
-      allowedList: [
-        'http://localhost:5000/api/v1/exchange'
-      ]
-    }
-   }),
     StoreModule.forRoot({
       exchange: exchangeReducer,
       singlePost: singlePostReducer,

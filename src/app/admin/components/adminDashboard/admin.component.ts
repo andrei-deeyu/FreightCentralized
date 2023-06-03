@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'admin',
@@ -12,6 +13,6 @@ export class AdminComponent {
 
   constructor(public authService: AuthService) {}
   ngOnInit() {
-    this.user$.subscribe(user => this.isAdmin = user?.['app_metadata'].admin)
+    this.user$.subscribe(user => this.isAdmin = user?.[environment.idtoken_namespace].admin)
   }
 }

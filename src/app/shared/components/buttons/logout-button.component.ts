@@ -1,14 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'logout-button',
   template: `
-    <button class="button__logout btn btn-outline-secondary" (click)="handleLogout()">Log Out</button>
+    <a [class]="stylingClasses" (click)="handleLogout()">Log Out</a>
   `,
 })
 export class LogoutButtonComponent {
+  @Input('stylingClasses') stylingClasses:string = '';
+
   constructor(
     private auth: AuthService,
     @Inject(DOCUMENT) private doc: Document

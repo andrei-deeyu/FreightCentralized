@@ -1,31 +1,32 @@
 <nav class="navbar navbar-expand bg-body-tertiary">
-  <div class="container-fluid">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
-        </li>
+  <ul class="navbar-nav">
+    <div class="d-flex align-items-center">
+      <li class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
+      </li>
+      <li class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="form-test">Form Test</a>
+      </li>
+    </div>
 
-        <li class="nav-item">
-          <a routerLinkActive="active" class="nav-link" routerLink="signup">Signup</a>
-        </li>
-
-        <div class="nav-bar__buttons">
-          <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
-              <logout-button></logout-button>
-              <li class="nav-item">
-                <a routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
-              </li>
-              <li class="nav-item">
-                <a  routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a> <!-- authService.currentUser.admin -->
-              </li>
-          </ng-container>
-          <ng-template #unAuthenticated>
-              <signup-button></signup-button>
-              <login-button></login-button>
-          </ng-template>
+    <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
+      <li class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
+      </li>
+      <li *ngIf="isAdmin" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
+      </li>
+      <div class="flex-fill d-flex align-items-center flex-row-reverse">
+        <logout-button [stylingClasses]="'nav-link cursor-pointer'"></logout-button>
       </div>
-
-      </ul>
-
-  </div>
+    </ng-container>
+    <ng-template #unAuthenticated>
+      <div class="flex-fill d-flex align-items-center flex-row-reverse">
+        <signup-button [stylingClasses]="'btn btn-outline-primary'"></signup-button>
+        <li class="nav-item">
+          <login-button [stylingClasses]="'nav-link cursor-pointer'"></login-button>
+        </li>
+      </div>
+    </ng-template>
+  </ul>
 </nav>

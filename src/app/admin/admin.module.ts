@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
       {
         path: 'admin',
         component: AdminComponent,
-        canActivate: [AuthGuard],
+        canActivate: [ AuthGuard ],
       },
     ])
   ],

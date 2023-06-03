@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'login-button',
   template: `
-    <button class="button__login btn btn-outline-secondary" (click)="handleLogin()">Log In</button>
+    <a [class]="stylingClasses" (click)="handleLogin()">Log In</a>
   `,
 })
 export class LoginButtonComponent {
   constructor(private auth: AuthService) {}
+  @Input('stylingClasses') stylingClasses:string = '';
 
   handleLogin(): void {
     this.auth.loginWithRedirect({
