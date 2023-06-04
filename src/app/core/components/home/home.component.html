@@ -3,20 +3,36 @@
     <div class="card">
       <div class="card-header d-flex">
         <img [src]="user.picture" alt="profile" />
-        <div class="card-title d-flex flex-column justify-content-start">
+        <div class="card-title d-flex flex-column justify-content-start ms-3">
           <h2 class="p-0">{{ user.nickname }}</h2>
-          <input class="form-control p-0" [placeholder]="user.email" disabled>
-
-          <span
-            *ngIf="user.email_verified"
-            class="email_verification_status email_verified">
-            email is verified <span class="bi bi-check-lg"></span>
-          </span>
-          <span
-            *ngIf="!user.email_verified"
-            class="email_verification_status email_not_verified">
-            email is <strong>not</strong> verified <span class="bi bi-exclamation-octagon-fill"></span>
-          </span>
+          <div class="email d-flex flex-column">
+            <input class="form-control p-0" [placeholder]="user.email" disabled>
+            <span
+              *ngIf="user.email_verified"
+              class="email_verification_status email_verified">
+              email is verified <span class="bi bi-check-lg"></span>
+            </span>
+            <span
+              *ngIf="!user.email_verified && !email_verification_resent"
+              class="email_verification_status email_not_verified p-1">
+              email is <strong>not</strong> verified <span class="bi bi-exclamation-octagon-fill"></span>
+            </span>
+            <span
+              *ngIf="email_verification_resent"
+              class="email_verification_status email_verification_resent p-1 align-middle">
+              email verification resent. <br>
+              <a
+                (click)="openEmail()"
+                [class]="emailToOpen ? 'openEmail' : ''"
+                >Check your email</a>
+            </span>
+            <button
+              *ngIf="!user.email_verified && !email_verification_resent"
+              (click)="resendEmailVerification()"
+              class="btn btn-outline-warning p-0 ps-1 text-start">
+              resend email verification
+            </button>
+          </div>
         </div>
       </div>
       <ng-container class="card-body" *ngIf="code$ | async as code">

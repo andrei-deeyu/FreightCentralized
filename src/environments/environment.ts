@@ -2,6 +2,7 @@ export const environment = {
   production: false,
   domainName: 'http://localhost:4200/',
   API_URL: 'http://localhost:5000/api/v1',
+  API_AUTH_URL: 'http://localhost:5000/auth',
   PUBLIC_API_URL: 'http://localhost:5000/api/v0',
   WS_URL: 'ws://localhost:3000',
   auth0: {
@@ -12,5 +13,5 @@ export const environment = {
       redirect_uri: window.location.origin,
     },
   },
-  idtoken_namespace: 'https://github.com/andrei-deeyu--user.values-app_metadata'
+  idtoken_namespace: 'https://github.com/andrei-deeyu--user.values-'
 }

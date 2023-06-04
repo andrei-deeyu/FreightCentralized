@@ -58,6 +58,14 @@ export function tokenGetter() {
                 ...environment.auth0.authorizationParams
               }
             }
+          },
+          {
+            uri: environment.API_AUTH_URL + '/*',
+            tokenOptions: {
+              authorizationParams: {
+                ...environment.auth0.authorizationParams
+              }
+            }
           }
         ],
       }

@@ -20,6 +20,15 @@ export class DataService {
 
   }
 
+  resendVerification(): Observable<{[index: string]:Object}> {
+    return this.http
+    .get<{[index: string]:Object}>(this.url + '/verification-email')
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
+
   getSingle(id: string): Observable<Exchange> {
     return this.http
     .get<Exchange>(this.url + '/exchange/post/' + id)

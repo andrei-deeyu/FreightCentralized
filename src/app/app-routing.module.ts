@@ -10,13 +10,11 @@ import { SignupFormComponent } from './core/components/signup-form/signup-form.c
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  /*
   {
     path: 'login',
     component: LoginComponent,
-    canMatch: [AlreadyLogged]
+    // canMatch: [AlreadyLogged]
   },
-  */
   { path: 'form-test', component: SignupFormComponent },
   { path: 'no-access', component: NoAccessComponent },
 ];

@@ -11,6 +11,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { NoAccessComponent } from './components/no-access/no-access.component';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HomeService } from './services/home.service';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     NavbarComponent,
     SignupFormComponent,
     NoAccessComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +33,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 
   providers: [
     FormsModule,
+    HomeService
   ],
 
   exports: [
