@@ -19,6 +19,9 @@ export class HomeComponent {
   code$ = this.user$.pipe(map((user) => JSON.stringify(user, null, 2)));
   email_verification_resent: boolean = false;
   emailToOpen:string = '';
+  editing:boolean = false;
+  newName: string = '';
+
   constructor(public authService: AuthService, private store: Store, private service: HomeService) { }
 
   ngOnInit() {
@@ -48,6 +51,19 @@ export class HomeComponent {
 
   openEmail() {
     if(this.emailToOpen) window.location.href = this.emailToOpen;
+  }
+
+  saveProfile() {
+    this.service.saveProfile(this.newName)
+    .subscribe({
+      next: (result: {[index: string]:Object}) => {
+        console.log(result)
+        if(result['status'] == 'changed')
+          console.log(result);
+          this.authService.loginWithRedirect();
+          this.editing = false;
+        }
+    })
   }
 
   deleteNotification() {

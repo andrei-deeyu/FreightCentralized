@@ -13,6 +13,6 @@ export class AdminComponent {
 
   constructor(public authService: AuthService) {}
   ngOnInit() {
-    this.user$.subscribe(user => this.isAdmin = user?.[environment.idtoken_namespace].admin)
+    this.user$.subscribe(user => this.isAdmin = user?.[`${environment.idtoken_namespace}app_metadata`]?.admin)
   }
 }

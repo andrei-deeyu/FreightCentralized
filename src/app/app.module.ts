@@ -2,7 +2,6 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 
 /* Mock Backend */
@@ -12,7 +11,6 @@ import { MockBackendInterceptor } from './mock-backend';
 import { AppComponent } from './app.component';
 
 /* Services */
-import { AuthService } from './shared/services/auth.service';
 import { ExchangeNotificationsService } from 'sharedServices/exchange.notifications.service';
 
 /* Global Error Handler */
@@ -90,7 +88,6 @@ export function tokenGetter() {
       useClass: AuthHttpInterceptor, //MockBackendInterceptor,
       multi: true
     },
-    AuthService,
     ExchangeNotificationsService
   ],
   bootstrap: [

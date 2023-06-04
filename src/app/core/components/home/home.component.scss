@@ -24,9 +24,25 @@
   }
 }
 
+.card-header {
+  img {
+    max-width: 8rem;
+    height: fit-content;
+  }
+
+  .card-title {
+    .form-control {
+      border: none;
+    }
+  }
+
+  .editButtons {
+    max-width: 6rem;
+  }
+}
+
 .email {
   height: 5.2rem;
-  width: 20em;
   input {
     border-radius: .375rem .375rem 0 0;
   }
@@ -66,6 +82,7 @@
 
   span {
     margin-left: .5rem;
+    font-weight: bold;
   }
 
   button {

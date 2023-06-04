@@ -28,6 +28,14 @@ export class DataService {
     )
   }
 
+  saveProfile(newName: string): Observable<{[index: string]:Object}> {
+    return this.http
+    .post<{[index: string]:Object}>(this.url + '/saveProfile', { name: newName })
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
 
   getSingle(id: string): Observable<Exchange> {
     return this.http
