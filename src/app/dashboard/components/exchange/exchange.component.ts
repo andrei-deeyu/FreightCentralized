@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
@@ -16,22 +16,38 @@ import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/fa
 import { CurrentPage } from 'src/app/shared/models/currentPage.model';
 import { AuthService } from '@auth0/auth0-angular';
 
+import { expandedCollapsed, fade } from 'sharedServices/animations';
+
+interface inputBlurInterface {
+  input: {
+    [index: string]:Boolean
+  }
+}
+
 @Component({
   selector: 'exchange',
   templateUrl: './exchange.component.html',
-  styleUrls: ['./exchange.component.scss']
+  styleUrls: ['./exchange.component.scss'],
+  animations: [
+    expandedCollapsed,
+    fade
+  ]
 })
+
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
   selectedPagination = 0;
   viewMode = '';
   pagesToShow:number = 0;
+  isExpanded: boolean = false;
+  inputBlur: inputBlurInterface = { input: {} }
 
   form = new FormGroup({
     title: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
     body: new FormControl('', [ Validators.required ]),
   });
+
   get title() { return this.form.get('title') }
   get body() { return this.form.get('body') }
 
@@ -46,6 +62,7 @@ export class ExchangeComponent implements OnInit {
         let exchange:Exchange[] = response.result
         this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
       });
+      this.exchange$.subscribe(chestie => console.log(chestie))
   }
 
   changePage(choosePage: number) {
@@ -62,20 +79,47 @@ export class ExchangeComponent implements OnInit {
     });
   }
 
+  isUnique(_postId: string) {
+    let alreadyExists:boolean[] = [];
+    this.exchange$.subscribe(exchange => {
+      exchange.forEach((el) =>
+        alreadyExists.push(el._id == _postId)
+      )
+    }).unsubscribe();
+    return !alreadyExists.includes(true);
+  }
+
+  onBlur(_formControlName: string) {
+    this.inputBlur.input[_formControlName] = true
+  }
+
+  onFocus(_formControlName: string) {
+    if(_formControlName === 'title')
+      this.inputBlur.input = {}
+
+    Object
+      .keys(this.inputBlur.input)
+      .filter(key => key !== 'title' ?  this.inputBlur.input[key] = false : null)
+  }
+
   createPost(f: FormGroup) {
     let insertPost: any = {
       userId: 1007,
       title: f.value.title,
-      body: f.value.body
+      body: f.value.body ?? ''
     };
 
     f.reset();
+    this.inputBlur.input = {}
 
     this.service.create(insertPost)
     .subscribe({
       next: (post: Exchange) => {
-        this.changePage(1);
-        this.store.dispatch(ExchangeApiActions.addPost({ post }));
+        this.currentPage$.subscribe(_curentPage => {
+          if(_curentPage.pageActive !== 1) this.changePage(1);
+          post.new = true;
+          if(this.isUnique(post._id)) this.store.dispatch(ExchangeApiActions.addPost({ post }));
+        }).unsubscribe()
       },
       error: (error: AppError) => {
         if(error instanceof BadInput)  {
@@ -110,5 +154,13 @@ export class ExchangeComponent implements OnInit {
         },
         error: (error: AppError) => { throw error; }
       })
+  }
+
+  animationStarted($event:any) {
+    console.log($event)
+  }
+
+  animationDone($event:any) {
+    console.log($event)
   }
 }

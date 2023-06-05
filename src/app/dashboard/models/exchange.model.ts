@@ -4,5 +4,6 @@ export interface Exchange {
   title: string;
   body: string;
   isLiked?: boolean,
-  createdAt: Date
+  createdAt: Date,
+  new?: boolean
 }

@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
 })
-export class LoginComponent {
+export class SignupComponent {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.authService.loginWithRedirect({
-      appState: {
-        target: '/exchange',
+      authorizationParams: {
+        screen_hint: 'signup',
       }
-    })
+    });
   }
 }
