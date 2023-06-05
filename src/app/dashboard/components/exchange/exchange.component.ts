@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
@@ -16,37 +16,38 @@ import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/fa
 import { CurrentPage } from 'src/app/shared/models/currentPage.model';
 import { AuthService } from '@auth0/auth0-angular';
 
-import { bounceOutLeftAnimation, fade, fadeInAnimation, fadeOutAnimation, slide } from 'sharedServices/animations';
-import { animate, animateChild, group, keyframes, query, stagger, state, style, transition, trigger, useAnimation } from '@angular/animations';
+import { expandedCollapsed, fade } from 'sharedServices/animations';
+
+interface inputBlurInterface {
+  input: {
+    [index: string]:Boolean
+  }
+}
 
 @Component({
   selector: 'exchange',
   templateUrl: './exchange.component.html',
   styleUrls: ['./exchange.component.scss'],
   animations: [
-    /*
-    trigger('exchangeAnimation', [
-      transition('expanded', [
-        query('@exchangeAnimation',
-          stagger(1000, animateChild())
-        )
-      ])
-    ]),
-    */
+    expandedCollapsed,
     fade
   ]
 })
+
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
   selectedPagination = 0;
   viewMode = '';
   pagesToShow:number = 0;
+  isExpanded: boolean = false;
+  inputBlur: inputBlurInterface = { input: {} }
 
   form = new FormGroup({
     title: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
     body: new FormControl('', [ Validators.required ]),
   });
+
   get title() { return this.form.get('title') }
   get body() { return this.form.get('body') }
 
@@ -88,14 +89,28 @@ export class ExchangeComponent implements OnInit {
     return !alreadyExists.includes(true);
   }
 
+  onBlur(_formControlName: string) {
+    this.inputBlur.input[_formControlName] = true
+  }
+
+  onFocus(_formControlName: string) {
+    if(_formControlName === 'title')
+      this.inputBlur.input = {}
+
+    Object
+      .keys(this.inputBlur.input)
+      .filter(key => key !== 'title' ?  this.inputBlur.input[key] = false : null)
+  }
+
   createPost(f: FormGroup) {
     let insertPost: any = {
       userId: 1007,
       title: f.value.title,
-      body: f.value.body
+      body: f.value.body ?? ''
     };
 
     f.reset();
+    this.inputBlur.input = {}
 
     this.service.create(insertPost)
     .subscribe({

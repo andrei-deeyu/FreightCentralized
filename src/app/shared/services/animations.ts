@@ -44,3 +44,23 @@ export let fade = trigger('fade', [
   transition(':enter',useAnimation(fadeInAnimation)),
   transition(':leave', useAnimation(fadeOutAnimation))
 ])
+
+
+export let expandedCollapsed = trigger('expandedCollapsed', [
+  state('collapsed', style({
+    height: 0,
+    opacity: 0
+  })),
+
+
+  transition('collapsed => expanded', [
+    animate('200ms ease-out', style({
+      height: '*',
+    })),
+    animate('100ms', style({ opacity: 1 }))
+  ]),
+  transition('expanded => collapsed', [
+    animate('100ms ease-in', style({ opacity: 0 })),
+    animate('200ms ease-in', style({height: 0 }))
+  ])
+ ])

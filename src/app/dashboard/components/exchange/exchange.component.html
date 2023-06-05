@@ -5,22 +5,34 @@
     <li class="nav-item"><a class="nav-link" [class.active]="viewMode == 'id'" (click)="viewMode = 'id'">UserId</a></li>
   </ul>
 
-  <form [formGroup]="form" (ngSubmit)="createPost(form)" class="card">
+  <form [formGroup]="form" (ngSubmit)="createPost(form)" class="card" (outsideClick)="isExpanded = false" outsideClick>
     <div class="card-body">
-      <div class="form-group">
-        <input formControlName="title" id="title" type="text" class="form-control" placeholder="Add a post title">
+      <div>
+        <div class="form-group">
+          <input
+            formControlName="title" id="title"
+            (blur)="onBlur('title')"
+            (focus)="onFocus('title');isExpanded = true;"
+            type="text" class="form-control" placeholder="Add a post title">
+        </div>
       </div>
-      <form-input-error [control]="title" [controlName]="'title'"></form-input-error> <!-- while writing the input -->
-        <br>
-      <div class="form-group">
-        <input formControlName="body" id="body" type="text" class="form-control" placeholder="Write a post body">
+      <div [@expandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'">
+        <form-input-error [blur]="inputBlur.input['title']" [control]="title" [controlName]="'title'"></form-input-error> <!-- while writing the input -->
+        <div class="form-group">
+          <input
+            formControlName="body" id="body"
+            (blur)="onBlur('body')"
+            (focus)="onFocus('body')"
+            type="text" class="form-control" placeholder="Write a post body">
+        </div>
+        <form-input-error [blur]="inputBlur.input['body'] && !inputBlur.input['title']" [control]="body" [controlName]="'body'"></form-input-error> <!-- while writing the input -->
+
+        <div class="d-flex flex-row mt-3">
+          <button class="btn btn-primary pt-1 pb-1">Submit</button>
+          <div *ngIf="form.errors" class="alert alert-danger m-0 pt-1 pb-1">{{ form.errors }}</div> <!-- after submitting the input -->
+        </div>
       </div>
-      <form-input-error [control]="body" [controlName]="'body'"></form-input-error> <!-- while writing the input -->
     </div>
-
-    <div *ngIf="form.errors" class="alert alert-danger">{{ form.errors }}</div> <!-- after submitting the input -->
-
-    <button class="btn btn-primary">Submit</button>
   </form>
 
 

@@ -1,4 +1,4 @@
-<div *ngIf="control?.dirty && control?.invalid" class="alert alert-warning p-2">
+<div [@alert]="control?.invalid && blur ? 'expanded' : 'collapsed'" class="alert alert-warning">
   <div *ngIf="control?.errors?.['required']">
      {{ controlName }} is required
   </div>
