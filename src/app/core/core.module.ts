@@ -12,6 +12,7 @@ import { NoAccessComponent } from './components/no-access/no-access.component';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeService } from './services/home.service';
+import { SignupComponent } from './components/signup/signup.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { HomeService } from './services/home.service';
     SignupFormComponent,
     NoAccessComponent,
     NotFoundComponent,
+    SignupComponent,
   ],
   imports: [
     CommonModule,

@@ -27,6 +27,7 @@ export const exchangeReducer = createReducer(
 
   on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange),
   on(ExchangeApiActions.addPost, (_state, { post }) => {
+    console.log('ah')
     if (_state.indexOf(post) > -1) return _state;
 
     //return _state.filter((value, index) => index !== _state.length)

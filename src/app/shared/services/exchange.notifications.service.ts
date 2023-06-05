@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Exchange } from 'src/app/dashboard/models/exchange.model';
-import { selectCurrentPage } from 'src/app/state/exchange.selectors';
+import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
 import { CurrentPage } from '../models/currentPage.model';
 import { ReplaySubject } from 'rxjs';
 import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
@@ -17,6 +17,7 @@ const socket:WebSocketSubject<any> = webSocket(environment.WS_URL);
 })
 export class ExchangeNotificationsService {
   currentPage$ = this.store.select(selectCurrentPage);
+  exchange$ = this.store.select(selectExchange)
 
   constructor(private store: Store, private router: Router) {}
 
@@ -50,12 +51,23 @@ export class ExchangeNotificationsService {
     else return true;
   }
 
+  isUnique(_postId: string) {
+    let alreadyExists:boolean[] = [];
+    this.exchange$.subscribe(exchange => {
+      exchange.forEach((el) =>
+        alreadyExists.push(el._id == _postId)
+      )
+    }).unsubscribe();
+    return !alreadyExists.includes(true);
+  }
+
    connect() {
     socket.subscribe({
       next: ( post: any ) => {
         if( this.validKeys(post) ) {
           this.currentPage().subscribe(_currentPage => {
-            if( this.router.url == '/exchange' && _currentPage.pageActive === 1 ) {
+            if( this.router.url == '/exchange' && _currentPage.pageActive === 1 && this.isUnique(post._id)) {
+              post.new = true;
               this.store.dispatch(ExchangeApiActions.addPost({ post }));
             }
             this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))

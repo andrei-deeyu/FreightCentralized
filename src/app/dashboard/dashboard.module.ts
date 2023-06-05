@@ -12,12 +12,14 @@ import { ExchangeComponent } from './components/exchange/exchange.component';
 import { ExchangePostComponent } from './components/post/exchange-post.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { ExchangePost_PublicService } from './services/exchange-post.public.service';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @NgModule({
   providers: [
     ExchangeService,
     ExchangePostService,
-    ExchangePost_PublicService
+    ExchangePost_PublicService,
+    provideAnimations()
   ],
 
   declarations: [

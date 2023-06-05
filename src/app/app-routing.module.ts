@@ -5,14 +5,13 @@ import { NoAccessComponent } from './core/components/no-access/no-access.compone
 import { HomeComponent } from './core/components/home/home.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { SignupFormComponent } from './core/components/signup-form/signup-form.component';
+import { SignupComponent } from './core/components/signup/signup.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'form-test', component: SignupFormComponent },
   { path: 'no-access', component: NoAccessComponent },
 ];

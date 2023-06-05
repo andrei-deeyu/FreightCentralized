@@ -1,4 +1,4 @@
-<div class="container p-0">
+<div *ngIf="exchange$ | async" class="container p-0">
   <ul class="nav nav-pills">
     <li class="nav-item"><a class="nav-link" [class.active]="viewMode == ''" (click)="viewMode = ''">Title</a></li>
     <li class="nav-item"><a class="nav-link" [class.active]="viewMode == 'body'" (click)="viewMode = 'body'">Body</a></li>
@@ -25,15 +25,26 @@
 
 
   <ul class="list-group">
-    <li *ngFor="let post of exchange$ | async; even as isEven, index as i" class="list-group-item d-flex align-items-center" [class.even]="isEven">
-      <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
-      <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
-        <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
-        <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
-        <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
-      </div>
-      <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
-    </li>
+    <div *ngFor="let post of exchange$ | async; even as isEven, index as i">
+      <li *ngIf="i > 0 && !post.new" class="list-group-item d-flex align-items-center" [class.even]="isEven" >
+        <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
+        <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
+        </div>
+        <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
+      </li>
+      <li *ngIf="post.new" class="list-group-item d-flex align-items-center" [class.even]="isEven" @fade>
+        <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
+        <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
+        </div>
+        <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
+      </li>
+    </div>
   </ul>
 
 

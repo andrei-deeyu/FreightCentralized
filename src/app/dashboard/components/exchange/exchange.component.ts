@@ -16,10 +16,25 @@ import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/fa
 import { CurrentPage } from 'src/app/shared/models/currentPage.model';
 import { AuthService } from '@auth0/auth0-angular';
 
+import { bounceOutLeftAnimation, fade, fadeInAnimation, fadeOutAnimation, slide } from 'sharedServices/animations';
+import { animate, animateChild, group, keyframes, query, stagger, state, style, transition, trigger, useAnimation } from '@angular/animations';
+
 @Component({
   selector: 'exchange',
   templateUrl: './exchange.component.html',
-  styleUrls: ['./exchange.component.scss']
+  styleUrls: ['./exchange.component.scss'],
+  animations: [
+    /*
+    trigger('exchangeAnimation', [
+      transition('expanded', [
+        query('@exchangeAnimation',
+          stagger(1000, animateChild())
+        )
+      ])
+    ]),
+    */
+    fade
+  ]
 })
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
@@ -46,6 +61,7 @@ export class ExchangeComponent implements OnInit {
         let exchange:Exchange[] = response.result
         this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
       });
+      this.exchange$.subscribe(chestie => console.log(chestie))
   }
 
   changePage(choosePage: number) {
@@ -62,6 +78,16 @@ export class ExchangeComponent implements OnInit {
     });
   }
 
+  isUnique(_postId: string) {
+    let alreadyExists:boolean[] = [];
+    this.exchange$.subscribe(exchange => {
+      exchange.forEach((el) =>
+        alreadyExists.push(el._id == _postId)
+      )
+    }).unsubscribe();
+    return !alreadyExists.includes(true);
+  }
+
   createPost(f: FormGroup) {
     let insertPost: any = {
       userId: 1007,
@@ -74,8 +100,11 @@ export class ExchangeComponent implements OnInit {
     this.service.create(insertPost)
     .subscribe({
       next: (post: Exchange) => {
-        this.changePage(1);
-        this.store.dispatch(ExchangeApiActions.addPost({ post }));
+        this.currentPage$.subscribe(_curentPage => {
+          if(_curentPage.pageActive !== 1) this.changePage(1);
+          post.new = true;
+          if(this.isUnique(post._id)) this.store.dispatch(ExchangeApiActions.addPost({ post }));
+        }).unsubscribe()
       },
       error: (error: AppError) => {
         if(error instanceof BadInput)  {
@@ -110,5 +139,13 @@ export class ExchangeComponent implements OnInit {
         },
         error: (error: AppError) => { throw error; }
       })
+  }
+
+  animationStarted($event:any) {
+    console.log($event)
+  }
+
+  animationDone($event:any) {
+    console.log($event)
   }
 }
