@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
 import { Exchange } from '../../models/exchange.model';
 import { ExchangeApiActions, pageActiveActions } from 'src/app/state/exchange.actions';
 
-import { ExchangeService } from '../../services/exchange.service';
+import { ExchangeApiService } from '../../services/exchange.api.service';
 
 import { AppError } from 'sharedServices/Errors/app-error';
 import { BadInput } from 'sharedServices/Errors/bad-input';
@@ -14,9 +14,9 @@ import { NotFoundError } from 'sharedServices/Errors/not-found-error';
 
 import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
 import { CurrentPage } from 'src/app/shared/models/currentPage.model';
-import { AuthService } from '@auth0/auth0-angular';
 
 import { expandedCollapsed, fade } from 'sharedServices/animations';
+import { SessionService } from 'sharedServices/session.service';
 
 interface inputBlurInterface {
   input: {
@@ -52,7 +52,11 @@ export class ExchangeComponent implements OnInit {
   get body() { return this.form.get('body') }
 
 
-  constructor (private service: ExchangeService, private store: Store, private authService: AuthService) { }
+  constructor (
+    private service: ExchangeApiService,
+    private store: Store,
+    private session: SessionService
+  ) { }
 
   ngOnInit() {
     this.service.getAll(1)
@@ -62,7 +66,6 @@ export class ExchangeComponent implements OnInit {
         let exchange:Exchange[] = response.result
         this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
       });
-      this.exchange$.subscribe(chestie => console.log(chestie))
   }
 
   changePage(choosePage: number) {
@@ -79,16 +82,6 @@ export class ExchangeComponent implements OnInit {
     });
   }
 
-  isUnique(_postId: string) {
-    let alreadyExists:boolean[] = [];
-    this.exchange$.subscribe(exchange => {
-      exchange.forEach((el) =>
-        alreadyExists.push(el._id == _postId)
-      )
-    }).unsubscribe();
-    return !alreadyExists.includes(true);
-  }
-
   onBlur(_formControlName: string) {
     this.inputBlur.input[_formControlName] = true
   }
@@ -97,8 +90,7 @@ export class ExchangeComponent implements OnInit {
     if(_formControlName === 'title')
       this.inputBlur.input = {}
 
-    Object
-      .keys(this.inputBlur.input)
+    Object.keys(this.inputBlur.input)
       .filter(key => key !== 'title' ?  this.inputBlur.input[key] = false : null)
   }
 
@@ -112,13 +104,13 @@ export class ExchangeComponent implements OnInit {
     f.reset();
     this.inputBlur.input = {}
 
-    this.service.create(insertPost)
+    this.service.create(insertPost, this.session.ID)
     .subscribe({
       next: (post: Exchange) => {
         this.currentPage$.subscribe(_curentPage => {
           if(_curentPage.pageActive !== 1) this.changePage(1);
           post.new = true;
-          if(this.isUnique(post._id)) this.store.dispatch(ExchangeApiActions.addPost({ post }));
+          this.store.dispatch(ExchangeApiActions.addPost({ post }));
         }).unsubscribe()
       },
       error: (error: AppError) => {
@@ -130,7 +122,7 @@ export class ExchangeComponent implements OnInit {
   }
 
   deletePost(postId: string) {
-    this.service.remove(postId)
+    this.service.remove(postId, this.session.ID)
     .subscribe({
       next: () => {
         this.store.dispatch(ExchangeApiActions.removePost({ postId }));
@@ -143,11 +135,10 @@ export class ExchangeComponent implements OnInit {
     })
   }
 
-
   onFavoriteChanged(postId: string, eventArgs: FavoriteChangedEventArgs, ) {
     let eventValue = Object.values(eventArgs)[0];
 
-    this.service.likePost(postId, eventValue)
+    this.service.likePost(postId, eventValue, this.session.ID)
       .subscribe({
         next: () => {
           this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }));

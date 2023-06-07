@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExchangePostComponent } from './exchange-post.component';
+import { ExchangePostComponent } from './post.component';
 
 describe('ExchangePostComponent', () => {
   let component: ExchangePostComponent;

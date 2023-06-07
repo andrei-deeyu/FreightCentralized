@@ -9,17 +9,17 @@ import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NoInternetConnection } from './Errors/no-internet-connection';
+import { AuthService } from '@auth0/auth0-angular';
 
-const socket:WebSocketSubject<any> = webSocket(environment.WS_URL);
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExchangeNotificationsService {
   currentPage$ = this.store.select(selectCurrentPage);
-  exchange$ = this.store.select(selectExchange)
+  exchange$ = this.store.select(selectExchange);
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store, private router: Router, private authService: AuthService) {}
 
   currentPage() {
     let subject = new ReplaySubject<CurrentPage>(1);
@@ -51,42 +51,40 @@ export class ExchangeNotificationsService {
     else return true;
   }
 
-  isUnique(_postId: string) {
-    let alreadyExists:boolean[] = [];
-    this.exchange$.subscribe(exchange => {
-      exchange.forEach((el) =>
-        alreadyExists.push(el._id == _postId)
-      )
-    }).unsubscribe();
-    return !alreadyExists.includes(true);
-  }
+  connect(sessionID: string) {
+    this.authService.user$.subscribe(_user => {
+      console.log(_user)
+      if( !_user ) return;
+      let _userId: string | undefined = _user?.sub?.split('auth0|')[1]
 
-   connect() {
-    socket.subscribe({
-      next: ( post: any ) => {
-        if( this.validKeys(post) ) {
-          this.currentPage().subscribe(_currentPage => {
-            if( this.router.url == '/exchange' && _currentPage.pageActive === 1 && this.isUnique(post._id)) {
-              post.new = true;
-              this.store.dispatch(ExchangeApiActions.addPost({ post }));
-            }
-            this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
-          });
-        }
+      let socket:WebSocketSubject<any> = webSocket(environment.WS_URL + '?' + _userId + '/' + sessionID);
+      socket.subscribe({
+        next: ( post: any ) => {
+          console.log(post)
+          if( this.validKeys(post) ) {
+            this.currentPage().subscribe(_currentPage => {
+              if( this.router.url == '/exchange' && _currentPage.pageActive === 1) {
+                post.new = true;
+                this.store.dispatch(ExchangeApiActions.addPost({ post }));
+              }
+              this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
+            });
+          }
 
-        if( post.removed ) {
-          let postId = post.removed;
-          this.store.dispatch(ExchangeApiActions.removePost({ postId }))
-        }
+          if( post.removed ) {
+            let postId = post.removed;
+            this.store.dispatch(ExchangeApiActions.removePost({ postId }))
+          }
 
-        if( post.liked ) {
-          let postId = post.liked;
-          let eventValue = post.eventValue;
-          this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
-        }
-      },
-      error: ( err ) => { throw new NoInternetConnection(err) },
-      complete: () => console.log('logged out from sockets')
-    })
+          if( post.liked ) {
+            let postId = post.liked;
+            let eventValue = post.eventValue;
+            this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
+          }
+        },
+        error: ( err ) => { throw new NoInternetConnection(err) },
+        complete: () => console.log('logged out from sockets')
+      })
+  });
   }
 }

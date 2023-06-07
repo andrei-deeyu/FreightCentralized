@@ -17,7 +17,7 @@
         </div>
       </div>
       <div [@expandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'">
-        <form-input-error [blur]="inputBlur.input['title']" [control]="title" [controlName]="'title'"></form-input-error> <!-- while writing the input -->
+        <form-input-error [blur]="isExpanded && inputBlur.input['title']" [control]="title" [controlName]="'title'"></form-input-error> <!-- while writing the input -->
         <div class="form-group">
           <input
             formControlName="body" id="body"
@@ -38,7 +38,7 @@
 
   <ul class="list-group">
     <div *ngFor="let post of exchange$ | async; even as isEven, index as i">
-      <li *ngIf="i > 0 && !post.new" class="list-group-item d-flex align-items-center" [class.even]="isEven" >
+      <li *ngIf="!post.new" class="list-group-item d-flex align-items-center" [class.even]="isEven" >
         <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
         <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
           <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
@@ -47,7 +47,7 @@
         </div>
         <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
       </li>
-      <li *ngIf="post.new" class="list-group-item d-flex align-items-center" [class.even]="isEven" @fade>
+      <li *ngIf="post.new" @fade class="list-group-item d-flex align-items-center" [class.even]="isEven">
         <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
         <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
           <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>

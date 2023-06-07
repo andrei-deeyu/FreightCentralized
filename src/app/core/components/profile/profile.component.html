@@ -1,0 +1,45 @@
+<div class="container">
+  <ng-container *ngIf="user$ | async as user">
+    <div class="card-header row">
+      <img class="col-2 mw-8 ps-0" [src]="user.picture" alt="profile" />
+      <div class="col-10 col-md-4 profileData ps-0">
+        <div class="card-title d-flex flex-column justify-content-start m-0">
+          <h3 *ngIf="!editing" class="fs-3 p-0 mb-0 lh-lg">{{ user.name }}</h3>
+          <input *ngIf="editing" class="form-control fs-3 p-0 m-0 lh-lg" placeholder="Insert your name" [(ngModel)]="newName">
+          <div class="email d-flex flex-column">
+            <input class="form-control p-0" [placeholder]="user.email" disabled>
+            <span
+              *ngIf="user.email_verified"
+              class="email_verification_status email_verified">
+              email is verified <span class="bi bi-check-lg"></span>
+            </span>
+            <span
+              *ngIf="!user.email_verified && !email_verification_resent"
+              class="email_verification_status email_not_verified p-1">
+              email is <strong>not</strong> verified <span class="bi bi-exclamation-octagon-fill"></span>
+            </span>
+            <span
+              *ngIf="email_verification_resent"
+              class="email_verification_status email_verification_resent p-1 align-middle">
+              email verification resent. <br>
+              <a (click)="openEmail()" [class]="emailToOpen ? 'openEmail' : ''">Check your email</a>
+            </span>
+            <button
+              *ngIf="!user.email_verified && !email_verification_resent"
+              (click)="resendEmailVerification()"
+              class="btn btn-outline-warning p-0 ps-1 text-start">
+              resend email verification
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="user.email_verified" class="p-0 d-flex flex-row flex-md-column editButtons gap-2">
+        <button (click)="editing = !editing;newName = ''" class="btn btn-outline-secondary">{{editing ? 'Cancel' : 'Edit'}}</button>
+        <button *ngIf="editing" (click)="saveProfile()" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+    <ng-container class="card-body" *ngIf="code$ | async as code">
+      <code class="profile__details">{{ code }}</code>
+    </ng-container>
+  </ng-container>
+</div>

@@ -47,7 +47,7 @@ export class DataService {
 
 
   getAll(choosePage: number): Observable<GetPagination> {
-    const headers = new HttpHeaders().set("choosePage", JSON.stringify(choosePage),)
+    const headers = new HttpHeaders().set("choosePage", JSON.stringify(choosePage))
 
     return this.http
       .get<GetPagination>(this.url + '/exchange', {  headers })
@@ -59,23 +59,26 @@ export class DataService {
       );
   }
 
-  create(post: Object): Observable<Exchange> {
+  create(post: Object, sessionID: string): Observable<Exchange> {
+    const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
     return this.http
-      .post<Exchange>(this.url + '/exchange', post)
+      .post<Exchange>(this.url + '/exchange', post, { headers })
       .pipe(
         catchError(this.handleError)
       )
   }
 
-  remove(postId: string) {
-    return this.http.delete(this.url + '/exchange/post/' + postId)
+  remove(postId: string, sessionID: string) {
+    const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
+    return this.http.delete(this.url + '/exchange/post/' + postId, { headers })
       .pipe(
         catchError(this.handleError)
       )
   }
 
-  likePost(postId: string, eventArgs: boolean):Observable<Object> {
-    return this.http.patch(this.url + '/exchange/post/' + postId, { isLiked: eventArgs })
+  likePost(postId: string, eventArgs: boolean, sessionID: string):Observable<Object> {
+    const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
+    return this.http.patch(this.url + '/exchange/post/' + postId,{ isLiked: eventArgs }, { headers })
       .pipe(
         catchError(this.handleError)
       )
