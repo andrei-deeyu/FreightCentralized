@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExchangePostService } from '../../services/exchange-post.service';
+import { PostApiService } from '../../services/post.api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -7,16 +7,16 @@ import { selectSinglePost } from 'src/app/state/exchange.selectors';
 import { SinglePostApiActions } from 'src/app/state/exchange.actions';
 import { Exchange } from '../../models/exchange.model';
 import { AuthService } from '@auth0/auth0-angular';
-import { ExchangePost_PublicService } from '../../services/exchange-post.public.service';
+import { PostPublicApiService } from '../../services/post.public-api.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'exchange-post',
-  templateUrl: './exchange-post.component.html',
-  styleUrls: ['./exchange-post.component.scss']
+  selector: 'post',
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.scss']
 })
 
-export class ExchangePostComponent implements OnInit {
+export class PostComponent implements OnInit {
   singlePost$ = this.store.select(selectSinglePost);
   singlePostLoaded: boolean = false;
   singlePostError: boolean = false;
@@ -25,8 +25,8 @@ export class ExchangePostComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private store: Store,
-    private service: ExchangePostService,
-    private public_service: ExchangePost_PublicService ) { }
+    private service: PostApiService,
+    private public_service: PostPublicApiService ) { }
 
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class ExchangePostComponent implements OnInit {
     })
   }
 
-  getSinglePost(theService: ExchangePostService | ExchangePost_PublicService) {
+  getSinglePost(theService: PostApiService | PostPublicApiService) {
     this.store.dispatch(SinglePostApiActions.initSinglePost());
     this.route.paramMap
       .subscribe(params => {
@@ -51,7 +51,7 @@ export class ExchangePostComponent implements OnInit {
               this.store.dispatch(SinglePostApiActions.retrievedSinglePost({ singlePost }))
               this.singlePostLoaded = true;
             },
-            error: (err) => this.singlePostError = true
+            error: () => this.singlePostError = true
           });
         })
   }

@@ -4,8 +4,8 @@ import { DataService } from "../../shared/services/data.service";
 import { environment } from 'src/environments/environment';
 
 @Injectable()
-export class ExchangePostService extends DataService {
+export class AuthApiService extends DataService {
   constructor(http: HttpClient) {
-    super(environment.API_URL, http);
+    super(environment.API_AUTH_URL, http);
   }
 }

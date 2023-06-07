@@ -3,29 +3,22 @@ import { Store } from '@ngrx/store';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Exchange } from 'src/app/dashboard/models/exchange.model';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
-import { CurrentPage } from '../models/currentPage.model';
-import { ReplaySubject } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NoInternetConnection } from './Errors/no-internet-connection';
+import { AuthService } from '@auth0/auth0-angular';
 
-const socket:WebSocketSubject<any> = webSocket(environment.WS_URL);
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExchangeNotificationsService {
   currentPage$ = this.store.select(selectCurrentPage);
-  exchange$ = this.store.select(selectExchange)
+  exchange$ = this.store.select(selectExchange);
 
-  constructor(private store: Store, private router: Router) {}
-
-  currentPage() {
-    let subject = new ReplaySubject<CurrentPage>(1);
-    this.currentPage$.subscribe(x => subject.next(x));
-    return subject;
-  }
+  constructor(private store: Store, private router: Router, private authService: AuthService) {}
 
   validKeys(_post: Exchange) {
     function instanceOfExchange(object: any, element:any): object is Exchange {
@@ -51,27 +44,23 @@ export class ExchangeNotificationsService {
     else return true;
   }
 
-  isUnique(_postId: string) {
-    let alreadyExists:boolean[] = [];
-    this.exchange$.subscribe(exchange => {
-      exchange.forEach((el) =>
-        alreadyExists.push(el._id == _postId)
-      )
-    }).unsubscribe();
-    return !alreadyExists.includes(true);
-  }
+  async connect(sessionID: string) {
+    let user = await firstValueFrom(this.authService.user$)
+    if( !user ) return;
 
-   connect() {
+    let userId: string | undefined = user?.sub?.split('auth0|')[1]
+    let socket:WebSocketSubject<any> = webSocket(environment.WS_URL + '?' + userId + '/' + sessionID);
+
     socket.subscribe({
-      next: ( post: any ) => {
-        if( this.validKeys(post) ) {
-          this.currentPage().subscribe(_currentPage => {
-            if( this.router.url == '/exchange' && _currentPage.pageActive === 1 && this.isUnique(post._id)) {
-              post.new = true;
-              this.store.dispatch(ExchangeApiActions.addPost({ post }));
-            }
-            this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
-          });
+      next: async ( post: any ) => {
+        if( this.validKeys( post ) ) {
+          let _currentPage = await firstValueFrom(this.currentPage$)
+
+          if( this.router.url == '/exchange' && _currentPage.pageActive === 1) {
+            post.new = true;
+            this.store.dispatch(ExchangeApiActions.addPost({ post }));
+          }
+          this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
         }
 
         if( post.removed ) {

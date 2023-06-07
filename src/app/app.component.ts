@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { ErrorNotificationService } from 'sharedServices/error.notification';
 import { ExchangeNotificationsService } from 'sharedServices/exchange.notifications.service';
+import { SessionService } from 'sharedServices/session.service';
+
 
 @Component({
   selector: 'app-root',
@@ -16,12 +18,13 @@ export class AppComponent {
   constructor(
     private authService: AuthService,
     private exchangeNotificationsService: ExchangeNotificationsService,
+    private session: SessionService,
     private errorNotificationService: ErrorNotificationService,
     private cdr: ChangeDetectorRef
     ) {}
 
   ngOnInit() {
-    this.exchangeNotificationsService.connect();
+    this.exchangeNotificationsService.connect(this.session.ID);
 
     this.errorNotificationService
       .errorNotification$
