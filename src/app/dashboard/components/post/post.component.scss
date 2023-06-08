@@ -2,8 +2,22 @@
   background-color: rgba(128, 128, 128, 0.05);
   font-size: large;
   font-weight: bold;
+  word-wrap: anywhere;
 }
 
-.user {
-  background-color: rgba(0, 255, 255, 0.359);
+.userName {
+  line-height: 32px;
+  height: 32px;
+}
+
+img {
+  max-width: 1.4rem;
+  border-radius: 50%;
+}
+
+
+@media only screen and (max-width: 769px) {
+  .fromUser {
+    font-size: 12px;
+  }
 }

@@ -63,8 +63,8 @@
     .icon {
       color: rgba(255, 0, 0, 0.8);
     }
-    p {
-      max-width: fit-content;
+    span {
+      word-wrap: anywhere;
     }
   }
 

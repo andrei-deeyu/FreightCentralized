@@ -40,7 +40,7 @@
         <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
         <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
           <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.fromUser.userId }}</a>
           <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
         </div>
         <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
@@ -49,7 +49,7 @@
         <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
         <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
           <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.userId }}</a>
+          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.fromUser.userId }}</a>
           <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
         </div>
         <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>

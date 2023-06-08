@@ -16,7 +16,7 @@
       <div *ngIf="user$ | async as user" class="profile flex-fill d-flex align-items-center flex-row-reverse">
         <img (click)="isExpanded = !isExpanded" [src]="user.picture" alt="profile picture" />
         <span *ngIf="notifications$ | async as data" (click)="isExpanded = !isExpanded" class="alertNotification">
-          <span [@fadeOnOff]="data.userId ? 'on' : 'off'">
+          <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
             <span class="bi bi-bell-fill"></span>
           </span>
         </span>
@@ -44,11 +44,11 @@
   <div class="separator"></div>
 
   <div *ngIf="notifications$ | async as data">
-    <li *ngIf="data.userId" class="item list-unstyled d-flex flex-row align-items-center notification" [routerLink]="['/exchange', data._id]">
+    <li *ngIf="data.fromUser.userId" (click)="isExpanded = false;deleteNotification()"  class="item list-unstyled d-flex flex-row align-items-center notification" [routerLink]="['/exchange', data._id]">
       <span class="icon"><span class="bi bi-bell-fill"></span></span>
       <span class="p-0 m-0 ms-2">{{ data.title | summary:50 }}</span>
       <span class="d-flex flex-fill justify-content-end">
-        <button (click)="deleteNotification()" class="btn bi bi-x p-0"></button>
+        <button (click)="deleteNotification()" class="btn bi bi-x pe-1"></button>
       </span>
     </li>
   </div>
