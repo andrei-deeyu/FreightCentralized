@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
@@ -38,18 +38,47 @@ export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
   selectedPagination = 0;
-  viewMode = '';
+  viewMode = 'details';
   pagesToShow:number = 0;
   isExpanded: boolean = false;
   inputBlur: inputBlurInterface = { input: {} }
+  numberRegEx = '^[0-9]{1,9}([,.][0-9]{1,9})?$';
+  truckTypes = [
+    'duba', 'decopertat', 'basculanta', 'transport auto',
+    'prelata', 'agabaritic', 'container'
+  ];
+  truckFeatures = ['walkingfloor', 'ADR', 'FRIGO', 'izoterm', 'lift', 'MEGAtrailer'];
+  truckSize = {
+    tonnage: 'tons',
+    volume: 'm3',
+    height: 'm',
+    width: 'm',
+    length: 'm',
+  };
 
   form = new FormGroup({
-    title: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
-    body: new FormControl('', [ Validators.required ]),
+    details: new FormControl('', [ Validators.required ]),
+    budget: new FormControl('', Validators.pattern(this.numberRegEx)),
+    valability: new FormControl(''),
+    pallet: new FormGroup({
+      type: new FormControl(''),
+      number: new FormControl('', Validators.pattern(this.numberRegEx)),
+    }),
+    size: new FormGroup({
+      tonnage: new FormControl('', Validators.pattern(this.numberRegEx)),
+      volume: new FormControl('', Validators.pattern(this.numberRegEx)),
+      height: new FormControl('', Validators.pattern(this.numberRegEx)),
+      width: new FormControl('', Validators.pattern(this.numberRegEx)),
+      length: new FormControl('', Validators.pattern(this.numberRegEx)),
+    }),
+    truck: new FormGroup({
+      regime: new FormControl(''),
+      type: new FormArray([]),
+      features: new FormArray([]),
+    })
   });
 
-  get title() { return this.form.get('title') }
-  get body() { return this.form.get('body') }
+  get details() { return this.form.get('details') }
 
 
   constructor (
@@ -87,17 +116,59 @@ export class ExchangeComponent implements OnInit {
   }
 
   onFocus(_formControlName: string) {
-    if(_formControlName === 'title')
+    if(_formControlName === 'details')
       this.inputBlur.input = {}
 
     Object.keys(this.inputBlur.input)
-      .filter(key => key !== 'title' ?  this.inputBlur.input[key] = false : null)
+      .filter(key => key !== 'details' ?  this.inputBlur.input[key] = false : null)
   }
 
+
+  onCheckChange(formArrayName: string, event: any) {
+    const formArray: FormArray = this.form.get('truck')?.get(formArrayName) as FormArray;
+
+    if(event.target.checked){
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      let i: number = 0;
+
+      formArray.controls.forEach((ctrl: AbstractControl) => {
+        if(ctrl.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+
+        i++;
+      });
+    }
+  }
+
+
   async createPost(f: FormGroup) {
+    console.log(f.value)
     let insertPost: any = {
-      title: f.value.title,
-      body: f.value.body ?? ''
+      //location: 'this.location',
+      //destination: 'this.destination',
+      //distance: 'this.distance',
+      details: f.value.details ?? '',
+      budget: f.value.budget,
+      valability: f.value.valability,
+      pallet: {
+        type: f.value.pallet.type,
+        number: f.value.pallet.number,
+      },
+      size: {
+        tonnage: f.value.size.tonnage,
+        volume: f.value.size.volume,
+        height: f.value.size.height,
+        width: f.value.size.width,
+        length: f.value.size.length,
+      },
+      truck: {
+        regime: f.value.truck.regime,
+        type: f.value.truck.type,
+        features: f.value.truck.features,
+      }
     };
 
     f.reset();

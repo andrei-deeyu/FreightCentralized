@@ -3,31 +3,7 @@ div.container {
   max-width: 769px;
 }
 
-input {
-  margin-top: 1rem;
-}
 
-ul.nav-pills li {
-  margin-left: 1rem;
-  &:nth-child(1) { margin-left: 0; }
-
-  a {
-    cursor: pointer;
-    color: rgb(128, 128, 128) !important;
-  }
-
-  .active{
-    border: 2px solid rgb(100, 100, 100);
-    background-color: transparent !important;
-    color: rgb(100, 100, 100) !important;
- }
-}
-
-.card-body {
-  button {
-    max-height: 33.6px;
-  }
-}
 
 ul.list-group {
   a {

@@ -3,13 +3,13 @@
 <div class="container" *ngIf="singlePost$ | async as data">
   <ul class="list-group" *ngIf="data._id">
     <li class="list-group-item title d-flex align-items-center">
-      <span class="flex-fill">{{ data.title }}</span>
+      <span class="flex-fill">location hard coded until google maps api</span>
       <button
         data-action="share/whatsapp/share" (click)="share('whatsapp')"
         class="btn bi bi-whatsapp p-0 ms-2">
       </button>
     </li>
-    <li class="list-group-item">{{ data.body }}</li>
+    <li class="list-group-item">{{ data.details }}</li>
     <li class="list-group-item d-flex align-items-center fromUser">
       <div class="d-flex flex-fill align-items-center">
         <img [src]="data.fromUser.picture" alt="profile picture" />
