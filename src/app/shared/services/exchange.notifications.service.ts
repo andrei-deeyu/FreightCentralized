@@ -27,7 +27,7 @@ export class ExchangeNotificationsService {
     }
 
     let ExchangeKeys = [
-      'userId',
+      'fromUser',
       '_id',
       'title',
       'body',

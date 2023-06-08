@@ -23,10 +23,16 @@ ul.nav-pills li {
  }
 }
 
+.card-body {
+  button {
+    max-height: 33.6px;
+  }
+}
 
 ul.list-group {
   a {
     text-decoration: none;
+    word-wrap: anywhere;
     margin-left: 2rem;
     color: rgb(128, 128, 128);
     &:hover { color: rgb(0, 0, 0, 0.9) }

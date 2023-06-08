@@ -6,15 +6,16 @@
       <span class="flex-fill">{{ data.title }}</span>
       <button
         data-action="share/whatsapp/share" (click)="share('whatsapp')"
-        class="btn bi bi-whatsapp p-0">
+        class="btn bi bi-whatsapp p-0 ms-2">
       </button>
     </li>
     <li class="list-group-item">{{ data.body }}</li>
-    <li class="list-group-item d-flex">
-      <div class="flex-fill">
-        <span class="user">userId</span> - {{ data.userId }}
+    <li class="list-group-item d-flex align-items-center fromUser">
+      <div class="d-flex flex-fill align-items-center">
+        <img [src]="data.fromUser.picture" alt="profile picture" />
+        <span class="userName ps-1">{{ data.fromUser.name }}</span>
       </div>
-      <span>{{ data.createdAt | date:"medium" }}</span>
+      <span class="createdAt text-black-50">{{ data.createdAt | date:"medium" }}</span>
     </li>
   </ul>
 </div>

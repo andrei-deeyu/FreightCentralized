@@ -55,7 +55,7 @@ export class ExchangeComponent implements OnInit {
   constructor (
     private service: ExchangeApiService,
     private store: Store,
-    private session: SessionService
+    private session: SessionService,
   ) { }
 
   ngOnInit() {
@@ -94,9 +94,8 @@ export class ExchangeComponent implements OnInit {
       .filter(key => key !== 'title' ?  this.inputBlur.input[key] = false : null)
   }
 
-  createPost(f: FormGroup) {
+  async createPost(f: FormGroup) {
     let insertPost: any = {
-      userId: 1007,
       title: f.value.title,
       body: f.value.body ?? ''
     };

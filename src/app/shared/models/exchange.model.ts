@@ -1,5 +1,10 @@
 export interface Exchange {
-  userId: number;
+  fromUser: {
+    userId: string;
+    email: string,
+    picture: string,
+    name?: string
+  }
   _id: string;
   title: string;
   body: string;

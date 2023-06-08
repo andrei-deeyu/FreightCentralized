@@ -55,7 +55,11 @@ export class ProfileComponent {
         console.log(result)
         if(result['status'] == 'changed')
           console.log(result);
-          this.authService.loginWithRedirect();
+          this.authService.loginWithRedirect({
+            appState: {
+              target: '/profile',
+            },
+          });
           this.editing = false;
         }
     })

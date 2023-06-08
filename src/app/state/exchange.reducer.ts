@@ -8,14 +8,24 @@ export const initialState: Array<Exchange> = [];
 export const pageActiveInitialState: CurrentPage = { pageActive: 1 };
 
 export const SinglePostInitialState: Exchange = {
-  userId: 0,
+  fromUser: {
+    userId: '',
+    email: '',
+    picture: '',
+    name: ''
+  },
   _id: '',
   title: '',
   body: '',
   createdAt: new Date()
 };
 export const ExchangeNotificationsInitialState: Exchange = {
-  userId: 0,
+  fromUser: {
+    userId: '',
+    email: '',
+    picture: '',
+    name: ''
+  },
   _id: '',
   title: '',
   body: '',
