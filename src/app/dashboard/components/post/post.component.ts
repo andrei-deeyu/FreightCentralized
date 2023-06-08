@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { selectSinglePost } from 'src/app/state/exchange.selectors';
 import { SinglePostApiActions } from 'src/app/state/exchange.actions';
-import { Exchange } from '../../models/exchange.model';
+import { Exchange } from '@shared/models/exchange.model';
 import { AuthService } from '@auth0/auth0-angular';
 import { PostPublicApiService } from '../../services/post.public-api.service';
 import { environment } from 'src/environments/environment';

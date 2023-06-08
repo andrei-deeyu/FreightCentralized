@@ -1,7 +1,80 @@
 .navbar-nav {
   width: 100%;
+  background-color: rgb(253, 253, 253);
 }
 
 .nav-link {
   cursor: pointer;
+}
+
+.profile, .profileMenu {
+  img {
+    width: 2rem;
+    height: fit-content;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .alertNotification {
+    z-index: 10;
+    cursor: pointer;
+    color: rgba(255, 0, 0, 0.8);
+    text-align: center;
+    margin-right: -.6rem;
+    margin-top: -1rem;
+  }
+}
+
+.profileMenu {
+  width: 20rem;
+  position: fixed;
+  z-index: 10;
+  top: 3rem;
+  right: 0;
+  background-color: rgb(253, 253, 253);
+  border-radius: .375rem;
+
+  img {
+    width: 2.4rem;
+  }
+
+  .item {
+    padding: 1rem;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: .375rem;
+    &:hover {
+      background-color: rgb(213, 213, 213);
+    }
+
+    .icon {
+      min-width: 38.4px;
+      line-height: 38.4px;
+      background-color: rgb(233, 233, 233);
+      text-align: center;
+      border-radius: 50%;
+      span {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .notification {
+    .icon {
+      color: rgba(255, 0, 0, 0.8);
+    }
+    p {
+      max-width: fit-content;
+    }
+  }
+
+  .separator {
+    height: 2px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-left: 1rem;
+    margin-right: 10px;
+    background-color: rgb(233, 233, 233);
+    border-radius: .375rem;
+  }
 }

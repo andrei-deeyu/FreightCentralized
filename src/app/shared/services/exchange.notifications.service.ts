@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
-import { Exchange } from 'src/app/dashboard/models/exchange.model';
+import { Exchange } from '@shared/models/exchange.model';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
 import { firstValueFrom } from 'rxjs';
 import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';

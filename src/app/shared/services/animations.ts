@@ -28,21 +28,25 @@ export let fadeInAnimation = animation([
   animate('{{ duration }} {{ easing }}')
 ], {
   params: {
-    duration: '2s',
+    duration: '100ms',
     easing: 'ease-out'
   }
 })
 
 export let fadeOutAnimation = animation([
-  animate(500,
-    style({ opacity: 0 })
-  )
+  animate('200ms ease-in', style({ opacity: 0 }))
 ])
 
 export let fade = trigger('fade', [
   state('void', style({ opacity: 0 })),
   transition(':enter',useAnimation(fadeInAnimation)),
   transition(':leave', useAnimation(fadeOutAnimation))
+])
+
+export let fadeOnOff = trigger('fadeOnOff', [
+  state('off', style({ opacity: 0, marginRight: '-2rem' })),
+  transition('off => on',useAnimation(fadeInAnimation)),
+  transition('on => off', useAnimation(fadeOutAnimation))
 ])
 
 
@@ -62,5 +66,21 @@ export let expandedCollapsed = trigger('expandedCollapsed', [
   transition('expanded => collapsed', [
     animate('100ms ease-in', style({ opacity: 0 })),
     animate('200ms ease-in', style({height: 0 }))
+  ])
+ ])
+
+ export let menuExpandedCollapsed = trigger('menuExpandedCollapsed', [
+  state('collapsed', style({
+    top: '-104vh',
+    opacity: 0
+  })),
+
+
+  transition('collapsed => expanded', [
+    style({ top: '3rem' }),
+    animate('200ms ease-out', style({ opacity: 1 }))
+  ]),
+  transition('expanded => collapsed', [
+    animate('200ms ease-in', style({ opacity: 0 })),
   ])
  ])

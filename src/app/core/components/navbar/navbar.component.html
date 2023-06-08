@@ -1,26 +1,25 @@
-<nav class="navbar navbar-expand bg-body-tertiary">
-  <ul class="navbar-nav">
-    <div class="d-flex align-items-center">
-      <li class="nav-item">
-        <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
-      </li>
-      <li class="nav-item">
-        <a routerLinkActive="active" class="nav-link" routerLink="form-test">Form Test</a>
-      </li>
-    </div>
+<div (outsideClick)="isExpanded = false">
+<nav class="navbar fixed-top navbar-expand bg-body-tertiary p-0">
+  <ul class="navbar-nav p-2 ps-xxl-3 pe-xxl-3">
+    <li class="nav-item">
+      <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
+    </li>
 
     <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
       <li class="nav-item">
         <a routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
       </li>
-      <li class="nav-item">
-        <a routerLinkActive="active" class="nav-link" routerLink="profile">Profile</a>
-      </li>
       <li *ngIf="isAdmin" class="nav-item">
         <a routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
       </li>
-      <div class="flex-fill d-flex align-items-center flex-row-reverse">
-        <logout-button [stylingClasses]="'nav-link cursor-pointer'"></logout-button>
+
+      <div *ngIf="user$ | async as user" class="profile flex-fill d-flex align-items-center flex-row-reverse">
+        <img (click)="isExpanded = !isExpanded" [src]="user.picture" alt="profile picture" />
+        <span *ngIf="notifications$ | async as data" (click)="isExpanded = !isExpanded" class="alertNotification">
+          <span [@fadeOnOff]="data.userId ? 'on' : 'off'">
+            <span class="bi bi-bell-fill"></span>
+          </span>
+        </span>
       </div>
     </ng-container>
     <ng-template #unAuthenticated>
@@ -33,3 +32,34 @@
     </ng-template>
   </ul>
 </nav>
+
+
+<div *ngIf="user$ | async as user"
+  [@menuExpandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'"
+  class="d-flex flex-column profileMenu pb-4 shadow">
+  <li class="item list-unstyled d-flex flex-row align-items-center" (click)="isExpanded = false" routerLink="profile">
+    <img [src]="user.picture" alt="profile picture" />
+    <p class="p-0 m-0 ms-2">{{ user.name }}</p>
+  </li>
+  <div class="separator"></div>
+
+  <div *ngIf="notifications$ | async as data">
+    <li *ngIf="data.userId" class="item list-unstyled d-flex flex-row align-items-center notification" [routerLink]="['/exchange', data._id]">
+      <span class="icon"><span class="bi bi-bell-fill"></span></span>
+      <span class="p-0 m-0 ms-2">{{ data.title | summary:50 }}</span>
+      <span class="d-flex flex-fill justify-content-end">
+        <button (click)="deleteNotification()" class="btn bi bi-x p-0"></button>
+      </span>
+    </li>
+  </div>
+
+  <li class="item list-unstyled d-flex flex-row align-items-center" (click)="isExpanded = false" routerLink="form-test">
+    <span class="icon"><span class="bi bi-lightbulb-fill"></span></span>
+    <p class="p-0 m-0 ms-2">Form Test</p>
+  </li>
+  <li class="item list-unstyled d-flex flex-row align-items-center"  (click)="handleLogout()">
+    <span class="icon"><span class="bi bi-door-open-fill"></span></span>
+    <p class="p-0 m-0 ms-2">Logout</p>
+  </li>
+</div>
+</div>
