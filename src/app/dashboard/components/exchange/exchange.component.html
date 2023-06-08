@@ -6,8 +6,7 @@
   </ul>
 
   <form [formGroup]="form" (ngSubmit)="createPost(form)" class="card" (outsideClick)="isExpanded = false" outsideClick>
-    <div class="card-body">
-      <div>
+    <div class="card-body pt-0">
         <div class="form-group">
           <input
             formControlName="title" id="title"
@@ -15,9 +14,8 @@
             (focus)="onFocus('title');isExpanded = true;"
             type="text" class="form-control" placeholder="Add a post title">
         </div>
-      </div>
       <div [@expandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'">
-        <form-input-error [blur]="isExpanded && inputBlur.input['title']" [control]="title" [controlName]="'title'"></form-input-error> <!-- while writing the input -->
+        <form-input-error [blur]="isExpanded && inputBlur.input['title']" [control]="title" [controlName]="'title'"></form-input-error>
         <div class="form-group">
           <input
             formControlName="body" id="body"
@@ -25,11 +23,11 @@
             (focus)="onFocus('body')"
             type="text" class="form-control" placeholder="Write a post body">
         </div>
-        <form-input-error [blur]="inputBlur.input['body'] && !inputBlur.input['title']" [control]="body" [controlName]="'body'"></form-input-error> <!-- while writing the input -->
+        <form-input-error [blur]="inputBlur.input['body'] && !inputBlur.input['title']" [control]="body" [controlName]="'body'"></form-input-error>
 
         <div class="d-flex flex-row mt-3">
           <button class="btn btn-primary pt-1 pb-1">Submit</button>
-          <div *ngIf="form.errors" class="alert alert-danger m-0 pt-1 pb-1">{{ form.errors }}</div> <!-- after submitting the input -->
+          <div *ngIf="form.errors" class="alert alert-danger m-0 pt-1 pb-1">{{ form.errors }}</div>
         </div>
       </div>
     </div>

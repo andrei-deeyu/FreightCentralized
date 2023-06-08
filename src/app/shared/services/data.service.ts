@@ -7,7 +7,7 @@ import { AppError } from './Errors/app-error';
 import { NotFoundError } from './Errors/not-found-error';
 import { BadInput } from './Errors/bad-input';
 import { NoInternetConnection } from './Errors/no-internet-connection';
-import { Exchange } from 'src/app/dashboard/models/exchange.model';
+import { Exchange } from '@shared/models/exchange.model';
 
 export interface GetPagination {
   pagesToShow: number;

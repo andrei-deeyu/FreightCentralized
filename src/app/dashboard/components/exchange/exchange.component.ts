@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
-import { Exchange } from '../../models/exchange.model';
+import { Exchange } from '@shared/models/exchange.model';
 import { ExchangeApiActions, pageActiveActions } from 'src/app/state/exchange.actions';
 
 import { ExchangeApiService } from '../../services/exchange.api.service';
@@ -12,8 +12,8 @@ import { AppError } from 'sharedServices/Errors/app-error';
 import { BadInput } from 'sharedServices/Errors/bad-input';
 import { NotFoundError } from 'sharedServices/Errors/not-found-error';
 
-import { FavoriteChangedEventArgs } from '../../../shared/components/favorite/favorite.component';
-import { CurrentPage } from 'src/app/shared/models/currentPage.model';
+import { FavoriteChangedEventArgs } from '@shared/components/favorite/favorite.component';
+import { CurrentPage } from '@shared/models/currentPage.model';
 
 import { expandedCollapsed, fade } from 'sharedServices/animations';
 import { SessionService } from 'sharedServices/session.service';

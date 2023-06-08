@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
-import { Exchange } from '../dashboard/models/exchange.model';
+import { Exchange } from '@shared/models/exchange.model';
 import { ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
-import { CurrentPage } from '../shared/models/currentPage.model';
+import { CurrentPage } from '@shared/models/currentPage.model';
 
 export const initialState: Array<Exchange> = [];
 

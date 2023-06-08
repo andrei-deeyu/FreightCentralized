@@ -5,11 +5,3 @@
     <p *ngIf="name">Hello, <span>{{ name }}</span></p>
   </div>
 </div>
-
-
-<div *ngIf="notifications$ | async as data" [class]="data.userId ? 'card lastPost' : ''">
-  <div *ngIf="data.userId">
-    <span>last post</span><button (click)="deleteNotification()" class="btn bi bi-x p-0"></button>
-    <a class="card-title" [routerLink]="['/exchange', data._id]">{{ data.title | summary:50 }}</a>
-  </div>
-</div>
