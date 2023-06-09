@@ -26,7 +26,7 @@ export class ExchangeNotificationsService {
       return element in object;
     }
 
-    let ExchangeKeys = [
+    let ExchangeKeys = [ // MAKE IT EQUAL TO THE OBJECT.KEYS OF EXCHANGEMOCKUP
       'fromUser',
       '_id',
       'title',

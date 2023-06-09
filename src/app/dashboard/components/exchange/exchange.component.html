@@ -1,92 +1,24 @@
 <div *ngIf="exchange$ | async" class="container p-0">
-  <ul class="nav nav-pills">
-    <li class="nav-item"><a class="nav-link" [class.active]="viewMode == ''" (click)="viewMode = ''">Title</a></li>
-    <li class="nav-item"><a class="nav-link" [class.active]="viewMode == 'body'" (click)="viewMode = 'body'">Body</a></li>
-    <li class="nav-item"><a class="nav-link" [class.active]="viewMode == 'id'" (click)="viewMode = 'id'">UserId</a></li>
-  </ul>
-
-  <form [formGroup]="form" (ngSubmit)="createPost(form)" class="card" (outsideClick)="isExpanded = false" outsideClick>
-    <div class="card-body pt-0">
-        <div class="form-group">
-          <input
-            formControlName="title" id="title"
-            (blur)="onBlur('title')"
-            (focus)="onFocus('title');isExpanded = true;"
-            type="text" class="form-control" placeholder="Add a post title">
-        </div>
-      <div [@expandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'">
-        <form-input-error [blur]="isExpanded && inputBlur.input['title']" [control]="title" [controlName]="'title'"></form-input-error>
-        <div class="form-group">
-          <input
-            formControlName="body" id="body"
-            (blur)="onBlur('body')"
-            (focus)="onFocus('body')"
-            type="text" class="form-control" placeholder="Write a post body">
-        </div>
-        <form-input-error [blur]="inputBlur.input['body'] && !inputBlur.input['title']" [control]="body" [controlName]="'body'"></form-input-error>
-
-        <div class="d-flex flex-row mt-3">
-          <button class="btn btn-primary pt-1 pb-1">Submit</button>
-          <div *ngIf="form.errors" class="alert alert-danger m-0 pt-1 pb-1">{{ form.errors }}</div>
-        </div>
-      </div>
-    </div>
-  </form>
-
+  <create-post></create-post>
 
   <ul class="list-group">
     <div *ngFor="let post of exchange$ | async; even as isEven, index as i">
       <li *ngIf="!post.new" class="list-group-item d-flex align-items-center" [class.even]="isEven" >
         <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
-        <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.fromUser.userId }}</a>
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
+        <div class="postData p-2 flex-fill">
+          <a [routerLink]="['/exchange', post._id]">{{ post.details | summary:60 }}</a>
         </div>
         <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
       </li>
       <li *ngIf="post.new" @fade class="list-group-item d-flex align-items-center" [class.even]="isEven">
         <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button>
-        <div class="viewMode p-2 flex-fill" [ngSwitch]="viewMode">
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'body'">{{ post.body | summary:60 }}</a>
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchCase="'id'">{{ post.fromUser.userId }}</a>
-          <a [routerLink]="['/exchange', post._id]" *ngSwitchDefault>{{ post.title }}</a>
+        <div class="postData p-2 flex-fill">
+          <a [routerLink]="['/exchange', post._id]">{{ post.details | summary:60 }}</a>
         </div>
         <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
       </li>
     </div>
   </ul>
 
-
-  <ul class="pagination justify-content-center">
-    <li class="page-item">
-      <a [class.disabled]="(currentPage$ | async)?.pageActive == 1" class="page-link" (click)="changePage(1)">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-
-    <li
-      *ngFor="let item of [].constructor(pagesToShow);let i = 'index+1'"
-       [class.active]="(currentPage$ | async)?.pageActive == i" class="page-item">
-      <a *ngIf="i < 3+1 || i > pagesToShow-3"
-         class="page-link"
-         (click)="changePage(i)">{{ i }} <!-- first and last 3 elements -->
-      </a>
-
-      <a *ngIf="i > 3 && i < pagesToShow-3  &&  i < selectedPagination+4 && i > selectedPagination-4"
-         class="page-link" (click)="changePage(i)">{{ i }} <!-- next/previous 3 elements besides the first/last ones-->
-      </a>
-
-      <a *ngIf="i > 3 && i == selectedPagination-4  ||  i < pagesToShow-3 && i == selectedPagination+4"
-         class="page-link"
-         (click)="changePage(i)">... <!-- there are more elements to show -->
-      </a>
-    </li>
-
-    <li class="page-item">
-      <a [class.disabled]="(currentPage$ | async)?.pageActive == pagesToShow" class="page-link" (click)="changePage(pagesToShow)">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
+  <pagination></pagination>
 </div>

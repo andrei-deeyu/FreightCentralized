@@ -46,7 +46,7 @@
   <div *ngIf="notifications$ | async as data">
     <li *ngIf="data.fromUser.userId" (click)="isExpanded = false;deleteNotification()"  class="item list-unstyled d-flex flex-row align-items-center notification" [routerLink]="['/exchange', data._id]">
       <span class="icon"><span class="bi bi-bell-fill"></span></span>
-      <span class="p-0 m-0 ms-2">{{ data.title | summary:50 }}</span>
+      <span class="p-0 m-0 ms-2">{{ data.details | summary:50 }}</span>
       <span class="d-flex flex-fill justify-content-end">
         <button (click)="deleteNotification()" class="btn bi bi-x pe-1"></button>
       </span>

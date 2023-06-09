@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Exchange } from '@shared/models/exchange.model';
+import { Exchange, ExchangeMockup } from '@shared/models/exchange.model';
 import { ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
 import { CurrentPage } from '@shared/models/currentPage.model';
 
@@ -7,30 +7,8 @@ export const initialState: Array<Exchange> = [];
 
 export const pageActiveInitialState: CurrentPage = { pageActive: 1 };
 
-export const SinglePostInitialState: Exchange = {
-  fromUser: {
-    userId: '',
-    email: '',
-    picture: '',
-    name: ''
-  },
-  _id: '',
-  title: '',
-  body: '',
-  createdAt: new Date()
-};
-export const ExchangeNotificationsInitialState: Exchange = {
-  fromUser: {
-    userId: '',
-    email: '',
-    picture: '',
-    name: ''
-  },
-  _id: '',
-  title: '',
-  body: '',
-  createdAt: new Date()
-}
+export const SinglePostInitialState: Exchange = ExchangeMockup;
+export const ExchangeNotificationsInitialState: Exchange = ExchangeMockup;
 
 export const exchangeReducer = createReducer(
   initialState,
