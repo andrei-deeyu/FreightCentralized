@@ -3,8 +3,6 @@ div.container {
   max-width: 769px;
 }
 
-
-
 ul.list-group {
   a {
     text-decoration: none;
@@ -19,13 +17,9 @@ ul.list-group {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-.pagination li a {
-  cursor: pointer;
-}
-
 @media only screen and (max-width: 769px) {
   ul.list-group {
-    div.viewMode {
+    div.postData {
       margin-left: 1rem;
       a { margin-left: 0 }
     }

@@ -1,0 +1,28 @@
+<ul class="pagination justify-content-center">
+  <li class="page-item">
+    <a [class.disabled]="(currentPage$ | async)?.pageActive == 1" class="page-link" (click)="changePage(1)">
+      <span aria-hidden="true">&laquo;</span> <!-- fast forward to the first page-->
+    </a>
+  </li>
+
+  <li class="page-item" [class.active]="(currentPage$ | async)?.pageActive == i"
+      *ngFor="let item of [].constructor(pagesToShow);let i = 'index+1'">
+    <a *ngIf="i < 3+1 || i > pagesToShow-3"
+       class="page-link" (click)="changePage(i)">{{ i }} <!-- first and last 3 pages -->
+    </a>
+
+    <a *ngIf="i > 3 && i < pagesToShow-3  &&  i < selectedPagination+4 && i > selectedPagination-4"
+       class="page-link" (click)="changePage(i)">{{ i }} <!-- next/previous 3 pages besides the first/last ones-->
+    </a>
+
+    <a *ngIf="i > 3 && i == selectedPagination-4  ||  i < pagesToShow-3 && i == selectedPagination+4"
+       class="page-link" (click)="changePage(i)">... <!-- there are more pages to show -->
+    </a>
+  </li>
+
+  <li class="page-item">
+    <a [class.disabled]="(currentPage$ | async)?.pageActive == pagesToShow" class="page-link" (click)="changePage(pagesToShow)">
+      <span aria-hidden="true">&raquo;</span> <!-- fast forward to the last page-->
+    </a>
+  </li>
+</ul>

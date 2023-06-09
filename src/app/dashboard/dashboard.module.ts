@@ -13,18 +13,23 @@ import { PostComponent } from './components/post/post.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { PostPublicApiService } from './services/post.public-api.service';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 @NgModule({
   providers: [
     ExchangeApiService,
     PostApiService,
     PostPublicApiService,
-    provideAnimations()
+    provideAnimations(),
+    PaginationComponent
   ],
 
   declarations: [
     ExchangeComponent,
     PostComponent,
+    PaginationComponent,
+    CreatePostComponent,
   ],
 
   imports: [

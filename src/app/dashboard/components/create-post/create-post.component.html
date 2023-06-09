@@ -1,0 +1,86 @@
+<form [formGroup]="form" (ngSubmit)="createPost(form)" class="card" (outsideClick)="isExpanded = false" outsideClick>
+  <div class="form-group">
+    <textarea formControlName="details" id="details"
+      (blur)="onBlur('details')" (focus)="onFocus('details');isExpanded = true;"
+      rows="4" type="text" class="form-control" placeholder="Add post details">
+    </textarea>
+  </div>
+  <div [@expandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'" class="card-body pt-0">
+    <form-input-error [blur]="isExpanded && inputBlur.input['details']" [control]="details" [controlName]="'details'"></form-input-error>
+
+    <div formGroupName="size"
+         *ngFor="let characteristic of truckSize | keyvalue;let i = index;"
+         class="form-group d-flex flex-row align-items-center col-3">
+      <input [formControlName]="characteristic.key" [id]="characteristic.key"
+             (blur)="onBlur(characteristic.key)" (focus)="onFocus(characteristic.key)"
+             type="number" class="form-control m-0" [placeholder]="characteristic.key">
+      <div class="input-group-text">{{characteristic.value}}</div>
+    </div>
+
+    <div formGroupName="pallet"> <!-- palletization -->
+      <div class="form-group d-flex flex-row align-items-center col-3">
+        <select formControlName="type" class="form-select" id="type" >
+          <option disabled value="">Palletization</option>
+          <option value="europallet">europallet 1200×800 mm</option>
+          <option value="industrialpallet">industrial pallet 1200×1000 mm</option>
+          <option value="other">Other</option>
+        </select>
+        <input formControlName="number" id="number"
+               (blur)="onBlur('number')" (focus)="onFocus('number')"
+               type="number" class="form-control m-0" placeholder="number">
+      </div>
+    </div>
+
+    <div class="form-group d-flex flex-row align-items-center col-3"> <!-- valability -->
+      <select formControlName="valability" class="form-select" id="valability" >
+        <option disabled value="">select</option>
+        <option value="1days">1 day</option>
+        <option value="3days">3 days</option>
+        <option value="7days">7 days</option>
+        <option value="14days">14 days</option>
+        <option value="30days">Max. (1 month)</option>
+      </select>
+      <div class="input-group-text">valability</div>
+    </div>
+    <div class="form-group d-flex flex-row align-items-center col-3"> <!-- budget -->
+      <input formControlName="budget" id="budget"
+             (blur)="onBlur('budget')" (focus)="onFocus('budget')"
+             type="number" class="form-control m-0" placeholder="budget">
+      <div class="input-group-text">euro</div>
+    </div>
+
+    <div formGroupName="truck">
+      <div class="form-group d-flex flex-row align-items-center col-3"> <!-- regime -->
+        <select formControlName="regime" class="form-select" id="regime">
+          <option disabled value="">Select the truckload regime</option>
+          <option value="LTL">LTL (less than truckload)</option>
+          <option value="FTL">FTL (full truckload)</option>
+          <option value="ANY">any truckload</option>
+        </select>
+      </div>
+
+      <p class="sectionDesc">Required truck </p>
+      <div *ngFor="let type of truckTypes;let i = index" class="container" > <!-- truck.type -->
+        <div class="form-check">
+          <span class="form-check-label" >{{ type }}</span>
+          <input [value]="type" (change)="onCheckChange('type', $event)"
+                  type="checkbox" [id]="type" class="form-check-input"/>
+        </div>
+      </div>
+
+      <p class="sectionDesc">Necessary equipment and features</p>
+      <div *ngFor="let feature of truckFeatures;let i = index" class="container"> <!-- truck.features -->
+        <div class="form-check">
+          <span class="form-check-label" >{{ feature }}</span>
+          <input [value]="feature" (change)="onCheckChange('features', $event)"
+                 type="checkbox" [id]="feature" class="form-check-input"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row mt-3">
+      <button class="btn btn-primary pt-1 pb-1">Submit</button>
+      <div *ngIf="form.errors" class="alert alert-danger m-0 pt-1 pb-1">{{ form.errors }}</div>
+    </div>
+  </div> <!-- expandedcollapsed -->
+</form>
