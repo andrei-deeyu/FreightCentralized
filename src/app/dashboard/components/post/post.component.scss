@@ -5,6 +5,25 @@
   word-wrap: anywhere;
 }
 
+.popUpAlert {
+  background-color: rgba(24, 24, 24, 0.609);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.popUpAlertCardContainer {
+  margin-top: 4rem;
+  .card {
+    max-width: 25rem;
+    height: 10rem;
+  }
+}
+
+
 .userName {
   line-height: 32px;
   height: 32px;
