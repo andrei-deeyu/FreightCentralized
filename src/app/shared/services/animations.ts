@@ -84,3 +84,37 @@ export let expandedCollapsed = trigger('expandedCollapsed', [
     animate('200ms ease-in', style({ opacity: 0 })),
   ])
  ])
+
+
+ export let popUpAlert = trigger('popUpAlert', [
+  state('collapsed', style({
+    marginTop: '-104vh',
+    opacity: 0
+  })),
+
+
+  transition('collapsed => expanded', [
+    style({ marginTop: 0 }),
+    animate('400ms ease-out', style({ opacity: 1 }))
+  ]),
+  transition('expanded => collapsed', [
+    animate('400ms ease-in', style({ opacity: 0 })),
+    style({ marginTop: '-104vh'})
+  ])
+ ])
+
+ export let postDeleted = trigger('postDeleted', [
+  state('off', style({
+    marginTop: '-104vh',
+    opacity: 0
+  })),
+
+  transition('off => on', [
+    style({ marginTop: '*' }),
+    animate('400ms ease-out', style({ opacity: 1 }))
+  ]),
+  transition('on => off', [
+    animate('400ms ease-in', style({ opacity: 0 })),
+    style({ marginTop: '-104vh' })
+  ])
+])

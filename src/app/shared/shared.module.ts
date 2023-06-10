@@ -11,6 +11,9 @@ import { SignupButtonComponent } from './components/buttons/signup-button.compon
 import { LogoutButtonComponent } from './components/buttons/logout-button.component';
 import { OutsideClickDirective } from 'sharedServices/outside-click.directive';
 import { BrowserModule } from '@angular/platform-browser';
+import { postExpireDatePipe } from 'sharedServices/postExpireDate.pipe';
+import { postPastTense } from 'sharedServices/postPastTense.pipe';
+
 
 
 @NgModule({
@@ -23,6 +26,8 @@ import { BrowserModule } from '@angular/platform-browser';
     InputFormatDirective,
     OutsideClickDirective,
     SummaryPipe,
+    postExpireDatePipe,
+    postPastTense,
     FormInputErrorComponent,
     LoginButtonComponent,
     SignupButtonComponent,
@@ -38,6 +43,8 @@ import { BrowserModule } from '@angular/platform-browser';
     InputFormatDirective,
     OutsideClickDirective,
     SummaryPipe,
+    postExpireDatePipe,
+    postPastTense,
     FormInputErrorComponent,
     LoginButtonComponent,
     SignupButtonComponent,

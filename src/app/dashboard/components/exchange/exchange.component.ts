@@ -35,20 +35,6 @@ export class ExchangeComponent implements OnInit {
 
   ngOnInit() {}
 
-  deletePost(postId: string) {
-    this.service.remove(postId, this.session.ID)
-    .subscribe({
-      next: () => {
-        this.store.dispatch(ExchangeApiActions.removePost({ postId }));
-      },
-      error: (error: AppError) => {
-        if(error instanceof NotFoundError)
-          alert('This post already been deleted')
-        else throw error;
-      }
-    })
-  }
-
   onFavoriteChanged(postId: string, eventArgs: FavoriteChangedEventArgs, ) {
     let eventValue = Object.values(eventArgs)[0];
 
