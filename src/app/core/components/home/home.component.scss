@@ -1,18 +1,37 @@
-:host > div.container.eventCodeContainer {
-  background-color: rgb(228, 228, 228);
-  margin-top: 2rem;
+@import url('../../../dashboard/components/exchange/exchange.component.scss');
+
+.header {
+  height: 60vh;
 }
 
-.showEventCode {
-  input {
-    width: 12rem;
-  }
+div.postData {
+  cursor: pointer;
+}
 
-  .eventCode {
-    margin-top: .5rem;
+.section {
+  margin-top: 4rem;
+  position: relative;
+  div.data {
+    max-width: 30em;
+    position: absolute;
   }
+  &:nth-of-type(2) {
+    text-align: right;
+    div.data {
+      right: 0;
+      top: 16em;
+    }
+  }
+}
 
-  span {
-    font-weight: bold;
+.footer {
+  margin-top: 600px;
+  width: 100%;
+  height: 300px;
+  border-top: 2px solid rgb(234, 234, 234);
+  h4 { margin-top: 3rem }
+  a { text-decoration: none }
+  div.content {
+    margin-left: 10vw;
   }
 }

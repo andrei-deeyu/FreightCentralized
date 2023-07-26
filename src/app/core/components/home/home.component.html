@@ -1,7 +1,106 @@
-<div class="container card eventCodeContainer">
-  <div class="showEventCode card-body">
-    <input class="form-control" #email (keyup)="onKeyUp($event)" placeholder="send $event"/>
-    <p class="eventCode">EventCode: <span>{{ eventCode }}</span></p>
-    <p *ngIf="name">Hello, <span>{{ name }}</span></p>
+<div class="header container">
+  <h1>{{ brandName }}</h1>
+  <p class="text-secondary">{{ brandDesc }}</p>
+  <signup-button [stylingClasses]="'btn btn-primary'" [text]="'Get started'"></signup-button>
+</div>
+
+<div class="container">
+  <p class="text-secondary mb-0">
+    latest 3 freights
+  </p>
+</div>
+<div *ngIf="exchange$ | async" class="container p-0 mt-0">
+  <ul class="list-group">
+    <div *ngFor="let post of exchange$ | async; even as isEven, index as i">
+      <li *ngIf="!post.new" class="list-group-item align-items-center p-4" [class.even]="isEven">
+        <div class="postData row row-cols-1 row-cols-md-2" [routerLink]="['/exchange', post._id]">
+          <div class="col d-flex flex-row p-0 align-items-center" style="border-right: 2px solid rgba(88, 88, 88, 0)">
+            <div class="col d-flex flex-column">
+              <span class="fw-bold fs-5">Oradea</span>
+              <span class="fw-bold fs-5">Timisoara</span>
+            </div>
+            <div class="col distance">
+              <span>
+                172km
+              </span>
+            </div>
+            <div class="col d-flex flex-column flex-fill align-items-end">
+              <div *ngFor="let size of post.size | keyvalue; let i = index">
+                <span *ngIf="size.key == 'tonnage'" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
+                <span *ngIf="size.key == 'length'">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+                <span *ngIf="size.key == 'height'">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+                <span *ngIf="size.key == 'volume'">{{ size.value }}m<sup>3</sup></span>
+                <span *ngIf="size.key == 'width'">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col d-flex flex-column p-0 ps-md-3">
+            <span *ngIf="post.details">{{ post.details | summary:60 }}</span>
+            <span *ngIf="post.truck.type">{{ post.truck.type }}</span>
+            <span *ngIf="post.truck.features">{{ post.truck.features }}</span>
+            <span *ngIf="post.budget" class="fw-bold">{{ post.budget }} euro</span>
+
+            <span *ngIf="post.truck.regime == 'LTL'">LTL (less than truckload)</span>
+            <span *ngIf="post.truck.regime =='FTL'">FTL (full truckload)</span>
+            <span *ngIf="post.truck.regime =='ANY'">any truckload</span>
+          </div>
+        </div>
+
+
+        <div class="row row-cols-2 row-cols-md-2 mt-2" style="font-size: .8rem;color:rgb(83, 83, 83)">
+          <div class="col-10 d-flex flex-row p-0 align-items-center">
+            <div class="col d-flex flex-row p-0 align-items-center">
+              <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged()"></favorite>
+            </div>
+            <div class="col">
+              <span>
+                {{ post.createdAt | postPastTense }} ago
+              </span>
+            </div>
+            <div class="col d-flex flex-column align-items-end">
+              <span class="createdAt">
+                {{ post.createdAt | date: 'd.M.yyyy'}} -
+                {{ post.createdAt | postExpireDate: post.valability | date: 'd.M.yyyy' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="col-2 d-flex flex-row align-items-center justify-content-end p-0">
+            <img [src]="post.fromUser.picture" alt="profile picture" style="border-radius: 50%;max-height: 1.5rem;"/>
+            <span class="ms-2 d-none d-md-block">{{ post.fromUser.name }}</span>
+          </div>
+        </div>
+      </li>
+    </div>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="section">
+    <div class="data">
+      <h4>The Key to Accelerated Business Success</h4>
+      <p class="text-secondary">
+        Maximize your business performance with cutting-edge tools, advanced analytics, and seamless collaboration. Optimize logistics, reduce lead times, and deliver exceptional customer service. Empower yourself as an industry leader with our powerful capabilities.
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="data">
+      <h4>Don't spend unnecessary</h4>
+      <p class="text-secondary">
+        Reduce empty truck journeys, minimize carbon footprint, and enhance the overall efficiency of supply chain operations.
+      </p>
+      <signup-button [stylingClasses]="'btn btn-primary'" [text]="'Start now'"></signup-button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="content">
+    <h4>{{ brandName }}</h4>
+    <a [href]="githubRepo">GitHub Repo</a> <br>
+    <a [href]="'mailto:'+contactEmail">Contact</a>
   </div>
 </div>

@@ -13,7 +13,7 @@ import { OutsideClickDirective } from 'sharedServices/outside-click.directive';
 import { BrowserModule } from '@angular/platform-browser';
 import { postExpireDatePipe } from 'sharedServices/postExpireDate.pipe';
 import { postPastTense } from 'sharedServices/postPastTense.pipe';
-
+import { PublicApiService } from 'sharedServices/public-api.service';
 
 
 @NgModule({
@@ -35,7 +35,8 @@ import { postPastTense } from 'sharedServices/postPastTense.pipe';
   ],
 
   providers: [
-    ErrorNotificationService
+    ErrorNotificationService,
+    PublicApiService
   ],
 
   exports: [

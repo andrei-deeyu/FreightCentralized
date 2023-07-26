@@ -39,7 +39,7 @@
         </div>
         <div>
           <div class="form-group d-flex flex-row align-items-center col-3"> <!-- valability -->
-            <select formControlName="valability" class="form-select" id="valability" style="width: 10rem;">
+            <select formControlName="valability" class="form-select requiredInput" id="valability" style="width: 10rem;">
               <option disabled value="">select</option>
               <option value="1days">1 day</option>
               <option value="3days">3 days</option>
@@ -54,7 +54,7 @@
           <div class="form-group d-flex flex-row align-items-center col-3"> <!-- budget -->
             <input formControlName="budget" id="budget"
                   (blur)="onBlur('budget')" (focus)="onFocus('budget')"
-                  type="number" class="form-control m-0" placeholder="budget" style="width: 10rem;">
+                  type="number" class="form-control m-0 requiredInput" placeholder="budget" style="width: 10rem;">
             <div class="input-group-text" style="width: 8rem;">euro</div>
           </div>
         </div>
