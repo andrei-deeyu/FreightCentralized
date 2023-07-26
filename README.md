@@ -126,3 +126,4 @@ FreightCentralized will operate on modern web browsers (e.g., Chrome, Firefox, S
 ### [Include any additional information or diagrams relevant to the project.]
 
 Note: The above SRS is a high-level outline. Each requirement will be detailed further, and additional sections may be included, such as testing requirements, project timeline, and budget considerations.
+=======
