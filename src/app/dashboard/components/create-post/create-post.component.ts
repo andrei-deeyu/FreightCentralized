@@ -118,7 +118,7 @@ export class CreatePostComponent {
       //destination: 'this.destination',
       //distance: 'this.distance',
       details: f.value.details ?? '',
-      budget: f.value.budget,
+      budget: f.value.budget ?? null,
       valability: f.value.valability,
       pallet: {
         type: f.value.pallet.type,

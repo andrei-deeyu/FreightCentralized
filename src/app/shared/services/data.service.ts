@@ -59,6 +59,17 @@ export class DataService {
       );
   }
 
+  getAllPublic(): Observable<Array<Exchange>> {
+    return this.http
+      .get<Array<Exchange>>(this.url + '/exchange')
+      .pipe(
+        map((res) => {
+          return res || [];
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   create(post: Object, sessionID: string): Observable<Exchange> {
     const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
     return this.http

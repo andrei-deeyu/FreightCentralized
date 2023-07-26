@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Exchange } from '@shared/models/exchange.model';
+import { PublicApiService } from 'sharedServices/public-api.service';
+import { ExchangeApiActions } from 'src/app/state/exchange.actions';
+import { selectExchange } from 'src/app/state/exchange.selectors';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'home',
@@ -6,14 +12,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  brandName = environment.brandName;
+  brandDesc = environment.brandDesc;
+  githubRepo = environment.githubRepo;
+  contactEmail = environment.contactEmail;
+  exchange$ = this.store.select(selectExchange);
   name = '';
   eventCode = ''
 
-  ngOnInit() {}
+  constructor(
+    private store: Store,
+    private service: PublicApiService
+  ) {}
 
-  onKeyUp($event: KeyboardEvent) {
-    const target = $event.target as HTMLInputElement;
-    if(target && $event.key == 'Enter') this.name = target.value;
-    this.eventCode = $event.code;
+  ngOnInit() {
+    this.service.getAllPublic()
+    .subscribe(( exchange:Array<Exchange> ) => {
+      console.log(exchange);
+      this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
+    });
+  }
+
+  onFavoriteChanged() {
+    console.log('You must be authenticated to like/unlike this post');
   }
 }

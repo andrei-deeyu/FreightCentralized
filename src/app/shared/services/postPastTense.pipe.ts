@@ -12,6 +12,7 @@ export class postPastTense implements PipeTransform {
     let oneHour = oneMinute * 60;
     let oneDay = oneHour * 24;
     let oneWeek = oneDay * 7;
+    let oneMonth = oneWeek * 4;
 
     let pastTense = Date.now() - new Date(value).getTime();
 
@@ -26,7 +27,11 @@ export class postPastTense implements PipeTransform {
         return Math.round(pastTense/ oneHour) + 'hours'
       case pastTense < oneWeek:
         return Math.round(pastTense / oneDay) + 'days'
-    }
+      case pastTense < oneWeek:
+        return Math.round(pastTense / oneWeek) + 'weeks'
+      case pastTense >= oneMonth:
+        return Math.round(pastTense / oneMonth) + 'months'
+      }
     return pastTense;
   }
 }
