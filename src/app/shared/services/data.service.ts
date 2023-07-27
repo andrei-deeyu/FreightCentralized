@@ -36,7 +36,6 @@ export class DataService {
     )
   }
 
-
   getSingle(id: string): Observable<Exchange> {
     return this.http
     .get<Exchange>(this.url + '/exchange/post/' + id)
@@ -44,7 +43,6 @@ export class DataService {
       catchError(this.handleError)
     )
   }
-
 
   getAll(choosePage: number): Observable<GetPagination> {
     const headers = new HttpHeaders().set("choosePage", JSON.stringify(choosePage))

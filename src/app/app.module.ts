@@ -22,6 +22,7 @@ import { SharedModule } from './shared/shared.module';
 import { AdminModule } from './admin/admin.module';
 import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { CompanyModule } from './company/company.module';
 import { WildCardRouteModule } from './wild-card-route.module';
 import { StoreModule } from '@ngrx/store';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
@@ -79,6 +80,7 @@ export function tokenGetter() {
     CoreModule,
     AdminModule,
     DashboardModule,
+    CompanyModule,
     WildCardRouteModule,
   ],
   providers: [

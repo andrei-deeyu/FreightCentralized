@@ -1,0 +1,46 @@
+div.container {
+  margin-top: 2rem;
+  max-width: 769px;
+}
+
+ul.list-group {
+  .list-group-item {
+    &:hover {
+      color: rgb(0, 26, 122);
+    }
+    &:active {
+      color: rgb(4, 45, 170);
+    }
+  }
+  .postData {
+    cursor: pointer;
+  }
+  a {
+    text-decoration: none;
+    word-wrap: anywhere;
+    color: rgb(128, 128, 128);
+    &:hover { color: rgb(0, 0, 0, 0.9) }
+  }
+
+  .createdAt {
+    width: 10rem;
+    text-align: right;
+  }
+}
+
+.rotate-icon-90::before {
+  transform: rotate(90deg)
+}
+
+.even {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+
+@media only screen and (max-width: 769px) {
+  ul.list-group {
+    .createdAt {
+      width: 8rem;
+    }
+  }
+}

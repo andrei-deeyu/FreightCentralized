@@ -1,3 +1,5 @@
+import { User } from "./user.model";
+
 export interface Exchange {
   details: string;
   budget: number;
@@ -18,16 +20,12 @@ export interface Exchange {
     type: Array<string>;
     features: Array<string>;
   };
-  fromUser: {
-    userId: string;
-    email: string,
-    picture: string,
-    name?: string
-  }
+  fromUser: User,
   _id: string;
   isLiked?: boolean,
   createdAt: Date,
-  new?: boolean
+  new?: boolean,
+  __v? : number
 }
 
 export const ExchangeMockup = {

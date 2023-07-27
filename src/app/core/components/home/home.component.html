@@ -2,6 +2,7 @@
   <h1>{{ brandName }}</h1>
   <p class="text-secondary">{{ brandDesc }}</p>
   <signup-button [stylingClasses]="'btn btn-primary'" [text]="'Get started'"></signup-button>
+  <span class="bi bi-arrow-right ms-4"></span><a [href]="githubRepo" class="text-body"> read more</a>
 </div>
 
 <div class="container">
@@ -102,5 +103,6 @@
     <h4>{{ brandName }}</h4>
     <a [href]="githubRepo">GitHub Repo</a> <br>
     <a [href]="'mailto:'+contactEmail">Contact</a>
+    <p class="copyright">2023 Copyright. All Rights Reserved.</p>
   </div>
 </div>

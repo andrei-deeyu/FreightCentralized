@@ -1,11 +1,12 @@
-@import url('../../../dashboard/components/exchange/exchange.component.scss');
+@import url('../../../shared/styles/exchange-list.style.scss');
 
 .header {
   height: 60vh;
-}
-
-div.postData {
-  cursor: pointer;
+  p { max-width: 30em }
+  a {
+    text-decoration: none;
+    &:hover { opacity: .8 }
+  }
 }
 
 .section {
@@ -29,9 +30,15 @@ div.postData {
   width: 100%;
   height: 300px;
   border-top: 2px solid rgb(234, 234, 234);
-  h4 { margin-top: 3rem }
-  a { text-decoration: none }
   div.content {
+    height: 100%;
     margin-left: 10vw;
+    position: relative;
+    h4 { margin-top: 3rem }
+    a { text-decoration: none }
+    p.copyright {
+      position: absolute;
+      bottom: 10px;
+    }
   }
 }
