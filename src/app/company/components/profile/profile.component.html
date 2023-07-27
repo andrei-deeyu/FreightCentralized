@@ -1,0 +1,79 @@
+<div class="container">
+  <h3 *ngIf="company">Your company</h3>
+  <div *ngIf="company; else noCompanyAssigned" class="card">
+    <div class="card-header d-flex flex-row align-items-center">
+      {{ company.name }} - {{ company.cui }}
+    </div>
+
+    <div class="card-body">
+      <div class="card-body">
+        <strong>employees</strong>
+        <p *ngIf="!company.employees.length" class="mb-0 ms-4 text-secondary">- no user hired</p>
+        <div *ngFor="let employee of company.employees; index as i">
+          <div class="d-flex align-items-center">
+            <img [src]="employee.picture" alt="profile picture" />
+            <span class="userName ps-1">{{ employee.email }}</span>
+          </div>
+        </div>
+          <br>
+        <strong>administrator</strong>
+        <div class="d-flex align-items-center">
+          <img [src]="company.admin.picture" alt="profile picture" />
+          <span class="userName ps-1">{{ company.admin.email }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noCompanyAssigned>
+    <h3>Add your company to the exchange</h3>
+      <form *ngIf="companyLoaded" [formGroup]="form_createNewCompany"
+            (ngSubmit)="createCompany(form_createNewCompany)" class="createNewCompany">
+        <div class="form-group">
+          <input class="form-control" formControlName="name" placeholder="Company Name">
+          <input class="form-control mt-2" formControlName="cui" placeholder="CUI ( code unic identificare )">
+        </div>
+        <div class="mt-3">
+          <button class="btn btn-primary pt-1 pb-1">Submit</button>
+          <div *ngIf="form_createNewCompany.errors"
+               class="alert alert-danger m-0 pt-1 pb-1">{{ form_createNewCompany.errors }}
+          </div>
+          <div *ngIf="successMessage" class="alert alert-success m-0 pt-1 pb-1">{{ successMessage }}</div>
+        </div>
+      </form>
+  </ng-template>
+
+  <div id="addNewEmployee" [style.display]="company ? 'block' : 'none'" (outsideClick)="clearSearchReponseSelector()" outsideClick>
+    <div class="row">
+      <div class="col-12">
+        <input type="text" #userSearchInput
+               (keydown)="searchReponseSelector($event)"
+               class="form-control" placeholder="add new employee (by email)" />
+      </div>
+    </div>
+    <div class="row" *ngIf="isSearching">
+      <div class="col-12">
+        <h4>Searching ... </h4>
+      </div>
+    </div>
+    <div class="row">
+      <ng-container *ngIf="!apiResponse; else elseTemplate">
+        <div class="col-12"></div>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div *ngFor="let user of apiResponse;index as i">
+          <div (click)="arrowkeyLocation = i;addEmployee()"
+               class="apiResponse card"
+               [class]="i == arrowkeyLocation ? 'highlightEmployee' : ''">
+            <div class="card-body pt-2 pb-2">
+              <div class="d-flex align-items-center">
+                <img [src]="user.picture" alt="profile picture" />
+                <span class="userName ps-1">{{ user.name }}</span>
+              </div>
+              <span class="text-secondary">{{ user.email }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

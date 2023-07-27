@@ -1,0 +1,37 @@
+.userName {
+  line-height: 32px;
+  height: 32px;
+}
+
+img {
+  max-width: 1.4rem;
+  border-radius: 50%;
+}
+
+form.createNewCompany {
+  max-width: 400px;
+}
+
+.highlightEmployee {
+  background-color: rgba(0, 0, 255, 0.255);
+}
+
+#addNewEmployee {
+  max-width: 400px;
+  .apiResponse {
+    &:hover {
+      background-color: rgba(0, 149, 255, 0.108);
+      cursor: pointer;
+    }
+
+    .card-body {
+      div.d-flex.align-items-center {
+        margin-bottom: -10px;
+      }
+      .text-secondary {
+        font-size: 12px;
+        margin-left: 25px;
+      }
+    }
+  }
+}
