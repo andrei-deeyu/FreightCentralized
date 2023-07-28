@@ -47,6 +47,14 @@ export class CompanyDataService {
       )
   }
 
+  update(updates: Object, company_id: String): Observable<Company> {
+    return this.http
+      .patch<Company>(this.url + '/company/' + company_id, updates)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
   addEmployee(new_employee: User, company_id: string): Observable<{ state: string }> {
     return this.http
       .post<{ state: string }>(this.url + '/company/addemployee', { new_employee, company_id })

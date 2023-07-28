@@ -24,10 +24,11 @@ export class ProfileComponent {
     picture: '',
     name: ''
   }
-  form_createNewCompany = new FormGroup({
+  form = new FormGroup({
     name: new FormControl(''),
     cui: new FormControl(null)
   })
+  editing: Boolean = false;
 
   @ViewChild('userSearchInput', { static: true })
   userSearchInput!: ElementRef;
@@ -116,17 +117,32 @@ export class ProfileComponent {
     this.service.create(newCompany).subscribe({
       next: (res) => {
         this.successMessage = res.name + ' added successfully';
+        f.reset();
         setTimeout(() => {
-          this.successMessage = '';
-          f.reset();
           this.company = res;
+          this.successMessage = '';
         }, 3000);
       },
       error: (err) => { throw new BadInput(err.message.error.message)}
     });
   }
 
+  updateCompany(f: FormGroup) {
+    let updates = {
+      name: f.value.name
+    }
 
+    this.service.update(updates, this.company._id).subscribe({
+      next: (res) => {
+        this.successMessage = res.name + ' updated successfully';
+        this.editing = false;
+        f.reset();
+        this.company = res;
+        setTimeout(() => this.successMessage = '', 3000);
+      },
+      error: (err) => { throw new BadInput(err.message.error.message)}
+    });
+  }
 
   addEmployee() {
     this.new_employee = this.apiResponse[this.arrowkeyLocation];
