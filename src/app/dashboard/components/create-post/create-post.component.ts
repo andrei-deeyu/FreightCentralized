@@ -126,6 +126,13 @@ export class CreatePostComponent {
     }
   }
 
+  clearCheckFormControls(formArrayName: string) {
+    const formArray: FormArray = this.form.get('truck')?.get(formArrayName) as FormArray;
+    formArray.controls.forEach((ctrl: AbstractControl, i) => {
+      formArray.removeAt(i)
+    });
+  }
+
   async createPost(f: FormGroup) {
     console.log(f.value)
     let insertPost: any = {
@@ -153,12 +160,17 @@ export class CreatePostComponent {
       }
     };
 
-    f.reset();
-    this.inputBlur.input = {}
 
     this.service.create(insertPost, this.session.ID)
     .subscribe({
       next: (post: Exchange) => {
+        f.reset();
+        this.inputBlur.input = {}
+        let checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
+        checkboxes.forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+        this.clearCheckFormControls('type');
+        this.clearCheckFormControls('features');
+
         this.currentPage$.subscribe(_curentPage => {
           if(_curentPage.pageActive !== 1) this.pagination.changePage(1)
           post.new = true;

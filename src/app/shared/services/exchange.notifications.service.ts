@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
-import { Exchange } from '@shared/models/exchange.model';
+import { Exchange, ExchangeMockup } from '@shared/models/exchange.model';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
-import { firstValueFrom } from 'rxjs';
+import { RetryConfig, firstValueFrom, retry } from 'rxjs';
 import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -17,6 +17,9 @@ import { AuthService } from '@auth0/auth0-angular';
 export class ExchangeNotificationsService {
   currentPage$ = this.store.select(selectCurrentPage);
   exchange$ = this.store.select(selectExchange);
+  retryConfig: RetryConfig = {
+    delay: 3000,
+  };
 
   constructor(private store: Store, private router: Router, private authService: AuthService) {}
 
@@ -26,14 +29,7 @@ export class ExchangeNotificationsService {
       return element in object;
     }
 
-    let ExchangeKeys = [ // MAKE IT EQUAL TO THE OBJECT.KEYS OF EXCHANGEMOCKUP
-      'fromUser',
-      '_id',
-      'title',
-      'body',
-      'createdAt',
-    ];
-
+    let ExchangeKeys = Object.keys(ExchangeMockup);
     let result:Array<boolean> = [];
 
     ExchangeKeys.forEach((key) => {
@@ -51,9 +47,12 @@ export class ExchangeNotificationsService {
     let userId: string | undefined = user?.sub?.split('auth0|')[1]
     let socket:WebSocketSubject<any> = webSocket(environment.WS_URL + '?' + userId + '/' + sessionID);
 
-    socket.subscribe({
+    socket.pipe(
+      retry(this.retryConfig)
+    ).subscribe({
       next: async ( post: any ) => {
-        if( this.validKeys( post ) ) {
+        console.log(post)
+        if( post._id && this.validKeys( post ) ) {
           let _currentPage = await firstValueFrom(this.currentPage$)
 
           if( this.router.url == '/exchange' && _currentPage.pageActive === 1) {
