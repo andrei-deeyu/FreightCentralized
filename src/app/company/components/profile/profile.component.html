@@ -30,7 +30,7 @@
     </div>
   </div>
   <ng-template #noCompanyAssigned>
-    <h3>Add your company to the exchange</h3>
+    <h3 *ngIf="companyLoaded">Add your company to the exchange</h3>
     <form *ngIf="companyLoaded" [formGroup]="form" (ngSubmit)="createCompany(form)"
       class="createNewCompany">
       <div class="form-group">

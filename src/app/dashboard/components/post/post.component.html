@@ -18,7 +18,7 @@
 
   <ul class="list-group" *ngIf="data._id">
     <li class="list-group-item title d-flex align-items-center">
-      <button (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0"></button>
+      <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0"></button>
       <span class="ms-3 flex-fill">location hard coded until google maps api</span>
       <button
         data-action="share/whatsapp/share" (click)="share('whatsapp')"

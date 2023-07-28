@@ -14,6 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { postExpireDatePipe } from 'sharedServices/postExpireDate.pipe';
 import { postPastTense } from 'sharedServices/postPastTense.pipe';
 import { PublicApiService } from 'sharedServices/public-api.service';
+import { GetSubscriptionComponent } from './components/get-subscription/get-subscription.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { PublicApiService } from 'sharedServices/public-api.service';
     LoginButtonComponent,
     SignupButtonComponent,
     LogoutButtonComponent,
+    GetSubscriptionComponent,
   ],
 
   providers: [
@@ -47,6 +49,7 @@ import { PublicApiService } from 'sharedServices/public-api.service';
     postExpireDatePipe,
     postPastTense,
     FormInputErrorComponent,
+    GetSubscriptionComponent,
     LoginButtonComponent,
     SignupButtonComponent,
     LogoutButtonComponent

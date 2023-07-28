@@ -14,6 +14,8 @@ import { BadInput } from 'sharedServices/Errors/bad-input';
 import { expandedCollapsed } from 'sharedServices/animations';
 import { SessionService } from 'sharedServices/session.service';
 import { PaginationComponent } from '../pagination/pagination.component';
+import { AuthService } from '@auth0/auth0-angular';
+import { environment } from 'src/environments/environment';
 
 interface inputBlurInterface {
   input: {
@@ -29,6 +31,7 @@ interface inputBlurInterface {
   animations: [ expandedCollapsed ]
 })
 export class CreatePostComponent {
+  haveAccess: boolean = false;
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
   isExpanded: boolean = false;
@@ -76,8 +79,21 @@ export class CreatePostComponent {
     private service: ExchangeApiService,
     private store: Store,
     private session: SessionService,
-    private pagination: PaginationComponent
+    private pagination: PaginationComponent,
+    private authService: AuthService
   ) { }
+
+  ngOnInit() {
+    this.checkSubscription()
+  }
+
+  checkSubscription() {
+    this.authService.user$.subscribe(user => {
+      let subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
+      console.log(subscription);
+      if(subscription == 'shipper' || subscription == 'forwarder') this.haveAccess = true;
+    })
+  }
 
   onBlur(_formControlName: string) {
     this.inputBlur.input[_formControlName] = true
@@ -90,7 +106,6 @@ export class CreatePostComponent {
     Object.keys(this.inputBlur.input)
       .filter(key => key !== 'details' ?  this.inputBlur.input[key] = false : null)
   }
-
 
   onCheckChange(formArrayName: string, event: any) {
     const formArray: FormArray = this.form.get('truck')?.get(formArrayName) as FormArray;

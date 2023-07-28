@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Store } from '@ngrx/store';
-import { AuthApiService } from '../../services/auth.api.service';
+import { AuthApiService } from '../../../shared/services/auth.api.service';
 import { map } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'profile',
@@ -10,18 +11,21 @@ import { map } from 'rxjs';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
+  changingSubscription: boolean = false;
   user$ = this.authService.user$;
   code$ = this.user$.pipe(map((user) => JSON.stringify(user, null, 2)));
   email_verification_resent: boolean = false;
   emailToOpen:string = '';
   editing:boolean = false;
   newName: string = '';
+  user_subscription: string = '';
 
   constructor(public authService: AuthService, private store: Store, private service: AuthApiService) { }
 
   ngOnInit() {
     this.user$.subscribe(user => {
       console.log(user)
+      this.user_subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
       if(user) {
         let domain:string[] = user?.email?.split("@") ?? [''];
         if(domain[1].includes('gmail')) {

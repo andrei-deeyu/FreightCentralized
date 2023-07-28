@@ -14,7 +14,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 
 import { SignupComponent } from './components/signup/signup.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { AuthApiService } from './services/auth.api.service';
+import { AuthApiService } from '../shared/services/auth.api.service';
 
 
 @NgModule({

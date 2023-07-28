@@ -10,7 +10,7 @@ import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
   ],
   providers: [
     CompanyProfileApiService

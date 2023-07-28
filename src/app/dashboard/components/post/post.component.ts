@@ -28,6 +28,7 @@ export class PostComponent implements OnInit {
   popUpAlert: boolean = false;
   deleteAlert: boolean = false;
   postDeleted: boolean = false;
+  userId: string | undefined = '';
 
   constructor (
     private router: Router,
@@ -41,6 +42,8 @@ export class PostComponent implements OnInit {
 
   ngOnInit() {
     this.authService.user$.subscribe(user => {
+      this.userId = user?.sub?.split('auth0|')[1];
+
       if( user ) {
         this.getSinglePost(this.service);
       } else {
