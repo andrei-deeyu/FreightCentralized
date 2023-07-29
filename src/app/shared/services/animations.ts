@@ -77,7 +77,7 @@ export let expandedCollapsed = trigger('expandedCollapsed', [
 
 
   transition('collapsed => expanded', [
-    style({ top: '3rem' }),
+    style({ top: '4rem' }),
     animate('200ms ease-out', style({ opacity: 1 }))
   ]),
   transition('expanded => collapsed', [

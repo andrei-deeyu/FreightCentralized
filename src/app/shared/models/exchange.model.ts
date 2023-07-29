@@ -1,6 +1,9 @@
 import { User } from "./user.model";
 
 export interface Exchange {
+  origin: string,
+  destination: string,
+  distance: string,
   details: string;
   budget: number;
   valability: string
@@ -29,6 +32,9 @@ export interface Exchange {
 }
 
 export const ExchangeMockup = {
+  origin: 'Oradea',
+  destination: 'București',
+  distance: '596 km',
   details: '',
   budget: 0,
   valability: '1days',

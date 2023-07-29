@@ -19,13 +19,14 @@
   <ul class="list-group" *ngIf="data._id">
     <li class="list-group-item title d-flex align-items-center">
       <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0"></button>
-      <span class="ms-3 flex-fill">location hard coded until google maps api</span>
-      <button
-        data-action="share/whatsapp/share" (click)="share('whatsapp')"
-        class="btn bi bi-whatsapp p-0 ms-2">
-      </button>
+      <span class="ms-3 flex-fill">
+        {{ data.origin }}
+        <br>
+        {{ data.destination }}
+      </span>
+      <button data-action="share/whatsapp/share" (click)="share('whatsapp')" class="btn bi bi-whatsapp p-0 ms-2"></button>
     </li>
-    <li class="list-group-item">{{ data.details }}</li>
+    <li class="list-group-item">{{ data.details }}<br>{{ data.distance }}</li>
     <li class="list-group-item d-flex align-items-center fromUser">
       <div class="d-flex flex-fill align-items-center">
         <img [src]="data.fromUser.picture" alt="profile picture" />

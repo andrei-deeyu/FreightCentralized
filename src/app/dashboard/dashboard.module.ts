@@ -15,6 +15,7 @@ import { PostPublicApiService } from './services/post.public-api.service';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { CreatePostRoutesComponent } from './components/create-post-routes/create-post-routes.component';
 
 @NgModule({
   providers: [
@@ -30,6 +31,7 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
     PostComponent,
     PaginationComponent,
     CreatePostComponent,
+    CreatePostRoutesComponent,
   ],
 
   imports: [
@@ -38,6 +40,7 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
     SharedModule,
     RouterModule.forChild([
       { path: 'exchange', canActivate: [AuthGuard], component: ExchangeComponent },
+      { path: 'exchange/create-post', canActivate: [AuthGuard], component: CreatePostComponent },
       { path: 'exchange/:id', component: PostComponent},
     ]),
     ReactiveFormsModule

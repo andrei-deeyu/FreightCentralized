@@ -17,6 +17,7 @@ export class NavbarComponent {
   isAuthenticated$ = this.authService.isAuthenticated$
   user$ = this.authService.user$;
   isAdmin: boolean = false;
+  canPostFreight: boolean = false;
   isExpanded: boolean = false;
   notifications$ = this.store.select(selectExchangeNotifications);
   openSearch: boolean = false;
@@ -37,7 +38,13 @@ export class NavbarComponent {
   }
 
   ngOnInit() {
-    this.user$.subscribe(user => this.isAdmin = user?.[`${environment.idtoken_namespace}app_metadata`]?.admin)
+    this.user$.subscribe(user => {
+      this.isAdmin = user?.[`${environment.idtoken_namespace}app_metadata`]?.admin;
+      let subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
+      if(subscription == 'shipper' || subscription == 'forwarder') {
+        this.canPostFreight = true;
+      }
+    })
   }
 
   deleteNotification() {

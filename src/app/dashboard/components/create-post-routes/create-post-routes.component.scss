@@ -1,0 +1,70 @@
+.alert-non-premium {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Always set the map height & width explicitly to define the size of the div,
+    else the element won't be shown,
+       * element that contains the map. */
+#map {
+  height: 400px;
+}
+
+#mapControls {
+  display: none
+}
+
+@media only screen and (min-width: 1000px) {
+  #map {
+    width: 790px;
+  }
+}
+
+.showDetails {
+  height: 5rem;
+}
+
+.controls, .distance {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#origin-input,
+#destination-input,
+#distance {
+  background-color: #fff;
+  //font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 200px;
+}
+
+#origin-input,
+#destination-input {
+  border: 2px solid #02d5b5;
+  /*
+    color: #002b3e
+    color: #203372
+    color: #02d5b5
+  */
+}
+
+#distance {
+  background-color: rgb(241, 241, 241);
+  line-height: 2rem;
+  width: 100px;
+}
+
+#origin-input:focus,
+#destination-input:focus {
+  border-color: #4d90fe;
+}

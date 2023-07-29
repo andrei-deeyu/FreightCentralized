@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -16,6 +16,8 @@ import { SessionService } from 'sharedServices/session.service';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
+import { RouteData } from '@shared/models/routeData.model';
+import { Router } from '@angular/router';
 
 interface inputBlurInterface {
   input: {
@@ -32,6 +34,8 @@ interface inputBlurInterface {
 })
 export class CreatePostComponent {
   haveAccess: boolean = false;
+  @Input('isComponentEmbedded') isComponentEmbedded: boolean = false;
+
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
   isExpanded: boolean = false;
@@ -71,6 +75,7 @@ export class CreatePostComponent {
       features: new FormArray([]),
     })
   });
+  routeData!: RouteData;
 
   get details() { return this.form.get('details') }
 
@@ -80,7 +85,8 @@ export class CreatePostComponent {
     private store: Store,
     private session: SessionService,
     private pagination: PaginationComponent,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -136,9 +142,9 @@ export class CreatePostComponent {
   async createPost(f: FormGroup) {
     console.log(f.value)
     let insertPost: any = {
-      //location: 'this.location',
-      //destination: 'this.destination',
-      //distance: 'this.distance',
+      origin: this.routeData.origin,
+      destination: this.routeData.destination,
+      distance: this.routeData.distance,
       details: f.value.details ?? '',
       budget: f.value.budget ?? null,
       valability: f.value.valability,
@@ -164,18 +170,25 @@ export class CreatePostComponent {
     this.service.create(insertPost, this.session.ID)
     .subscribe({
       next: (post: Exchange) => {
-        f.reset();
-        this.inputBlur.input = {}
-        let checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
-        checkboxes.forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
-        this.clearCheckFormControls('type');
-        this.clearCheckFormControls('features');
+        if(this.isComponentEmbedded == false) {
+          this.isExpanded = false;
+          setTimeout(() => {
+            return this.route.navigate(['/exchange/' + post._id])
+          }, 1000);
+        }
+          f.reset();
+          this.inputBlur.input = {}
+          let checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
+          checkboxes.forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+          this.clearCheckFormControls('type');
+          this.clearCheckFormControls('features');
 
-        this.currentPage$.subscribe(_curentPage => {
-          if(_curentPage.pageActive !== 1) this.pagination.changePage(1)
-          post.new = true;
-          this.store.dispatch(ExchangeApiActions.addPost({ post }));
-        }).unsubscribe()
+          return this.currentPage$.subscribe(_curentPage => {
+            console.log(_curentPage)
+            if(_curentPage.pageActive !== 1) this.pagination.changePage(1)
+            post.new = true;
+            this.store.dispatch(ExchangeApiActions.addPost({ post }));
+          }).unsubscribe();
       },
       error: (error: AppError) => {
         if(error instanceof BadInput)  {

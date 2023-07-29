@@ -17,5 +17,6 @@ export const environment = {
       redirect_uri: window.location.origin,
     },
   },
-  idtoken_namespace: 'https://github.com/andrei-deeyu--user.values-'
+  idtoken_namespace: 'https://github.com/andrei-deeyu--user.values-',
+  google_maps_api_key: 'AIzaSyAMiDlVQV-889wyPzJ8ff1idtoC5t3OFMU'
 }

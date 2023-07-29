@@ -1,0 +1,21 @@
+<div id="mapControls">
+  <!-- Avoid the words "address" || "location" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. -->
+  <input
+    id="origin-input"
+    class="controls"
+    type="text"
+    autocomplete="off"
+    placeholder="Load city"
+    [value]="location"
+  />
+  <input
+    id="destination-input"
+    class="controls"
+    type="text"
+    autocomplete="off"
+    placeholder="Unload city"
+    [value]="destination"
+  /> <!-- value sau ngmodel -->
+  <p id="distance" class="distance">{{ distance }}</p>
+</div>
+<div class="container" fluid="sm" id="map"></div>
