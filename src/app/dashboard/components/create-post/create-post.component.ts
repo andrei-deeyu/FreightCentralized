@@ -52,18 +52,18 @@ export class CreatePostComponent {
 
   form = new FormGroup({
     details: new FormControl('', [ Validators.required ]),
-    budget: new FormControl('', Validators.pattern(this.numberRegEx)),
-    valability: new FormControl(''),
+    budget: new FormControl(null, Validators.pattern(this.numberRegEx)),
+    valability: new FormControl('7days'),
     pallet: new FormGroup({
       type: new FormControl(''),
-      number: new FormControl('', Validators.pattern(this.numberRegEx)),
+      number: new FormControl(null, Validators.pattern(this.numberRegEx)),
     }),
     size: new FormGroup({
-      tonnage: new FormControl('', Validators.pattern(this.numberRegEx)),
-      volume: new FormControl('', Validators.pattern(this.numberRegEx)),
-      height: new FormControl('', Validators.pattern(this.numberRegEx)),
-      width: new FormControl('', Validators.pattern(this.numberRegEx)),
-      length: new FormControl('', Validators.pattern(this.numberRegEx)),
+      tonnage: new FormControl(null, Validators.pattern(this.numberRegEx)),
+      volume: new FormControl(null, Validators.pattern(this.numberRegEx)),
+      height: new FormControl(null, Validators.pattern(this.numberRegEx)),
+      width: new FormControl(null, Validators.pattern(this.numberRegEx)),
+      length: new FormControl(null, Validators.pattern(this.numberRegEx)),
     }),
     truck: new FormGroup({
       regime: new FormControl(''),

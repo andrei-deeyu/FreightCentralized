@@ -20,7 +20,8 @@
               class="form-group d-flex flex-row">
             <input [formControlName]="characteristic.key" [id]="characteristic.key"
                   (blur)="onBlur(characteristic.key)" (focus)="onFocus(characteristic.key)"
-                  type="number" class="form-control m-0" [placeholder]="characteristic.key" style="width: 8rem;">
+                  type="number" class="form-control m-0" [placeholder]="characteristic.key" style="width: 8rem;"
+                  [class]="characteristic.key == 'tonnage' ? 'requiredInput' : ''">
             <div class="input-group-text" style="width: 3rem;">{{characteristic.value}}</div>
           </div>
         </div>
@@ -44,7 +45,6 @@
           <div>
             <div class="form-group d-flex flex-row align-items-center col-3"> <!-- valability -->
               <select formControlName="valability" class="form-select requiredInput" id="valability" style="width: 10rem;">
-                <option disabled value="">select</option>
                 <option value="1days">1 day</option>
                 <option value="3days">3 days</option>
                 <option value="7days">7 days</option>
@@ -58,7 +58,7 @@
             <div class="form-group d-flex flex-row align-items-center col-3"> <!-- budget -->
               <input formControlName="budget" id="budget"
                     (blur)="onBlur('budget')" (focus)="onFocus('budget')"
-                    type="number" class="form-control m-0 requiredInput" placeholder="budget" style="width: 10rem;">
+                    type="number" class="form-control m-0" placeholder="budget" style="width: 10rem;">
               <div class="input-group-text" style="width: 8rem;">euro</div>
             </div>
           </div>
@@ -67,7 +67,7 @@
 
       <div formGroupName="truck">
         <div class="form-group d-flex flex-row align-items-center col-3"> <!-- regime -->
-          <select formControlName="regime" class="form-select" id="regime" style="width: 16rem">
+          <select formControlName="regime" class="form-select requiredInput" id="regime" style="width: 16rem">
             <option disabled value="">Select the truckload regime</option>
             <option value="LTL">LTL (less than truckload)</option>
             <option value="FTL">FTL (full truckload)</option>
