@@ -15,6 +15,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthApiService } from '../shared/services/auth.api.service';
+import { SearchPostComponent } from './components/search-post/search-post.component';
+import { SearchPostMobileComponent } from './components/search-post-mobile/search-post-mobile.component';
 
 
 @NgModule({
@@ -27,6 +29,8 @@ import { AuthApiService } from '../shared/services/auth.api.service';
     NotFoundComponent,
     SignupComponent,
     ProfileComponent,
+    SearchPostComponent,
+    SearchPostMobileComponent
   ],
   imports: [
     CommonModule,

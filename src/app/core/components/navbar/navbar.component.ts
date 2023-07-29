@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Store } from '@ngrx/store';
 import { fadeOnOff, menuExpandedCollapsed } from 'sharedServices/animations';
@@ -19,12 +19,22 @@ export class NavbarComponent {
   isAdmin: boolean = false;
   isExpanded: boolean = false;
   notifications$ = this.store.select(selectExchangeNotifications);
+  openSearch: boolean = false;
+  isMobile: boolean;
+  screenHeight!: any;
+
+  @HostListener('window:resize', ['$event']) getScreenSize() {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
 
   constructor(
     private authService: AuthService,
     @Inject(DOCUMENT) private doc: Document,
     private store: Store
-  ) {}
+  ) {
+    this.isMobile = window.innerWidth <= 768;
+  }
 
   ngOnInit() {
     this.user$.subscribe(user => this.isAdmin = user?.[`${environment.idtoken_namespace}app_metadata`]?.admin)

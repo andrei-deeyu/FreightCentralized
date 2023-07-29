@@ -1,41 +1,90 @@
 <div (outsideClick)="isExpanded = false">
-<nav class="navbar fixed-top navbar-expand bg-body-tertiary p-0">
-  <ul class="navbar-nav p-2 ps-xxl-3 pe-xxl-3">
-    <li class="nav-item">
-      <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
-    </li>
-
-    <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
-      <li class="nav-item">
-        <a routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
-      </li>
-      <li class="nav-item">
-        <a routerLinkActive="active" class="nav-link" routerLink="company">Company</a>
-      </li>
-      <li *ngIf="isAdmin" class="nav-item">
-        <a routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
-      </li>
-
-      <div *ngIf="user$ | async as user" class="profile flex-fill d-flex align-items-center flex-row-reverse">
-        <img (click)="isExpanded = !isExpanded" [src]="user.picture" alt="profile picture" />
-        <span *ngIf="notifications$ | async as data" (click)="isExpanded = !isExpanded" class="alertNotification">
-          <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
-            <span class="bi bi-bell-fill"></span>
-          </span>
-        </span>
-      </div>
-    </ng-container>
-    <ng-template #unAuthenticated>
-      <div class="flex-fill d-flex align-items-center flex-row-reverse">
-        <signup-button [stylingClasses]="'btn btn-outline-primary'"></signup-button>
+  <ng-container *ngIf="isMobile;else desktopViewport">
+    <nav class="navbar fixed-top navbar-expand bg-body-tertiary p-0">
+      <ul class="navbar-nav p-2 ps-xxl-3 pe-xxl-3 fs-4">
         <li class="nav-item">
-          <login-button [stylingClasses]="'nav-link cursor-pointer'"></login-button>
+          <a routerLinkActive="active" class="nav-link bi bi-house-fill" routerLink=""></a>
         </li>
-      </div>
-    </ng-template>
-  </ul>
-</nav>
 
+        <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
+          <li class="nav-item">
+            <a routerLinkActive="active" class="nav-link bi bi-box-fill ms-4" routerLink="exchange"></a>
+          </li>
+          <li class="nav-item">
+            <a routerLinkActive="active" class="nav-link bi-building-fill ms-4" routerLink="company"></a>
+          </li>
+          <li *ngIf="isAdmin" class="nav-item">
+            <a routerLinkActive="active" class="nav-link bi-star-fill ms-4" routerLink="admin"></a>
+          </li>
+          <li class="nav-item d-flex flex-fill align-items-center flex-row-reverse me-1">
+            <a class="nav-link bi bi-search" (click)="openSearch = true"></a>
+            <search-post-mobile *ngIf="openSearch" (closeSearch)="openSearch = false"></search-post-mobile>
+          </li>
+
+          <div *ngIf="user$ | async as user" class="nav-item profile d-flex align-items-center flex-row-reverse">
+            <img (click)="isExpanded = !isExpanded" [src]="user.picture" alt="profile picture" />
+            <span *ngIf="notifications$ | async as data" (click)="isExpanded = !isExpanded" class="alertNotification">
+              <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
+                <span class="bi bi-bell-fill"></span>
+              </span>
+            </span>
+          </div>
+        </ng-container>
+        <ng-template #unAuthenticated>
+          <div class="flex-fill d-flex align-items-center flex-row-reverse">
+            <signup-button [stylingClasses]="'btn btn-outline-primary'"></signup-button>
+            <li class="nav-item">
+              <login-button [stylingClasses]="'nav-link cursor-pointer'"></login-button>
+            </li>
+          </div>
+        </ng-template>
+      </ul>
+    </nav>
+  </ng-container>
+
+<!-- modularize / make the components more reusable -->
+
+  <ng-template #desktopViewport>
+    <nav class="navbar fixed-top navbar-expand bg-body-tertiary p-0">
+      <ul class="navbar-nav p-2 ps-xxl-3 pe-xxl-3">
+        <li class="nav-item">
+          <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
+        </li>
+
+        <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
+          <li class="nav-item">
+            <a routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
+          </li>
+          <li class="nav-item">
+            <a routerLinkActive="active" class="nav-link" routerLink="company">Company</a>
+          </li>
+          <li *ngIf="isAdmin" class="nav-item">
+            <a routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
+          </li>
+          <li class="nav-item d-flex flex-fill align-items-center flex-row-reverse">
+            <search-post></search-post>
+          </li>
+
+          <div *ngIf="user$ | async as user" class="nav-item profile d-flex align-items-center flex-row-reverse">
+            <img (click)="isExpanded = !isExpanded" [src]="user.picture" alt="profile picture" />
+            <span *ngIf="notifications$ | async as data" (click)="isExpanded = !isExpanded" class="alertNotification">
+              <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
+                <span class="bi bi-bell-fill"></span>
+              </span>
+            </span>
+          </div>
+        </ng-container>
+        <ng-template #unAuthenticated>
+          <div class="flex-fill d-flex align-items-center flex-row-reverse">
+            <signup-button [stylingClasses]="'btn btn-outline-primary'"></signup-button>
+            <li class="nav-item">
+              <login-button [stylingClasses]="'nav-link cursor-pointer'"></login-button>
+            </li>
+          </div>
+        </ng-template>
+      </ul>
+    </nav>
+  </ng-template>
 
 <div *ngIf="user$ | async as user"
   [@menuExpandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'"
@@ -49,7 +98,8 @@
   <div *ngIf="notifications$ | async as data">
     <li *ngIf="data.fromUser.userId" (click)="isExpanded = false;deleteNotification()"  class="item list-unstyled d-flex flex-row align-items-center notification" [routerLink]="['/exchange', data._id]">
       <span class="icon"><span class="bi bi-bell-fill"></span></span>
-      <span class="p-0 m-0 ms-2">{{ data.details | summary:50 }}</span>
+      <span *ngIf="data.details" class="p-0 m-0 ms-2">{{ data.details | summary:50 }}</span>
+      <span *ngIf="!data.details" class="p-0 m-0 ms-2"><strong>{{ data.size.tonnage }}t</strong> Oradea <span class="bi bi-arrow-right"></span> Timisoara</span>
       <span class="d-flex flex-fill justify-content-end">
         <button (click)="deleteNotification()" class="btn bi bi-x pe-1"></button>
       </span>

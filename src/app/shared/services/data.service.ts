@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { AppError } from './Errors/app-error';
@@ -63,6 +63,16 @@ export class DataService {
         }),
         catchError(this.handleError)
       );
+  }
+
+  search(term: string): Observable<Array<Exchange>> {
+    if (term === '') return of([]);
+
+    return this.http
+    .get<Array<Exchange>>(this.url + '/exchange/search/' + term)
+    .pipe(
+      catchError(this.handleError)
+    )
   }
 
   getAllPublic(): Observable<Array<Exchange>> {
