@@ -17,8 +17,8 @@
         <div class="postData row row-cols-1 row-cols-md-2" [routerLink]="['/exchange', post._id]">
           <div class="col d-flex flex-row p-0 align-items-center" style="border-right: 2px solid rgba(88, 88, 88, 0)">
             <div class="col d-flex flex-column">
-              <span class="fw-bold fs-5">Oradea</span>
-              <span class="fw-bold fs-5">Timisoara</span>
+              <span class="fw-bold ">{{ post.origin }}</span>
+              <span class="fw-bold ">{{ post.destination }}</span>
             </div>
             <div class="col distance">
               <span>

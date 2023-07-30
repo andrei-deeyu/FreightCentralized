@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12">
       <div class="input-group">
-        <input type="text" #freightSearchInput (keydown)="searchReponseSelector($event)" class="form-control" placeholder="search by shipper's name" />
+        <input type="text" #freightSearchInput (keydown)="searchReponseSelector($event)" class="form-control" placeholder="search freight by location" />
           <span class="input-group-text bi bi-search text-secondary"></span>
       </div>
     </div>
@@ -22,8 +22,11 @@
           [class]="i == arrowkeyLocation ? 'highlightEmployee' : ''">
           <div class="card-body pt-2 pb-2">
             <div class="d-flex align-items-center">
-              <span class="userName ps-1"><strong>{{ freight.size.tonnage }}t</strong></span>
-              <span class="userName ps-1"> {{ freight.details }}</span>
+              <span class="userName"><strong>{{ freight.size.tonnage }}t</strong></span>
+              <span class="d-flex flex-column">
+                <span class=" ps-1"> {{ freight.origin }}</span>
+                <span class=" ps-1"> {{ freight.destination }}</span>
+              </span>
             </div>
             <span class="text-secondary"> {{ freight.fromUser.email }}</span>
           </div>
