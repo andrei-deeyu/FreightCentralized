@@ -25,7 +25,10 @@ export class CreatePostRoutesComponent {
       mapResults.subscribe((results: RouteData) => {
         console.log(results)
         this.distance = results.distance
-        this.routeData.emit(results);
+        this.routeData.emit({
+          ...results,
+          distance: results.distance.split(' ')[0].split('.').join("")
+        });
       })
     });
   }

@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="filters">
+    <div class="d-flex flex-column flex-md-row align-items-md-center">
+      <span class="fw-bold filtersCategory">weight</span>
+      <div class="d-flex flex-row align-items-center">
+        <span class="ms-md-2 sliderStartMeasurementUnit">{{ filters.tonnage[0] }}</span>
+        <mat-slider min="0" max="41" discrete class="ms-3 flex-fill">
+          <input matSliderStartThumb [(value)]="filters.tonnage[0]">
+          <input matSliderEndThumb [(value)]="filters.tonnage[1]">
+        </mat-slider>
+        <span class="ms-2">{{ filters.tonnage[1] > 40 ? '40t+' : filters.tonnage[1] }}</span>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-md-row align-items-md-center">
+      <span class="fw-bold filtersCategory">distance</span>
+      <div class="d-flex flex-row align-items-center">
+        <span class="ms-md-2 sliderStartMeasurementUnit">{{ filters.distance[0] > 1000 ? '1000+' : filters.distance[0] }}</span>
+        <mat-slider min="0" max="1100" step="100" discrete class="ms-3 flex-fill">
+          <input matSliderStartThumb [(value)]="filters.distance[0]">
+          <input matSliderEndThumb [(value)]="filters.distance[1]">
+        </mat-slider>
+        <span class="ms-2">{{ filters.distance[1] > 1000 ? '1100 km+' : filters.distance[1] }}</span>
+      </div>
+    </div>
+    <div>
+      <span class="fw-bold">Required truck </span>
+      <div *ngFor="let type of truckTypes;let i = index">
+        <div class="form-check mt-2">
+          <span class="form-check-label" >{{ type }}</span>
+          <input [value]="type" (change)="onCheckChange($event)" type="checkbox" [id]="type" class="form-check-input"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" (click)="submitPaginationFilters()">filter</button>
+  <button class="btn" (click)="resetFilters()">reset filters</button>
+</div>

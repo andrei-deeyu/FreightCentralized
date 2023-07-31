@@ -3,7 +3,7 @@ import { User } from "./user.model";
 export interface Exchange {
   origin: string,
   destination: string,
-  distance: string,
+  distance: number,
   details: string;
   budget: number;
   valability: string
@@ -34,7 +34,7 @@ export interface Exchange {
 export const ExchangeMockup = {
   origin: 'Oradea',
   destination: 'București',
-  distance: '596 km',
+  distance: 596,
   details: '',
   budget: 0,
   valability: '1days',

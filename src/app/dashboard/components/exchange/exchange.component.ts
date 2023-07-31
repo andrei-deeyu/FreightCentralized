@@ -24,13 +24,7 @@ import { Subject } from 'rxjs';
 
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
-  paginationFilters: Subject<Object> = new Subject<Object>();
-
-  filters:any = {
-    size: {
-      tonnage: [0, 40]
-    }
-  };
+  currentPaginationFilters: Subject<Object> = new Subject<Object>();
 
   constructor (
     private service: ExchangeApiService,
@@ -38,21 +32,10 @@ export class ExchangeComponent implements OnInit {
     private session: SessionService
   ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  ngAfterViewInit() {
-    this.paginationFilters.next({});
-  }
-
-  submitPaginationFilters() {
-
-    console.log(this.filters)
-    this.paginationFilters.next({
-      size: {
-        tonnage: [this.filters.size.tonnage[0], this.filters.size.tonnage[1] > 40 ? null : this.filters.size.tonnage[1] ]
-      }
-    })
+  setPaginationFilters(event: object) {
+    this.currentPaginationFilters.next(event);
   }
 
   onFavoriteChanged(postId: string, eventArgs: FavoriteChangedEventArgs, ) {

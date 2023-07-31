@@ -1,13 +1,4 @@
-<div class="container">
-    tonnage <br>
-    {{ filters.size.tonnage[0] }}t
-    <mat-slider min="0" max="41" discrete>
-      <input matSliderStartThumb [(value)]="filters.size.tonnage[0]">
-      <input matSliderEndThumb [(value)]="filters.size.tonnage[1]">
-    </mat-slider>
-    {{ filters.size.tonnage[1] > 40 ? '40t+' : filters.size.tonnage[1] }}
-  <button class="btn btn-primary" (click)="submitPaginationFilters()">filter</button>
-</div>
+<exchange-filters (paginationFilters)="setPaginationFilters($event)"></exchange-filters>
 
 <div *ngIf="exchange$ | async" class="container p-0">
   <ul class="list-group">
@@ -21,7 +12,7 @@
             </div>
             <div class="col distance">
               <span>
-                {{ post.distance }}
+                {{ post.distance }} km
               </span>
             </div>
             <div class="col d-flex flex-column flex-fill align-items-end">
@@ -84,4 +75,5 @@
   </ul>
 
 </div>
-<pagination [filtersObs]="paginationFilters.asObservable()"></pagination>
+
+<pagination [filtersObs]="currentPaginationFilters.asObservable()"></pagination>

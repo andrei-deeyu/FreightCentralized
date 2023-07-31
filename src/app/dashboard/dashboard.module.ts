@@ -17,6 +17,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { CreatePostRoutesComponent } from './components/create-post-routes/create-post-routes.component';
 import {MatSliderModule} from '@angular/material/slider';
+import { ExchangeFiltersComponent } from './components/exchange-filters/exchange-filters.component';
 
 @NgModule({
   providers: [
@@ -33,6 +34,7 @@ import {MatSliderModule} from '@angular/material/slider';
     PaginationComponent,
     CreatePostComponent,
     CreatePostRoutesComponent,
+    ExchangeFiltersComponent,
   ],
 
   imports: [
