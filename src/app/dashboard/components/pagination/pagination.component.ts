@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectCurrentPage } from 'src/app/state/exchange.selectors';
 import { ExchangeApiService } from '../../services/exchange.api.service';
 import { Exchange } from '@shared/models/exchange.model';
 import { ExchangeApiActions, pageActiveActions } from 'src/app/state/exchange.actions';
 import { CurrentPage } from '@shared/models/currentPage.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pagination',
@@ -15,6 +16,7 @@ export class PaginationComponent {
   currentPage$ = this.store.select(selectCurrentPage);
   selectedPagination = 0;
   pagesToShow:number = 0;
+  @Input('filtersObs') filtersObs!: Observable<Object>;
 
   constructor (
     private service: ExchangeApiService,
@@ -22,7 +24,11 @@ export class PaginationComponent {
   ) { }
 
   ngOnInit() {
-    this.service.getAll(1)
+    this.filtersObs.subscribe((filters) => this.getFirstPage(filters));
+  }
+
+  getFirstPage(filters: Object) {
+    this.service.getAll(1, filters)
     .subscribe(( response ) => {
       this.pagesToShow = response.pagesToShow;
 
@@ -32,7 +38,7 @@ export class PaginationComponent {
   }
 
   public changePage(choosePage: number) {
-    this.service.getAll(choosePage)
+    this.service.getAll(choosePage, {}) // , filters
     .subscribe(( response ) => {
       this.pagesToShow = response.pagesToShow;
 
