@@ -17,7 +17,7 @@ export class CompanyDataService {
     if (term === '') return of([]);
 
     return this.http
-    .get<Array<User>>(this.url + '/searchusers/' + term)
+    .get<Array<User>>(this.url + '/searchusers/' + encodeURIComponent(term))
     .pipe(
       catchError(this.handleError)
     )

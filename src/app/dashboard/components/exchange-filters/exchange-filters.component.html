@@ -1,6 +1,24 @@
 <div class="container">
   <div class="filters">
-    <div class="d-flex flex-column flex-md-row align-items-md-center">
+    <div class="d-flex flex-row routeFilter col col-md-8">
+      <input
+        id="origin-input"
+        class="form-control me-2"
+        type="text"
+        autocomplete="off"
+        placeholder="Load city"
+        [value]="location"
+      />
+      <input
+        id="destination-input"
+        class="form-control ms-2"
+        type="text"
+        autocomplete="off"
+        [placeholder]="destinationPlaceholder"
+        [value]="destination"
+      />
+    </div>
+    <div class="d-flex flex-column flex-md-row align-items-md-center mt-2">
       <span class="fw-bold filtersCategory">weight</span>
       <div class="d-flex flex-row align-items-center">
         <span class="ms-md-2 sliderStartMeasurementUnit">{{ filters.tonnage[0] }}</span>
@@ -12,7 +30,7 @@
       </div>
     </div>
 
-    <div class="d-flex flex-column flex-md-row align-items-md-center">
+    <div class="d-flex flex-column flex-md-row align-items-md-center ">
       <span class="fw-bold filtersCategory">distance</span>
       <div class="d-flex flex-row align-items-center">
         <span class="ms-md-2 sliderStartMeasurementUnit">{{ filters.distance[0] > 1000 ? '1000+' : filters.distance[0] }}</span>
@@ -23,7 +41,7 @@
         <span class="ms-2">{{ filters.distance[1] > 1000 ? '1100 km+' : filters.distance[1] }}</span>
       </div>
     </div>
-    <div>
+    <div class="mt-2">
       <span class="fw-bold">Required truck </span>
       <div *ngFor="let type of truckTypes;let i = index">
         <div class="form-check mt-2">
@@ -33,7 +51,8 @@
       </div>
     </div>
   </div>
-
-  <button class="btn btn-primary" (click)="submitPaginationFilters()">filter</button>
-  <button class="btn" (click)="resetFilters()">reset filters</button>
+  <div class="mt-4">
+    <button class="btn btn-primary" (click)="submitPaginationFilters()">filter</button>
+    <button class="btn" (click)="resetFilters()">reset filters</button>
+  </div>
 </div>

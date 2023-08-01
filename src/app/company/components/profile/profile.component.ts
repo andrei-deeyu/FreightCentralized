@@ -31,7 +31,7 @@ export class ProfileComponent {
   editing: Boolean = false;
 
   @ViewChild('userSearchInput', { static: true })
-  userSearchInput!: ElementRef;
+  userSearchInput!: ElementRef<HTMLInputElement>;
   arrowkeyLocation:number = 0;
   apiResponse: any;
   isSearching: boolean;
@@ -64,7 +64,13 @@ export class ProfileComponent {
   createUserSearchEvent() {
     fromEvent(this.userSearchInput.nativeElement, 'keyup')
       .pipe(
-        map((event: any) => event.target.value),
+        map((event: Event) => {
+          let elem = event.target as HTMLInputElement;
+          let pattern = new RegExp("^[A-Za-z0-9_.@-]+$");
+          let value = pattern.test(elem.value);
+          if(value) return elem.value
+          return '';
+        }),
         filter((res) => res.length > 2),
         debounceTime(200),
         distinctUntilChanged(),

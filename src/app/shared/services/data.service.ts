@@ -55,10 +55,10 @@ export class DataService {
   getAll(choosePage: number, filters: Object): Observable<GetPagination> {
     const headers = new HttpHeaders()
       .set("choosePage", JSON.stringify(choosePage))
-      .set('filters', JSON.stringify(filters));
+      .set('filters', encodeURIComponent(JSON.stringify(filters)));
 
     return this.http
-      .get<GetPagination>(this.url + '/exchange', {  headers })
+      .get<GetPagination>(this.url + '/exchange', { headers })
       .pipe(
         map((res) => {
           return res || [];

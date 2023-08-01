@@ -12,12 +12,9 @@ import { environment } from 'src/environments/environment';
 })
 export class CreatePostRoutesComponent {
   @Output('routeData') routeData: EventEmitter<RouteData> = new EventEmitter<RouteData>;
-
   distance = '';
   location = '';
   destination = '';
-  handler:any;
-
 
   ngOnInit() {
     // Load Google Maps
@@ -50,33 +47,32 @@ export class CreatePostRoutesComponent {
         travelMode;
         directionsService;
         directionsRenderer;
-        originName: any;
-        destinationName: any;
-        distance: any;
+        originPlaceName;
+        destinationPlaceName;
+        distance;
 
         constructor(map:any) {
           this.map = map;
           this.originPlaceId = "";
           this.destinationPlaceId = "";
+          this.originPlaceName = "";
+          this.destinationPlaceName = "";
+          this.distance = "";
           this.travelMode = google.maps.TravelMode.DRIVING;
           this.directionsService = new google.maps.DirectionsService();
           this.directionsRenderer = new google.maps.DirectionsRenderer();
           this.directionsRenderer.setMap(map);
 
 
-          const originInput:any= document.getElementById("origin-input");
-          const destinationInput:any = document.getElementById("destination-input");
+          const originInput= document.getElementById("origin-input") as HTMLInputElement;
+          const destinationInput = document.getElementById("destination-input") as HTMLInputElement;
           const modeSelector = document.getElementById("mode-selector");
-          const originAutocomplete = new google.maps.places.Autocomplete(originInput);
           const distanceOutput = document.getElementById("distance");
+          const originAutocomplete = new google.maps.places.Autocomplete(originInput);
+          const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
 
           // Specify just the place data fields that you need.
           originAutocomplete.setFields(["place_id", "name"]);
-          const destinationAutocomplete = new google.maps.places.Autocomplete(
-            destinationInput
-          );
-
-          // Specify just the place data fields that you need.
           destinationAutocomplete.setFields(["place_id", "name"]);
 
           this.setupPlaceChangedListener(originAutocomplete, "ORIG");
@@ -104,16 +100,16 @@ export class CreatePostRoutesComponent {
 
             if (mode === "ORIG") {
               this.originPlaceId = place.place_id;
-              this.originName = place.name;
+              this.originPlaceName = place.name;
             } else {
               this.destinationPlaceId = place.place_id;
-              this.destinationName = place.name
+              this.destinationPlaceName = place.name
             }
             this.route()?.then(result => {
-              this.distance = result?.routes[0].legs[0].distance?.text;
+              this.distance = result?.routes[0].legs[0].distance?.text ?? '';
               subj.next({
-                origin: this.originName,
-                destination: this.destinationName,
+                origin: this.originPlaceName,
+                destination: this.destinationPlaceName,
                 distance: this.distance,
               })
             })

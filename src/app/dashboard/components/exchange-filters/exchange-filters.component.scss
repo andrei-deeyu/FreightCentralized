@@ -1,12 +1,20 @@
 .filters {
-  mat-slider {
-    width: 9rem;
+  width: 100%;
+  .routeFilter input {
+    max-width: 15rem;
   }
+
   .filtersCategory {
     width: 4rem;
   }
   .sliderStartMeasurementUnit {
     width: 3rem;
     text-align: right;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  mat-slider {
+    width: 15rem;
   }
 }
