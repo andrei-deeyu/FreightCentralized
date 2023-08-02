@@ -1,3 +1,10 @@
+button.openFilters {
+  width: 8rem;
+  .activeFilters {
+    font-size: 12px;
+  }
+}
+
 .filters {
   width: 100%;
   .routeFilter input {

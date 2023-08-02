@@ -1,17 +1,20 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { Subject } from 'rxjs';
+import { expandedCollapsed } from 'sharedServices/animations';
 import { environment } from 'src/environments/environment';
 
 
 @Component({
   selector: 'exchange-filters',
   templateUrl: './exchange-filters.component.html',
-  styleUrls: ['./exchange-filters.component.scss']
+  styleUrls: ['./exchange-filters.component.scss'],
+  animations: [ expandedCollapsed ]
 })
 export class ExchangeFiltersComponent {
   @Output('paginationFilters') paginationFilters = new EventEmitter<Object>();
 
+  isExpanded: boolean = false;
   truckTypes = [
     'duba', 'decopertat', 'basculanta', 'transport auto',
     'prelata', 'agabaritic', 'container'
@@ -23,9 +26,7 @@ export class ExchangeFiltersComponent {
     tonnage: [0, 41],
     truckType: []
   };
-
-  location = '';
-  destination = '';
+  activeFilters:number = 0;
   destinationPlaceholder = 'Unload city';
 
   ngOnInit() {
@@ -43,15 +44,40 @@ export class ExchangeFiltersComponent {
     this.paginationFilters.next({});
   }
 
-  resetFilters() {
+  onInputChange(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const inputId = input.id;
+    const inputValue = input.value;
+
+    if(inputId == 'origin-input') this.filters.origin = inputValue
+    else this.filters.destination = inputValue;
+  }
+
+  onCheckChange( event: any) {
+    if(event.target.checked == true)
+      this.filters.truckType.push(event.target.value)
+    else
+      this.filters.truckType = this.filters.truckType.filter((e: any) => e !== event.target.value)
+  }
+
+  clearFilters() {
     this.filters = {
+      origin: '',
+      destination: '',
       distance: [0, 1100],
       tonnage: [0, 41],
       truckType: []
     }
+    this.activeFilters = 0;
+    let textInputs = document.querySelectorAll("input[type='text']") as NodeListOf<HTMLInputElement>;
+      textInputs.forEach((input: HTMLInputElement) => input.value = '');
     let checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
-    checkboxes.forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+      checkboxes.forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+  }
 
+  resetFilters() {
+    this.clearFilters();
+    this.isExpanded = false;
     this.paginationFilters.next({});
   }
 
@@ -64,15 +90,32 @@ export class ExchangeFiltersComponent {
       'size.tonnage': [this.filters.tonnage[0], this.filters.tonnage[1] > 40 ? null : this.filters.tonnage[1] ],
       'truck.type': this.filters.truckType
     })
+    this.isExpanded = false;
+    this.checkActiveFilters();
   }
 
-  onCheckChange( event: any) {
-    if(event.target.checked == true)
-      this.filters.truckType.push(event.target.value)
-    else
-      this.filters.truckType = this.filters.truckType.filter((e: any) => e !== event.target.value)
-  }
+  checkActiveFilters() {
+    this.activeFilters = 0;
+    let defaultFilters:{[index:string]:any} = {
+      origin: '',
+      destination: '',
+      distance: [0, 1100],
+      tonnage: [0, 41],
+      truckType: []
+    };
 
+    Object.entries(this.filters).forEach((el: any) => {
+      let key:string = el[0];
+      let value:string | Array<Number|String> = el[1];
+
+      if(typeof value == 'string' && value !== defaultFilters[key]) {
+        this.activeFilters++;
+      } else if(typeof value !== 'string') {
+        let defaultFiltersValue:Array<Number|String> = defaultFilters[key];
+        value.every((v) => !defaultFiltersValue.includes(v) ? this.activeFilters++ : null);
+      }
+    });
+  }
 
   loadAutoComplete() {
     let subj: Subject<Object> = new Subject<Object>;

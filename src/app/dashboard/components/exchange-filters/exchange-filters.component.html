@@ -1,5 +1,12 @@
 <div class="container">
-  <div class="filters">
+  <button (click)="isExpanded = !isExpanded" class="btn openFilters"
+          [class]="isExpanded? 'btn-outline-secondary bi bi-x' : 'btn-outline-secondary'">
+    <span *ngIf="!isExpanded" class="d-flex flex-column">
+      <span class="text-dark">filter</span>
+      <span class="activeFilters">{{ activeFilters }} active filters</span>
+    </span>
+  </button>
+  <div class="filters mt-2" [@expandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'">
     <div class="d-flex flex-row routeFilter col col-md-8">
       <input
         id="origin-input"
@@ -7,7 +14,7 @@
         type="text"
         autocomplete="off"
         placeholder="Load city"
-        [value]="location"
+        (keyup)="onInputChange($event)"
       />
       <input
         id="destination-input"
@@ -15,7 +22,7 @@
         type="text"
         autocomplete="off"
         [placeholder]="destinationPlaceholder"
-        [value]="destination"
+        (keyup)="onInputChange($event)"
       />
     </div>
     <div class="d-flex flex-column flex-md-row align-items-md-center mt-2">
@@ -50,9 +57,10 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="mt-4">
-    <button class="btn btn-primary" (click)="submitPaginationFilters()">filter</button>
-    <button class="btn" (click)="resetFilters()">reset filters</button>
+
+    <div class="mt-4">
+      <button class="btn btn-primary" (click)="submitPaginationFilters()">apply</button>
+      <button class="btn" (click)="resetFilters()">reset filters</button>
+    </div>
   </div>
 </div>
