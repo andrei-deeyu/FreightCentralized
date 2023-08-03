@@ -1,9 +1,7 @@
 import { User } from "./user.model";
+import { RouteData } from "./routeData.model";
 
-export interface Exchange {
-  origin: string,
-  destination: string,
-  distance: number,
+export interface Exchange extends RouteData {
   details: string;
   budget: number;
   valability: string

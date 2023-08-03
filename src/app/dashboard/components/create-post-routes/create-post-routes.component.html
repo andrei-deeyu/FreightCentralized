@@ -16,6 +16,8 @@
     placeholder="Unload city"
     [value]="destination"
   />
-  <p id="distance" class="distance">{{ distance }}</p>
+  <p id="distance" class="distance">
+    <span *ngIf="distance">{{ distance }} km</span>
+  </p>
 </div>
 <div class="container" fluid="sm" id="map"></div>

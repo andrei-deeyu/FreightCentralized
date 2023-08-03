@@ -145,6 +145,7 @@ export class CreatePostComponent {
       origin: this.routeData.origin,
       destination: this.routeData.destination,
       distance: this.routeData.distance,
+      geometry: this.routeData.geometry,
       details: f.value.details ?? '',
       budget: f.value.budget ?? null,
       valability: f.value.valability,

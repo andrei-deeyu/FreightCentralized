@@ -52,6 +52,17 @@ export class DataService {
     )
   }
 
+  getNearby(geolocation: object, nearbyRange: number): Observable<Exchange[]> {
+    const headers = new HttpHeaders()
+      .set("geoLocation", JSON.stringify(geolocation))
+      .set("nearbyRange", JSON.stringify(nearbyRange));
+    return this.http
+    .get<Exchange[]>(this.url + '/exchange/nearby', { headers })
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
   getAll(choosePage: number, filters: Object): Observable<GetPagination> {
     const headers = new HttpHeaders()
       .set("choosePage", JSON.stringify(choosePage))

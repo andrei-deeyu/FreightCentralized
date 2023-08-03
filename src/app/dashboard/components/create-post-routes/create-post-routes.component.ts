@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CreatePostRoutesComponent {
   @Output('routeData') routeData: EventEmitter<RouteData> = new EventEmitter<RouteData>;
-  distance = '';
+  distance = 0;
   location = '';
   destination = '';
 
@@ -22,10 +22,7 @@ export class CreatePostRoutesComponent {
       mapResults.subscribe((results: RouteData) => {
         console.log(results)
         this.distance = results.distance
-        this.routeData.emit({
-          ...results,
-          distance: results.distance.split(' ')[0].split('.').join("")
-        });
+        this.routeData.emit(results);
       })
     });
   }
@@ -49,6 +46,8 @@ export class CreatePostRoutesComponent {
         directionsRenderer;
         originPlaceName;
         destinationPlaceName;
+        originPlaceGeometry;
+        destinationPlaceGeometry;
         distance;
 
         constructor(map:any) {
@@ -57,7 +56,9 @@ export class CreatePostRoutesComponent {
           this.destinationPlaceId = "";
           this.originPlaceName = "";
           this.destinationPlaceName = "";
-          this.distance = "";
+          this.originPlaceGeometry = {lat: null, lng: null};
+          this.destinationPlaceGeometry = {lat: null, lng: null};
+          this.distance = 0;
           this.travelMode = google.maps.TravelMode.DRIVING;
           this.directionsService = new google.maps.DirectionsService();
           this.directionsRenderer = new google.maps.DirectionsRenderer();
@@ -72,8 +73,8 @@ export class CreatePostRoutesComponent {
           const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
 
           // Specify just the place data fields that you need.
-          originAutocomplete.setFields(["place_id", "name"]);
-          destinationAutocomplete.setFields(["place_id", "name"]);
+          originAutocomplete.setFields(["place_id", "name", "geometry"]);
+          destinationAutocomplete.setFields(["place_id", "name", "geometry"]);
 
           this.setupPlaceChangedListener(originAutocomplete, "ORIG");
           this.setupPlaceChangedListener(destinationAutocomplete, "DEST");
@@ -101,16 +102,29 @@ export class CreatePostRoutesComponent {
             if (mode === "ORIG") {
               this.originPlaceId = place.place_id;
               this.originPlaceName = place.name;
+              this.originPlaceGeometry = {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+              }
             } else {
+              this.destinationPlaceName = place.name;
               this.destinationPlaceId = place.place_id;
-              this.destinationPlaceName = place.name
+              this.destinationPlaceGeometry = {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+              }
             }
+            console.log(this.originPlaceGeometry, this.destinationPlaceGeometry)
             this.route()?.then(result => {
-              this.distance = result?.routes[0].legs[0].distance?.text ?? '';
+              this.distance = result?.routes[0].legs[0].distance?.value ?? 0;
               subj.next({
+                geometry: {
+                  origin: this.originPlaceGeometry,
+                  destination: this.destinationPlaceGeometry
+                },
                 origin: this.originPlaceName,
                 destination: this.destinationPlaceName,
-                distance: this.distance,
+                distance: Math.round(this.distance > 0 ? this.distance / 1000 : 0)
               })
             })
           });

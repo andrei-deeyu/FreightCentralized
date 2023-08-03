@@ -1,3 +1,8 @@
+<div class="container mt-0 mb-2">
+  <button (click)="nearbyFreights()" class="btn btn-outline-dark nearbyFreightsButton">
+    nearby freights <span class="bi bi-magic"></span>
+  </button>
+</div>
 <exchange-filters (paginationFilters)="setPaginationFilters($event)"></exchange-filters>
 
 <div *ngIf="exchange$ | async" class="container p-0">

@@ -34,6 +34,20 @@ export class ExchangeComponent implements OnInit {
 
   ngOnInit() {}
 
+
+  nearbyFreights() {
+    let nearbyRange = 400;
+    navigator.geolocation.getCurrentPosition((loc) => {
+      let geoLocation = {
+        lat: loc.coords.latitude,
+        lng: loc.coords.longitude
+      }
+      this.service.getNearby(geoLocation, nearbyRange).subscribe(result => {
+        this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({exchange: result}))
+      })
+    });
+  }
+
   setPaginationFilters(event: object) {
     this.currentPaginationFilters.next(event);
   }
