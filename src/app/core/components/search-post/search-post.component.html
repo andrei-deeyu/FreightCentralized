@@ -22,10 +22,10 @@
           [class]="i == arrowkeyLocation ? 'highlightEmployee' : ''">
           <div class="card-body pt-2 pb-2">
             <div class="d-flex align-items-center">
-              <span class="userName"><strong>{{ freight.size.tonnage }}t</strong></span>
+              <span class="tonnage mt-2"><strong>{{ freight.size.tonnage }}t</strong></span>
               <span class="d-flex flex-column">
-                <span class=" ps-1"> {{ freight.origin }}</span>
-                <span class=" ps-1"> {{ freight.destination }}</span>
+                <span class="locationName ps-1"> {{ freight.origin }}</span>
+                <span class="locationName ps-1 mt-2"> {{ freight.destination }}</span>
               </span>
             </div>
             <span class="text-secondary"> {{ freight.fromUser.email }}</span>

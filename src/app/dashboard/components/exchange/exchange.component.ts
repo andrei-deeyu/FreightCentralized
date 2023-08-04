@@ -13,6 +13,8 @@ import { FavoriteChangedEventArgs } from '@shared/components/favorite/favorite.c
 import { fade } from 'sharedServices/animations';
 import { SessionService } from 'sharedServices/session.service';
 import { Subject } from 'rxjs';
+import { AuthService } from '@auth0/auth0-angular';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -25,25 +27,45 @@ import { Subject } from 'rxjs';
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPaginationFilters: Subject<Object> = new Subject<Object>();
+  nearbyFreightsLoading: boolean = false;
+  havePOSTPermission: boolean = false;
 
   constructor (
     private service: ExchangeApiService,
     private store: Store,
-    private session: SessionService
+    private session: SessionService,
+    private authService: AuthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.checkSubscription();
+  }
 
+  checkSubscription() {
+    this.authService.user$.subscribe(user => {
+      let subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
+      console.log(subscription);
+      if(subscription == 'shipper' || subscription == 'forwarder') this.havePOSTPermission = true;
+    })
+  }
 
   nearbyFreights() {
     let nearbyRange = 400;
+    this.nearbyFreightsLoading = true;
     navigator.geolocation.getCurrentPosition((loc) => {
       let geoLocation = {
         lat: loc.coords.latitude,
         lng: loc.coords.longitude
       }
-      this.service.getNearby(geoLocation, nearbyRange).subscribe(result => {
-        this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({exchange: result}))
+      this.service.getNearby(geoLocation, nearbyRange).subscribe({
+        next: (result) => {
+          this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({exchange: result}))
+          this.nearbyFreightsLoading = false;
+        },
+        error: () => {
+          this.nearbyFreightsLoading = false;
+          throw new AppError();
+        }
       })
     });
   }
