@@ -1,5 +1,10 @@
+div.container {
+  max-width: 992px;
+}
+
 .title {
-  background-color: rgba(128, 128, 128, 0.05);
+  // background-color: rgba(128, 128, 128, 0.05);
+  border-bottom: none;
   font-size: large;
   font-weight: bold;
   word-wrap: anywhere;
@@ -18,8 +23,8 @@
 .popUpAlertCardContainer {
   margin-top: 4rem;
   .card {
-    max-width: 25rem;
-    height: 10rem;
+    max-width: 30rem;
+    height: 12rem;
   }
 }
 
@@ -38,5 +43,9 @@ img {
 @media only screen and (max-width: 769px) {
   .fromUser {
     font-size: 12px;
+  }
+
+  .popUpAlertCardContainer {
+    margin-top: 5rem;
   }
 }

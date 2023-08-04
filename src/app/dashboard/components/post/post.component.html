@@ -3,14 +3,14 @@
 <div class="container" *ngIf="singlePost$ | async as data">
 
   <div class="popUpAlert" *ngIf="popUpAlert">
-    <div class="container popUpAlertCardContainer" (outsideClick)="!postDeleted ? popUpAlert = false : null">
+    <div class="container popUpAlertCardContainer d-flex justify-content-center" (outsideClick)="!postDeleted ? popUpAlert = false : null">
       <div class="card p-4 pt-2" *ngIf="deleteAlert">
-        <p class="fw-normal">Are you sure you want to <strong class="fw-bolder">delete this post?</strong></p>
+        <p class="fs-5 fw-normal">Are you sure you want to <strong class="fw-bolder">delete this post?</strong></p>
         <button (click)="popUpAlert = false" class="btn btn-primary">Cancel</button>
-        <button (click)="deletePost(data._id)" class="btn btn-outline-secondary mt-3" style="width: 25%">delete</button>
+        <button (click)="deletePost(data._id)" class="btn btn-outline-secondary mt-3" style="width: 6rem">delete</button>
       </div>
-      <div class="card justify-content-end" [@postDeleted]="postDeleted ? 'on' : 'off'">
-        <p class="fs-4 mb-3 ms-4">Post deleted <i class="bi bi-check-circle-fill"></i></p>
+      <div class="card d-flex justify-content-end" [@postDeleted]="postDeleted ? 'on' : 'off'">
+        <p class="fs-4 mb-3 ms-4 me-4">Post deleted <i class="bi bi-check-circle-fill"></i></p>
       </div>
     </div>
   </div>
@@ -18,21 +18,49 @@
 
   <ul class="list-group" *ngIf="data._id">
     <li class="list-group-item title d-flex align-items-center">
-      <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0"></button>
       <span class="ms-3 flex-fill">
         {{ data.origin }}
         <br>
         {{ data.destination }}
+        <br>
+        <span *ngIf="data.size.tonnage" class="fw-normal">
+          {{ data.size.tonnage }}t - {{ data.distance }} km
+        </span>
       </span>
       <button data-action="share/whatsapp/share" (click)="share('whatsapp')" class="btn bi bi-whatsapp p-0 ms-2"></button>
     </li>
-    <li class="list-group-item">{{ data.details }}<br>{{ data.distance }} km</li>
+
+    <li class="list-group-item">
+      <div class="col d-flex flex-column p-0 ps-md-3">
+        <span *ngIf="data.details">{{ data.details }}</span>
+
+        <span *ngIf="data.truck.type">{{ data.truck.type }}</span>
+        <span *ngIf="data.truck.regime == 'LTL'">LTL (less than truckload)</span>
+        <span *ngIf="data.truck.regime =='FTL'">FTL (full truckload)</span>
+        <span *ngIf="data.truck.regime =='ANY'">any truckload</span>
+
+        <div class="col d-flex flex-column p-0 ps-md-3">
+          <div *ngFor="let size of data.size | keyvalue; let i = index">
+            <span *ngIf="size.key == 'length' && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+            <span *ngIf="size.key == 'height' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+            <span *ngIf="size.key == 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
+            <span *ngIf="size.key == 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+          </div>
+        </div>
+        <span *ngIf="data.truck.features">{{ data.truck.features }}</span>
+        <span *ngIf="data.budget" class="fw-bold">{{ data.budget }} euro</span>
+      </div>
+    </li>
+
     <li class="list-group-item d-flex align-items-center fromUser">
       <div class="d-flex flex-fill align-items-center">
         <img [src]="data.fromUser.picture" alt="profile picture" />
         <span class="userName ps-1">{{ data.fromUser.name }}</span>
       </div>
-      <span class="createdAt text-black-50">{{ data.createdAt | date:"medium" }}</span>
+      <span class="createdAt text-black-50">
+        {{ data.createdAt | date: 'd.M.yyyy'}} -
+        {{ data.createdAt | postExpireDate: data.valability | date: 'd.M.yyyy' }}</span>
+      <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button>
     </li>
   </ul>
 </div>

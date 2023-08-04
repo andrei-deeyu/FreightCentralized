@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { selectExchange } from 'src/app/state/exchange.selectors';
@@ -13,8 +13,6 @@ import { FavoriteChangedEventArgs } from '@shared/components/favorite/favorite.c
 import { fade } from 'sharedServices/animations';
 import { SessionService } from 'sharedServices/session.service';
 import { Subject } from 'rxjs';
-import { AuthService } from '@auth0/auth0-angular';
-import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -28,30 +26,29 @@ export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPaginationFilters: Subject<Object> = new Subject<Object>();
   nearbyFreightsLoading: boolean = false;
-  havePOSTPermission: boolean = false;
+  isMobile: boolean;
+
+  @HostListener('window:resize', ['$event']) getScreenSize() {
+    this.isMobile = window.innerWidth <= 768;
+  }
 
   constructor (
     private service: ExchangeApiService,
     private store: Store,
     private session: SessionService,
-    private authService: AuthService
-  ) {}
+  ) {
+    this.isMobile = window.innerWidth <= 768;
+  }
 
   ngOnInit() {
-    this.checkSubscription();
+
   }
 
-  checkSubscription() {
-    this.authService.user$.subscribe(user => {
-      let subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
-      console.log(subscription);
-      if(subscription == 'shipper' || subscription == 'forwarder') this.havePOSTPermission = true;
-    })
-  }
 
   nearbyFreights() {
     let nearbyRange = 400;
     this.nearbyFreightsLoading = true;
+
     navigator.geolocation.getCurrentPosition((loc) => {
       let geoLocation = {
         lat: loc.coords.latitude,

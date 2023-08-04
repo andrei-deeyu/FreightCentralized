@@ -17,21 +17,21 @@
         <div class="postData row row-cols-1 row-cols-md-2" [routerLink]="['/exchange', post._id]">
           <div class="col d-flex flex-row p-0 align-items-center" style="border-right: 2px solid rgba(88, 88, 88, 0)">
             <div class="col d-flex flex-column">
-              <span class="fw-bold ">{{ post.origin }}</span>
-              <span class="fw-bold ">{{ post.destination }}</span>
+              <span class="fw-bold">{{ post.origin }}</span>
+              <span class="fw-bold">{{ post.destination }}</span>
             </div>
             <div class="col distance">
               <span>
-                172km
+                {{ post.distance }} km
               </span>
             </div>
-            <div class="col d-flex flex-column flex-fill align-items-end">
+            <div class="col d-flex flex-column flex-fill align-items-end" style="width:0">
               <div *ngFor="let size of post.size | keyvalue; let i = index">
-                <span *ngIf="size.key == 'tonnage'" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
-                <span *ngIf="size.key == 'length'">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
-                <span *ngIf="size.key == 'height'">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
-                <span *ngIf="size.key == 'volume'">{{ size.value }}m<sup>3</sup></span>
-                <span *ngIf="size.key == 'width'">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+                <span *ngIf="size.key == 'tonnage'  && size.value" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
+                <span *ngIf="size.key == 'length'  && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+                <span *ngIf="size.key == 'height'  && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+                <span *ngIf="size.key == 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
+                <span *ngIf="size.key == 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
               </div>
             </div>
           </div>
@@ -48,9 +48,8 @@
           </div>
         </div>
 
-
-        <div class="row row-cols-2 row-cols-md-2 mt-2" style="font-size: .8rem;color:rgb(83, 83, 83)">
-          <div class="col-10 d-flex flex-row p-0 align-items-center">
+        <div class="row row-cols-2 row-cols-md-2 mt-2 text-black-50" style="font-size: .8rem;">
+          <div class="col-10 d-flex flex-fill flex-row p-0 align-items-center">
             <div class="col d-flex flex-row p-0 align-items-center">
               <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged()"></favorite>
             </div>
@@ -67,7 +66,7 @@
             </div>
           </div>
 
-          <div class="col-2 d-flex flex-row align-items-center justify-content-end p-0">
+          <div *ngIf="!isMobile" class="col-1 d-flex flex-row align-items-center justify-content-end p-0">
             <img [src]="post.fromUser.picture" alt="profile picture" style="border-radius: 50%;max-height: 1.5rem;"/>
             <span class="ms-2 d-none d-md-block">{{ post.fromUser.name }}</span>
           </div>

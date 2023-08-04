@@ -26,7 +26,7 @@ export class AppComponent {
     private session: SessionService,
     private errorNotificationService: ErrorNotificationService,
     private cdr: ChangeDetectorRef
-    ) {}
+  ) { }
 
   ngOnInit() {
     this.checkUser();

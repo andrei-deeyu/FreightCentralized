@@ -106,15 +106,16 @@ export let expandedCollapsed = trigger('expandedCollapsed', [
  export let postDeleted = trigger('postDeleted', [
   state('off', style({
     marginTop: '-104vh',
+    width: 0,
     opacity: 0
   })),
 
   transition('off => on', [
-    style({ marginTop: '*' }),
+    style({ marginTop: '*', width: '*' }),
     animate('400ms ease-out', style({ opacity: 1 }))
   ]),
   transition('on => off', [
     animate('400ms ease-in', style({ opacity: 0 })),
-    style({ marginTop: '-104vh' })
+    style({ marginTop: '-104vh', width: 0 })
   ])
 ])

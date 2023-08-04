@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Exchange } from '@shared/models/exchange.model';
 import { PublicApiService } from 'sharedServices/public-api.service';
@@ -17,13 +17,17 @@ export class HomeComponent {
   githubRepo = environment.githubRepo;
   contactEmail = environment.contactEmail;
   exchange$ = this.store.select(selectExchange);
-  name = '';
-  eventCode = ''
+  isMobile: boolean;
 
+  @HostListener('window:resize', ['$event']) getScreenSize() {
+    this.isMobile = window.innerWidth <= 768;
+  }
   constructor(
     private store: Store,
     private service: PublicApiService
-  ) {}
+  ) {
+    this.isMobile = window.innerWidth <= 768;
+  }
 
   ngOnInit() {
     this.service.getAllPublic()

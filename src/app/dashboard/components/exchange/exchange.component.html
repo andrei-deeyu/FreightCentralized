@@ -1,4 +1,4 @@
-<div *ngIf="havePOSTPermission" class="container mt-0 p-2 p-md-0">
+<div class="container mt-0 p-2 p-md-0">
   <button (click)="nearbyFreights()" class="btn btn-outline-dark nearbyFreightsButton">
     nearby freights <span  *ngIf="!nearbyFreightsLoading" class="bi bi-magic"></span>
     <span *ngIf="nearbyFreightsLoading" class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
@@ -21,13 +21,13 @@
                 {{ post.distance }} km
               </span>
             </div>
-            <div class="col d-flex flex-column flex-fill align-items-end">
+            <div class="col d-flex flex-column flex-fill align-items-end" style="width:0">
               <div *ngFor="let size of post.size | keyvalue; let i = index">
-                <span *ngIf="size.key == 'tonnage'" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
-                <span *ngIf="size.key == 'length'">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
-                <span *ngIf="size.key == 'height'">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
-                <span *ngIf="size.key == 'volume'">{{ size.value }}m<sup>3</sup></span>
-                <span *ngIf="size.key == 'width'">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+                <span *ngIf="size.key == 'tonnage'  && size.value" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
+                <span *ngIf="size.key == 'length'  && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+                <span *ngIf="size.key == 'height'  && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+                <span *ngIf="size.key == 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
+                <span *ngIf="size.key == 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
               </div>
             </div>
           </div>
@@ -44,9 +44,8 @@
           </div>
         </div>
 
-
-        <div class="row row-cols-2 row-cols-md-2 mt-2" style="font-size: .8rem;color:rgb(83, 83, 83)">
-          <div class="col-10 d-flex flex-row p-0 align-items-center">
+        <div class="row row-cols-2 row-cols-md-2 mt-2 text-black-50" style="font-size: .8rem;">
+          <div class="col-10 d-flex flex-fill flex-row p-0 align-items-center">
             <div class="col d-flex flex-row p-0 align-items-center">
               <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
             </div>
@@ -63,19 +62,71 @@
             </div>
           </div>
 
-          <div class="col-2 d-flex flex-row align-items-center justify-content-end p-0">
+          <div *ngIf="!isMobile" class="col-1 d-flex flex-row align-items-center justify-content-end p-0">
             <img [src]="post.fromUser.picture" alt="profile picture" style="border-radius: 50%;max-height: 1.5rem;"/>
             <span class="ms-2 d-none d-md-block">{{ post.fromUser.name }}</span>
           </div>
         </div>
       </li>
 
-      <li *ngIf="post.new" @fade class="list-group-item d-flex align-items-center" [class.even]="isEven">
-        <!-- <button (click)="deletePost(post._id)" class="btn bi bi-x p-0"></button> _-->
-        <div class="postData p-2 flex-fill">
-          <a [routerLink]="['/exchange', post._id]">{{ post.details | summary:60 }}</a>
+      <li *ngIf="post.new" @fade class="list-group-item align-items-center p-4" [class.even]="isEven">
+        <div class="postData row row-cols-1 row-cols-md-2" [routerLink]="['/exchange', post._id]">
+          <div class="col d-flex flex-row p-0 align-items-center" style="border-right: 2px solid rgba(88, 88, 88, 0)">
+            <div class="col d-flex flex-column">
+              <span class="fw-bold">{{ post.origin }}</span>
+              <span class="fw-bold">{{ post.destination }}</span>
+            </div>
+            <div class="col distance">
+              <span>
+                {{ post.distance }} km
+              </span>
+            </div>
+            <div class="col d-flex flex-column flex-fill align-items-end" style="width:0">
+              <div *ngFor="let size of post.size | keyvalue; let i = index">
+                <span *ngIf="size.key == 'tonnage'  && size.value" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
+                <span *ngIf="size.key == 'length'  && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+                <span *ngIf="size.key == 'height'  && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+                <span *ngIf="size.key == 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
+                <span *ngIf="size.key == 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col d-flex flex-column p-0 ps-md-3">
+            <span *ngIf="post.details">{{ post.details | summary:60 }}</span>
+            <span *ngIf="post.truck.type">{{ post.truck.type }}</span>
+            <span *ngIf="post.truck.features">{{ post.truck.features }}</span>
+            <span *ngIf="post.budget" class="fw-bold">{{ post.budget }} euro</span>
+
+            <span *ngIf="post.truck.regime == 'LTL'">LTL (less than truckload)</span>
+            <span *ngIf="post.truck.regime =='FTL'">FTL (full truckload)</span>
+            <span *ngIf="post.truck.regime =='ANY'">any truckload</span>
+          </div>
         </div>
-        <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
+
+        <div class="row row-cols-2 row-cols-md-2 mt-2 text-black-50" style="font-size: .8rem;">
+          <div class="col-10 d-flex flex-fill flex-row p-0 align-items-center">
+            <div class="col d-flex flex-row p-0 align-items-center">
+              <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
+            </div>
+            <div class="col">
+              <span>
+                {{ post.createdAt | postPastTense }} ago
+              </span>
+            </div>
+            <div class="col d-flex flex-column align-items-end">
+              <span class="createdAt">
+                {{ post.createdAt | date: 'd.M.yyyy'}} -
+                {{ post.createdAt | postExpireDate: post.valability | date: 'd.M.yyyy' }}
+              </span>
+            </div>
+          </div>
+
+          <div *ngIf="!isMobile" class="col-1 d-flex flex-row align-items-center justify-content-end p-0">
+            <img [src]="post.fromUser.picture" alt="profile picture" style="border-radius: 50%;max-height: 1.5rem;"/>
+            <span class="ms-2 d-none d-md-block">{{ post.fromUser.name }}</span>
+          </div>
+        </div>
       </li>
     </div>
   </ul>
