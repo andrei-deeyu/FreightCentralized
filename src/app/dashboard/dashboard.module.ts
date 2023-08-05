@@ -16,7 +16,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { CreatePostRoutesComponent } from './components/create-post-routes/create-post-routes.component';
-import {MatSliderModule} from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 import { ExchangeFiltersComponent } from './components/exchange-filters/exchange-filters.component';
 
 @NgModule({
