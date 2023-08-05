@@ -91,7 +91,7 @@ export class PostComponent implements OnInit {
 
   share(where: string) {
     this.singlePost$.subscribe(post => {
-      let postLink = `${environment.domainName}exchange/${post._id}`;
+      let postLink = `${environment.domainLink}exchange/${post._id}`;
       console.log(postLink)
       if(where == 'whatsapp') {
         window.location.href =
