@@ -27,7 +27,7 @@ import { WildCardRouteModule } from './wild-card-route.module';
 import { StoreModule } from '@ngrx/store';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 
-import {  ExchangeNotificationReducer,
+import {  BidReducer, ExchangeNotificationReducer,
           currentPageReducer,
           exchangeReducer,
           singlePostReducer
@@ -73,7 +73,8 @@ export function tokenGetter() {
       exchange: exchangeReducer,
       singlePost: singlePostReducer,
       exchangeNotifications: ExchangeNotificationReducer,
-      currentPage: currentPageReducer
+      currentPage: currentPageReducer,
+      bid: BidReducer
     }),
     AppRoutingModule,
     SharedModule,

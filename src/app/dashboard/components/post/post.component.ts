@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PostApiService } from '../../services/post.api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,7 @@ import { SessionService } from 'sharedServices/session.service';
 import { AppError } from 'sharedServices/Errors/app-error';
 import { NotFoundError } from 'sharedServices/Errors/not-found-error';
 import { postDeleted } from 'sharedServices/animations';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'post',
@@ -29,6 +30,7 @@ export class PostComponent implements OnInit {
   deleteAlert: boolean = false;
   postDeleted: boolean = false;
   userId: string | undefined = '';
+  isAuthor$ = new Subject<boolean>();
 
   constructor (
     private router: Router,
@@ -46,6 +48,12 @@ export class PostComponent implements OnInit {
 
       if( user ) {
         this.getSinglePost(this.service);
+        this.singlePost$.subscribe((post) => {
+          if(post.fromUser.userId) {
+            if(post.fromUser.userId == this.userId) this.isAuthor$.next(true);
+            else this.isAuthor$.next(false);
+          }
+        })
       } else {
         this.getSinglePost(this.public_service);
       }

@@ -4,7 +4,7 @@ import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Exchange, ExchangeMockup } from '@shared/models/exchange.model';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
 import { RetryConfig, firstValueFrom, retry } from 'rxjs';
-import { ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
+import { BidApiActions, ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NoInternetConnection } from './Errors/no-internet-connection';
@@ -71,6 +71,15 @@ export class ExchangeNotificationsService {
           let postId = post.liked;
           let eventValue = post.eventValue;
           this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
+        }
+
+        if(post.price && post.postId) {
+          this.store.dispatch(BidApiActions.addBid({ bid: post }))
+        }
+
+        if(post.removedBid) {
+          let bidId = post.removedBid;
+          this.store.dispatch(BidApiActions.removeBid({ bidId }))
         }
       },
       error: ( err ) => { throw new NoInternetConnection(err) },

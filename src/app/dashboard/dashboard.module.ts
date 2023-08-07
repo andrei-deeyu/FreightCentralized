@@ -18,12 +18,15 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { CreatePostRoutesComponent } from './components/create-post-routes/create-post-routes.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { ExchangeFiltersComponent } from './components/exchange-filters/exchange-filters.component';
+import { PostBidsComponent } from './components/post-bids/post-bids.component';
+import { PostBidsService } from './services/post-bids.api.service';
 
 @NgModule({
   providers: [
     ExchangeApiService,
     PostApiService,
     PostPublicApiService,
+    PostBidsService,
     provideAnimations(),
     PaginationComponent
   ],
@@ -35,6 +38,7 @@ import { ExchangeFiltersComponent } from './components/exchange-filters/exchange
     CreatePostComponent,
     CreatePostRoutesComponent,
     ExchangeFiltersComponent,
+    PostBidsComponent,
   ],
 
   imports: [

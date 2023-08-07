@@ -11,7 +11,7 @@ div.container {
 }
 
 .popUpAlert {
-  background-color: rgba(24, 24, 24, 0.609);
+  background-color: rgba(45, 45, 45, 0.208);
   position: fixed;
   width: 100%;
   height: 100%;
@@ -43,6 +43,11 @@ img {
 @media only screen and (max-width: 769px) {
   .fromUser {
     font-size: 12px;
+  }
+
+  .userName {
+    line-height: unset;
+    height: unset;
   }
 
   .popUpAlertCardContainer {

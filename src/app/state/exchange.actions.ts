@@ -1,6 +1,7 @@
 import { createActionGroup, props } from '@ngrx/store';
 import { Exchange } from '@shared/models/exchange.model';
 import { CurrentPage } from '@shared/models/currentPage.model';
+import { Bid } from '@shared/models/bid.model';
 
 
 export const ExchangeApiActions = createActionGroup({
@@ -18,6 +19,14 @@ export const SinglePostApiActions = createActionGroup({
   events: {
     'Init Single Post': props<any>(),
     'Retrieved Single Post': props<{ singlePost: Exchange }>(),
+  },
+});
+
+export const BidApiActions = createActionGroup({
+  source: 'Bid API',
+  events: {
+    'Add Bid': props<{ bid: Bid }>(),
+    'Remove Bid': props<{bidId: string}>()
   },
 });
 

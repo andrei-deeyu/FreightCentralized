@@ -8,6 +8,7 @@ import { NotFoundError } from './Errors/not-found-error';
 import { BadInput } from './Errors/bad-input';
 import { NoInternetConnection } from './Errors/no-internet-connection';
 import { Exchange } from '@shared/models/exchange.model';
+import { Bid } from '@shared/models/bid.model';
 
 export interface GetPagination {
   pagesToShow: number;
@@ -124,6 +125,33 @@ export class DataService {
       )
   }
 
+  putBid(postId: string, offer: Object, sessionID: string): Observable<Array<Bid>> {
+    const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
+    return this.http
+      .put<Array<Bid>>(this.url + '/exchange/' + postId + '/bid', offer, { headers })
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  getBids(postId: string): Observable<Array<Bid>> {
+    return this.http
+      .get<Array<Bid>>(this.url + '/exchange/' + postId + '/bids')
+      .pipe(
+        map((res) => {
+          return res || [];
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  removeBid(bidId: string, sessionID: string) {
+    const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
+    return this.http.delete(this.url + '/exchange/' + bidId + '/bid', { headers })
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 
   private handleError(error: Response) {
     switch(true) {

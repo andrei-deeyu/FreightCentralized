@@ -1,0 +1,75 @@
+div.container {
+  max-width: 992px;
+}
+form {
+  // width: 13rem;
+  width: fit-content;
+  input.modifyOffer {
+    width: 6rem;
+  }
+}
+
+input[type=number].no-spinner::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.list-group-item {
+  border-radius: 0;
+  &:first-of-type {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &:last-of-type {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+  .itsLowestOffer {
+    //background-color: rgba(255, 217, 0, 0.089);
+  }
+}
+
+
+img {
+  max-width: 1.4rem;
+  border-radius: 50%;
+}
+
+
+.alertOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(45, 45, 45, 0.208);
+}
+.bidDeleteAlert {
+  z-index: 1000;
+}
+
+span.lowestOffer {
+  padding-left: 12px;
+}
+
+@media only screen and (max-width: 769px) {
+  span.modifyOffer {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .smallMobile {
+    flex-direction: column !important;
+    padding-top: .25rem;
+    span.modifyOffer { font-size: unset; }
+    span.col, span.col-12 {
+      margin-top: .5rem;
+    }
+  }
+}

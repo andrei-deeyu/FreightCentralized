@@ -1,0 +1,104 @@
+<ng-container *ngIf="(isAuthor$ | async) == false; else isTheAuthor">
+  <div *ngIf="bidsObs$ | async as bid">
+    <div *ngIf="bid.length > 0; else placeAnOffer" class="container">
+      <h4>My offer</h4>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let data of bid">
+          <div class="row d-flex flex-row align-items-center smallMobile" [class]="whoseLowestBid ? 'itsLowestOffer' : ''">
+            <div class="col d-flex flex-row align-items-center">
+              <span class="fw-bold">{{ reqUserBidPosition }}#</span>
+              <img [src]="data.fromUser.picture" alt="profile picture" class="ms-1" />
+              <span class="userName ps-1">{{ data.fromUser.name }}</span>
+            </div>
+            <span class="col text-end text-md-start">
+              <form [formGroup]="form" (ngSubmit)="putBid(form)" class="d-flex flex-row align-items-center"
+              (outsideClick)="modifyingOffer = false;this.form.setValue({ price: null });this.form.markAsPristine();this.form.markAsUntouched()">
+                <input  formControlName="price" type="number"
+                        (focus)="modifyingOffer = true;this.form.setValue({ price: data.price })"
+                        class="form-control modifyOffer no-spinner"
+                        [placeholder]="data.price + ' euro'">
+                <button *ngIf="modifyingOffer" class="btn btn-outline-primary">Submit</button>
+                <span *ngIf="!modifyingOffer" class="modifyOffer ms-md-2"> - {{ postDistance }} km</span>
+              </form>
+            </span>
+            <span class="col-12 col-md flex-grow-1 createdAt text-black-50 d-flex flex-row align-items-center">
+              {{ data.createdAt | date: 'd.M.yyyy'}} -
+              <span class="d-flex flex-fill justify-content-end">
+                <!-- {{ data.createdAt | postExpireDate: data.valability | date: 'd.M.yyyy' }}</span> -->
+                <button (click)="deleteAlert = true" class="btn bi bi-x p-0 ms-2"></button>
+              </span>
+            </span>
+          </div>
+          <div *ngIf="deleteAlert" class="bidDeleteAlert position-absolute end-0 d-flex justify-content-center" (outsideClick)="deleteAlert = false">
+            <div class="card p-4 pt-2" >
+              <p >Are you sure you want to <strong class="fw-bolder">delete this bid?</strong></p>
+              <button (click)="deleteAlert = false" class="btn btn-primary">Cancel</button>
+              <button *ngIf="data._id" (click)="deleteBid(data._id)" class="btn btn-outline-secondary mt-3" style="width: 6rem">delete</button>
+            </div>
+          </div>
+        </li>
+        <li *ngIf="!whoseLowestBid" class="list-group-item">
+          <div class="row d-flex flex-row align-items-center smallMobile">
+            <div class="col d-flex flex-row align-items-center text-secondary">
+              lowest offer
+            </div>
+            <span class="col text-end text-md-start">
+              <div class="d-flex flex-row align-items-center">
+                <span class="lowestOffer text-secondary">{{ lowestBid.price }} euro</span>
+              </div>
+            </span>
+            <span class="col-12 col-md"></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <ng-template #placeAnOffer>
+      <div *ngIf="haveBiddingPermission" class="container">
+        <h3>Place an offer</h3>
+        <form [formGroup]="form" (ngSubmit)="putBid(form)" class="d-flex flex-row">
+          <input formControlName="price" type="number" class="form-control" placeholder="asking price">
+          <button class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>
+<ng-template #isTheAuthor>
+  <div class="container">
+    <h4>Carriers' offers</h4>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let data of bidsObs$ | async">
+          <div class="row d-flex flex-row align-items-center">
+            <div class="col d-flex flex-row align-items-center">
+              <img [src]="data.fromUser.picture" alt="profile picture" />
+              <span class="userName ps-1">{{ data.fromUser.name }}</span>
+            </div>
+            <span class="col text-end text-md-start">
+              {{ data.price }} euro
+            </span>
+            <span class="col-10 col-md  createdAt text-black-50">
+              {{ data.createdAt | date: 'd.M.yyyy'}} -
+              <!-- {{ data.createdAt | postExpireDate: data.valability | date: 'd.M.yyyy' }}</span> -->
+            <!-- <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button> -->
+            </span>
+          </div>
+        </li>
+        <li *ngIf="(bidsObs$ | async)?.length == 0" class="list-group-item">
+          <div class="row d-flex flex-row align-items-center">
+            <div class="col d-flex flex-row align-items-center text-secondary">
+              no offers
+            </div>
+            <span class="col text-end text-md-start">
+              <div class="d-flex flex-row align-items-center">
+                <span class="lowestOffer text-secondary"> euro</span>
+              </div>
+            </span>
+            <span class="col-12 col-md"></span>
+          </div>
+        </li>
+      </ul>
+
+  </div>
+</ng-template>
+
+<div *ngIf="deleteAlert" class="alertOverlay"></div>

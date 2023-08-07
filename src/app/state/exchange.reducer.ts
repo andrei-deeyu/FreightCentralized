@@ -1,13 +1,15 @@
 import { createReducer, on } from '@ngrx/store';
 import { Exchange, ExchangeMockup } from '@shared/models/exchange.model';
-import { ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
+import { BidApiActions, ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
 import { CurrentPage } from '@shared/models/currentPage.model';
+import { Bid, BidMockup } from '@shared/models/bid.model';
 
 export const initialState: Array<Exchange> = [];
 
 export const pageActiveInitialState: CurrentPage = { pageActive: 1 };
 
 export const SinglePostInitialState: Exchange = ExchangeMockup;
+export const BidInitialState: Bid = BidMockup;
 export const ExchangeNotificationsInitialState: Exchange = ExchangeMockup;
 
 export const exchangeReducer = createReducer(
@@ -15,7 +17,6 @@ export const exchangeReducer = createReducer(
 
   on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange),
   on(ExchangeApiActions.addPost, (_state, { post }) => {
-    console.log('ah')
     if (_state.indexOf(post) > -1) return _state;
 
     //return _state.filter((value, index) => index !== _state.length)
@@ -33,6 +34,18 @@ export const singlePostReducer = createReducer(
 
   on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
   on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
+);
+
+export const BidReducer = createReducer(
+  BidInitialState,
+
+  on(BidApiActions.addBid, (_state, { bid }) => bid),
+  on(BidApiActions.removeBid, (_state, { bidId }) => {
+    return {
+      ...BidInitialState,
+      _id: bidId
+    }
+  })
 );
 
 export const ExchangeNotificationReducer = createReducer(
