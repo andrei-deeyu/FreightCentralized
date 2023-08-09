@@ -3,7 +3,13 @@ export interface RouteData {
   destination: string,
   distance: number,
   geometry?: {
-    origin: object,
-    destination: object
+    origin: {
+      lat: number,
+      lng: number
+    },
+    destination: {
+      lat: number,
+      lng: number
+    }
   }
 }

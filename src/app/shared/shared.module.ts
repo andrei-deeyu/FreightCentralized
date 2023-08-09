@@ -15,12 +15,16 @@ import { postExpireDatePipe } from 'sharedServices/postExpireDate.pipe';
 import { postPastTense } from 'sharedServices/postPastTense.pipe';
 import { PublicApiService } from 'sharedServices/public-api.service';
 import { GetSubscriptionComponent } from './components/get-subscription/get-subscription.component';
+import { ContactDataComponent } from './components/contact-data/contact-data.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     CommonModule,
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     FavoriteComponent,
@@ -34,11 +38,13 @@ import { GetSubscriptionComponent } from './components/get-subscription/get-subs
     SignupButtonComponent,
     LogoutButtonComponent,
     GetSubscriptionComponent,
+    ContactDataComponent,
   ],
 
   providers: [
     ErrorNotificationService,
-    PublicApiService
+    PublicApiService,
+    FormsModule
   ],
 
   exports: [
@@ -50,6 +56,7 @@ import { GetSubscriptionComponent } from './components/get-subscription/get-subs
     postPastTense,
     FormInputErrorComponent,
     GetSubscriptionComponent,
+    ContactDataComponent,
     LoginButtonComponent,
     SignupButtonComponent,
     LogoutButtonComponent

@@ -57,7 +57,7 @@ export class ProfileComponent {
     .subscribe({
       next: (result: {[index: string]:Object}) => {
         console.log(result)
-        if(result['status'] == 'changed')
+        if(result['state'] == 'changed')
           console.log(result);
           this.authService.loginWithRedirect({
             appState: {

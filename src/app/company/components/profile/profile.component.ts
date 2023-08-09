@@ -21,6 +21,7 @@ export class ProfileComponent {
   new_employee: User = {
     userId: '',
     email: '',
+    phoneNumber: 0,
     picture: '',
     name: ''
   }

@@ -39,8 +39,12 @@ export const singlePostReducer = createReducer(
 export const BidReducer = createReducer(
   BidInitialState,
 
-  on(BidApiActions.addBid, (_state, { bid }) => bid),
+  on(BidApiActions.addBid, (_state, { bid }) => {
+    console.log('add bidd')
+    return bid;
+  }),
   on(BidApiActions.removeBid, (_state, { bidId }) => {
+    console.log('remove bid')
     return {
       ...BidInitialState,
       _id: bidId

@@ -4,6 +4,7 @@ div.container {
 form {
   // width: 13rem;
   width: fit-content;
+  position: relative;
   input.modifyOffer {
     width: 6rem;
   }
@@ -14,6 +15,19 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.bid-tooltip {
+  position: absolute;
+  top: 2.35rem;
+  left: 1rem;
+  background: #3d3d3d2e;
+  // color: #643045;
+  font-weight: bold;
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
 
 .list-group-item {
   border-radius: 0;
@@ -34,12 +48,10 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-
 img {
   max-width: 1.4rem;
   border-radius: 50%;
 }
-
 
 .alertOverlay {
   position: absolute;
@@ -57,9 +69,82 @@ span.lowestOffer {
   padding-left: 12px;
 }
 
+
+.acceptingTheBid {
+  margin-top: 4rem;
+}
+
+.acceptingTheBidImage {
+  max-width: 4rem;
+}
+
+/* Always set the map height & width explicitly to define the size of the div,
+    else the element won't be shown,
+       * element that contains the map. */
+#map {
+  height: 300px;
+}
+#mapControls {
+  display: none
+}
+@media only screen and (min-width: 1000px) {
+  #map {
+    width: 590px;
+  }
+}
+
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  // height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#originOutput,
+#destinationOutput,
+#distance-priceOutput {
+  background-color: #fff;
+  //font-family: Roboto;
+  font-size: 1rem;
+  margin-left: 12px;
+  padding: 5px 11px 5px 13px;
+  width: 200px;
+}
+
+#distance-priceOutput {
+  background-color: rgb(241, 241, 241);
+  width: 100px;
+  //line-height: 2rem;
+}
+#pricePerKm {
+  font-size: .8rem;
+  line-height: 1.2rem;
+}
+
+
 @media only screen and (max-width: 769px) {
   span.modifyOffer {
     font-size: 12px;
+  }
+  .controls {
+    margin-top: 6px;
+  }
+
+  #originOutput,
+  #destinationOutput,
+  #distance-priceOutput {
+    font-size: 1rem;
+    margin-left: 6px;
+    // padding: 5px 11px 5px 13px;
+    // width: 200px;
+  }
+
+  #distance-priceOutput {
+    line-height: unset;
   }
 }
 

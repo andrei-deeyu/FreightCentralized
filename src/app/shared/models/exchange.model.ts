@@ -55,6 +55,7 @@ export const ExchangeMockup = {
   fromUser: {
     userId: '',
     email: '',
+    phoneNumber: 0,
     picture: '',
     name: ''
   },

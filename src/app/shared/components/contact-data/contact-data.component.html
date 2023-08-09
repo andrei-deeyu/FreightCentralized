@@ -1,0 +1,11 @@
+<div class="container">
+  <h3>Contact Details</h3>
+  <form [formGroup]="form" (ngSubmit)="saveProfile(form)">
+    <input formControlName="name" type="text" class="form-control" placeholder="Full Name">
+    <input formControlName="phoneNumber" type="number" class="form-control mt-2 no-spinner" placeholder="Phone Number">
+    <div class="mt-2 d-flex flex-row">
+      <button class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      <div *ngIf="form.errors" class="alert alert-danger m-0 pt-1 pb-1">{{ form.errors | json }}</div>
+    </div>
+  </form>
+</div>

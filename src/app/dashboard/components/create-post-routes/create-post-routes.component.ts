@@ -56,8 +56,8 @@ export class CreatePostRoutesComponent {
           this.destinationPlaceId = "";
           this.originPlaceName = "";
           this.destinationPlaceName = "";
-          this.originPlaceGeometry = {lat: null, lng: null};
-          this.destinationPlaceGeometry = {lat: null, lng: null};
+          this.originPlaceGeometry = {lat: 0, lng: 0};
+          this.destinationPlaceGeometry = {lat: 0, lng: 0};
           this.distance = 0;
           this.travelMode = google.maps.TravelMode.DRIVING;
           this.directionsService = new google.maps.DirectionsService();

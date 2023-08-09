@@ -16,10 +16,11 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { CreatePostRoutesComponent } from './components/create-post-routes/create-post-routes.component';
-import { MatSliderModule } from '@angular/material/slider';
 import { ExchangeFiltersComponent } from './components/exchange-filters/exchange-filters.component';
 import { PostBidsComponent } from './components/post-bids/post-bids.component';
 import { PostBidsService } from './services/post-bids.api.service';
+import { MatSliderModule } from '@angular/material/slider';
+
 
 @NgModule({
   providers: [

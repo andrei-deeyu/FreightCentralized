@@ -13,7 +13,7 @@ import { SessionService } from 'sharedServices/session.service';
 import { AppError } from 'sharedServices/Errors/app-error';
 import { NotFoundError } from 'sharedServices/Errors/not-found-error';
 import { postDeleted } from 'sharedServices/animations';
-import { Observable, Subject } from 'rxjs';
+
 
 @Component({
   selector: 'post',
@@ -30,7 +30,7 @@ export class PostComponent implements OnInit {
   deleteAlert: boolean = false;
   postDeleted: boolean = false;
   userId: string | undefined = '';
-  isAuthor$ = new Subject<boolean>();
+  isAuthor$ = new EventEmitter<boolean>();
 
   constructor (
     private router: Router,

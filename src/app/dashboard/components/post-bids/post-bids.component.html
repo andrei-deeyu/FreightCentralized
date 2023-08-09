@@ -1,7 +1,7 @@
 <ng-container *ngIf="(isAuthor$ | async) == false; else isTheAuthor">
-  <div *ngIf="bidsObs$ | async as bid">
+  <div *ngIf="bidsObs$ | async as bid" class="mt-4">
     <div *ngIf="bid.length > 0; else placeAnOffer" class="container">
-      <h4>My offer</h4>
+      <h5 class="mb-0">My offer</h5>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let data of bid">
           <div class="row d-flex flex-row align-items-center smallMobile" [class]="whoseLowestBid ? 'itsLowestOffer' : ''">
@@ -15,10 +15,14 @@
               (outsideClick)="modifyingOffer = false;this.form.setValue({ price: null });this.form.markAsPristine();this.form.markAsUntouched()">
                 <input  formControlName="price" type="number"
                         (focus)="modifyingOffer = true;this.form.setValue({ price: data.price })"
+                        (keyup)="setLiveEuroKm()"
                         class="form-control modifyOffer no-spinner"
                         [placeholder]="data.price + ' euro'">
+                <div id="bid-tooltip" class="bid-tooltip" style="display: none;">
+                  {{ liveEuroKm }} EUR/km
+                </div>
                 <button *ngIf="modifyingOffer" class="btn btn-outline-primary">Submit</button>
-                <span *ngIf="!modifyingOffer" class="modifyOffer ms-md-2"> - {{ postDistance }} km</span>
+                <span *ngIf="!modifyingOffer" class="modifyOffer ms-md-2"> - {{ postData?.distance }} km</span>
               </form>
             </span>
             <span class="col-12 col-md flex-grow-1 createdAt text-black-50 d-flex flex-row align-items-center">
@@ -54,9 +58,12 @@
     </div>
     <ng-template #placeAnOffer>
       <div *ngIf="haveBiddingPermission" class="container">
-        <h3>Place an offer</h3>
+        <h5 id="cevatitle" class="mb-0">Place an offer</h5>
         <form [formGroup]="form" (ngSubmit)="putBid(form)" class="d-flex flex-row">
-          <input formControlName="price" type="number" class="form-control" placeholder="asking price">
+          <input formControlName="price" id="askingPrice" (keyup)="setLiveEuroKm()" type="number" class="form-control" placeholder="asking price">
+          <div id="bid-tooltip" class="bid-tooltip" style="display: none;">
+            {{ liveEuroKm }} EUR/km
+          </div>
           <button class="btn btn-primary">Submit</button>
         </form>
       </div>
@@ -64,8 +71,9 @@
   </div>
 </ng-container>
 <ng-template #isTheAuthor>
-  <div class="container">
-    <h4>Carriers' offers</h4>
+  <!-- Available bids -->
+  <div class="container mt-4">
+    <h5 class="mb-0">Carriers' offers</h5>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let data of bidsObs$ | async">
           <div class="row d-flex flex-row align-items-center">
@@ -73,14 +81,20 @@
               <img [src]="data.fromUser.picture" alt="profile picture" />
               <span class="userName ps-1">{{ data.fromUser.name }}</span>
             </div>
-            <span class="col text-end text-md-start">
-              {{ data.price }} euro
+            <span class="col text-end text-md-start d-flex flex-column flex-md-row">
+              <span>{{ data.price }} euro</span>
+              <span class="text-secondary ms-md-2">({{ postData ? (data.price/postData.distance).toFixed(2) : 0 }} EUR/km)</span>
             </span>
-            <span class="col-10 col-md  createdAt text-black-50">
-              {{ data.createdAt | date: 'd.M.yyyy'}} -
+            <span class="col-12 col-md  createdAt text-black-50 d-flex align-items-center">
+              <span>
+                {{ data.createdAt | date: 'd.M.yyyy'}} -
+              </span>
               <!-- {{ data.createdAt | postExpireDate: data.valability | date: 'd.M.yyyy' }}</span> -->
             <!-- <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button> -->
+            <span class="d-flex flex-fill justify-content-end">
+              <button (click)="acceptBid(data)" class="btn btn-outline-secondary" style="line-height: 1rem;">Accept</button>
             </span>
+          </span>
           </div>
         </li>
         <li *ngIf="(bidsObs$ | async)?.length == 0" class="list-group-item">
@@ -98,6 +112,68 @@
         </li>
       </ul>
 
+  </div>
+
+  <!-- Accepting the bid -->
+  <div [style.display]="acceptingTheBid ? 'block' : 'none'" class="alertOverlay">
+    <div class="acceptingTheBid d-flex justify-content-center" >
+      <div class="card" (outsideClick)="acceptingTheBid = undefined">
+
+        <div id="mapControls">
+          <span id="originOutput" class="controls">
+            <!-- <span *ngIf="originLocation">{{ originLocation }}</span> -->
+          </span>
+          <span id="destinationOutput" class="controls">
+            <!-- <span *ngIf="destinationLocation">{{ destinationLocation }}</span> -->
+          </span>
+          <div id="distance-priceOutput" class="controls d-flex flex-row">
+            <!-- <span *ngIf="distance">{{ distance }} km</span> -->
+            <span id="distance"></span>
+            <span id="pricePerKm" class="text-secondary ms-2"></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="container" fluid="sm" id="map"></div>
+
+        <div class="p-2 pb-4 p-md-4 pt-md-2">
+          <div class="d-flex align-items-center mb-2">
+            <img [src]="acceptingTheBid?.fromUser?.picture" alt="profile picture" class="acceptingTheBidImage"/>
+            <span class="ms-2">
+              <span class="fw-bold text-secondary ">{{ acceptingTheBid?.fromUser?.name }}</span>
+                <br>
+              <span class="fw-normal text-secondary ">{{ acceptingTheBid?.fromUser?.email }}</span>
+                <br>
+              <span class="fw-normal text-secondary ">{{ acceptingTheBid?.fromUser?.['phoneNumber'] }}</span>
+            </span>
+          </div>
+
+          <p class="fw-bold mb-2">
+            Cargo Description: <span class="fw-normal text-secondary ">{{ postData?.details }}</span>
+          </p>
+          <p class="fw-bold mb-2">
+            Special Instructions: <span class="fw-normal text-secondary ">[Any special handling instructions]</span>
+          </p>
+          <p class="fw-bold mb-2">
+            Weight: <span class="fw-normal text-secondary ">{{ postData?.size?.tonnage }}t / kilograms</span>
+          </p>
+          <p class="fw-bold mb-2">
+            Date of Shipment: <span class="fw-normal text-secondary ">[Date]</span>
+          </p>
+          <p class="fw-bold d-flex mb-2">
+            Freight Charges:
+            <span class="d-flex">
+              <span class="fw-normal text-secondary ms-1">{{ acceptingTheBid?.price }} EUR</span>
+              <span class="fw-normal text-secondary ms-1">({{ postData && acceptingTheBid ? (acceptingTheBid.price/postData.distance).toFixed(2) : 0 }} EUR/km)</span>
+            </span>
+          </p>
+          <!-- <p >Are you sure you want to <strong class="fw-bolder">delete this bid?</strong></p> -->
+          <div class="d-flex flex-row mt-2">
+            <button (click)="acceptingTheBid = undefined" class="col me-1 btn btn-outline-secondary">Cancel</button>
+            <button  class="col ms-1 btn btn-primary">Accept</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>
 

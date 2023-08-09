@@ -2,7 +2,34 @@
 
 <ng-template #auth0Loaded>
   <div *ngIf="(isAuthenticated | async) && !profileSetup; else profileComplete">
-    <get-subscription></get-subscription>
+    <div class="container" style="margin-top: 1rem;margin-bottom: 5rem;">
+      <div id="progress" role="progressbar">
+        <div id="progress-bar" [style.width]="((profileSettingStep - 1) / (4 - 1)) * 100 + '%'"></div>
+        <ul id="progress-num">
+          <li class="step" [class.passed]="profileSettingStep >= 2">1
+            <span class="" [class.text-secondary]="profileSettingStep >= 2">registration</span>
+          </li>
+          <li class="step" [class.passed]="profileSettingStep >= 3" [class.active]="profileSettingStep >= 2 && profileSettingStep < 3">2
+            <span [class.text-secondary]="profileSettingStep > 2" [class.active]="profileSettingStep == 2">subscription</span>
+            <span [class.text-secondary]="profileSettingStep >= 3" [class.active]="profileSettingStep == 2.5">contact data</span>
+          </li>
+          <li class="step" [class.passed]="profileSettingStep >= 4" [class.active]="profileSettingStep == 3">3
+            <span class="sm-n4" [class.text-secondary]="profileSettingStep >= 4">verify email</span>
+          </li>
+          <li class="step" [class.passed]="profileSettingStep >= 5" [class.active]="profileSettingStep == 4">
+            <i class="bi bi-check-circle-fill"></i>
+            <span [class.text-secondary]="profileSettingStep >= 5">done</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <get-subscription *ngIf="!haveSubscription"></get-subscription>
+    <contact-data *ngIf="!contactDataCompleted && profileSettingStep >= 2.5"></contact-data>
+    <div class="position-absolute end-0 bottom-zero" [class.logoutButtonResponsive]="profileSettingStep < 2.5">
+      <logout-button [stylingClasses]="'btn text-secondary me-1 mb-2 mb-md-1'"></logout-button>
+    </div>
+
   </div>
   <ng-template #profileComplete>
     <navbar></navbar>

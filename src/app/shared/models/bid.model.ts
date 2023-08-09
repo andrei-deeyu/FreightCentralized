@@ -13,6 +13,7 @@ export const BidMockup = {
   fromUser: {
     userId: '',
     email: '',
+    phoneNumber: 0,
     picture: '',
     name: ''
   },

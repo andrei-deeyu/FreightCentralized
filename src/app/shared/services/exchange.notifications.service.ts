@@ -23,7 +23,7 @@ export class ExchangeNotificationsService {
 
   constructor(private store: Store, private router: Router, private authService: AuthService) {}
 
-  validKeys(_post: Exchange) {
+  validKeys(_data: Exchange) {
     function instanceOfExchange(object: any, element:any): object is Exchange {
       if(element === 'isLiked') return true;
       return element in object;
@@ -33,7 +33,7 @@ export class ExchangeNotificationsService {
     let result:Array<boolean> = [];
 
     ExchangeKeys.forEach((key) => {
-      result.push(instanceOfExchange(_post, key))
+      result.push(instanceOfExchange(_data, key))
     })
 
     if( result.includes(false) ) return false;
@@ -50,36 +50,37 @@ export class ExchangeNotificationsService {
     socket.pipe(
       retry(this.retryConfig)
     ).subscribe({
-      next: async ( post: any ) => {
-        console.log(post)
-        if( post._id && this.validKeys( post ) ) {
+      next: async ( data: any ) => {
+        console.log(data)
+        if( data._id && this.validKeys( data ) ) {
           let _currentPage = await firstValueFrom(this.currentPage$)
 
           if( this.router.url == '/exchange' && _currentPage.pageActive === 1) {
-            post.new = true;
-            this.store.dispatch(ExchangeApiActions.addPost({ post }));
+            data.new = true;
+            this.store.dispatch(ExchangeApiActions.addPost({ post: data }));
           }
-          this.store.dispatch(ExchangeNotificationsActions.addNotification({ post }))
+          this.store.dispatch(ExchangeNotificationsActions.addNotification({ post: data }))
         }
 
-        if( post.removed ) {
-          let postId = post.removed;
+        if( data.removed ) {
+          let postId = data.removed;
           this.store.dispatch(ExchangeApiActions.removePost({ postId }))
         }
 
-        if( post.liked ) {
-          let postId = post.liked;
-          let eventValue = post.eventValue;
+        if( data.liked ) {
+          let postId = data.liked;
+          let eventValue = data.eventValue;
           this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
         }
 
-        if(post.price && post.postId) {
-          this.store.dispatch(BidApiActions.addBid({ bid: post }))
-        }
-
-        if(post.removedBid) {
-          let bidId = post.removedBid;
-          this.store.dispatch(BidApiActions.removeBid({ bidId }))
+        if(this.router.url == '/exchange/' + data.postId) {
+          if(data.price && data.postId) {
+            this.store.dispatch(BidApiActions.addBid({ bid: data }))
+          }
+          if(data.removedBid) {
+            let bidId = data.removedBid;
+            this.store.dispatch(BidApiActions.removeBid({ bidId }))
+          }
         }
       },
       error: ( err ) => { throw new NoInternetConnection(err) },

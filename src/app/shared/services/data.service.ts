@@ -29,9 +29,9 @@ export class DataService {
     )
   }
 
-  saveProfile(newName: string): Observable<{[index: string]:Object}> {
+  saveProfile(newName?: string, phoneNumber?: string): Observable<{[index: string]:Object}> {
     return this.http
-    .post<{[index: string]:Object}>(this.url + '/saveProfile', { name: newName })
+    .post<{[index: string]:Object}>(this.url + '/saveProfile', { name: newName, phoneNumber })
     .pipe(
       catchError(this.handleError)
     )
