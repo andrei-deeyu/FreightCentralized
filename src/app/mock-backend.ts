@@ -5,7 +5,7 @@ import { delay } from "rxjs/internal/operators/delay";
 
 @Injectable()
 export class MockBackendInterceptor implements HttpInterceptor {
-  private theToken:string = '';
+  private theToken = '';
 
 
   private readonly _MOCK_RESPONSE = of(

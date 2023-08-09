@@ -17,11 +17,11 @@ export class NavbarComponent {
   isMobile: boolean;
   isAuthenticated$ = this.authService.isAuthenticated$
   user$ = this.authService.user$;
-  isAdmin: boolean = false;
-  canPostFreight: boolean = false;
-  isExpanded: boolean = false;
+  isAdmin = false;
+  canPostFreight = false;
+  isExpanded = false;
   notifications$ = this.store.select(selectExchangeNotifications);
-  openSearch: boolean = false;
+  openSearch = false;
   @HostListener('window:resize', ['$event']) getScreenSize() {
     this.isMobile = window.innerWidth <= 768;
   }
@@ -37,7 +37,7 @@ export class NavbarComponent {
   ngOnInit() {
     this.user$.subscribe(user => {
       this.isAdmin = user?.[`${environment.idtoken_namespace}app_metadata`]?.admin;
-      let subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
+      const subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
       if(subscription == 'shipper' || subscription == 'forwarder') {
         this.canPostFreight = true;
       }

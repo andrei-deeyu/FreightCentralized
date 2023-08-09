@@ -9,7 +9,7 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class LoginButtonComponent {
   constructor(private auth: AuthService) {}
-  @Input('stylingClasses') stylingClasses:string = '';
+  @Input() stylingClasses = '';
 
   handleLogin(): void {
     this.auth.loginWithRedirect({

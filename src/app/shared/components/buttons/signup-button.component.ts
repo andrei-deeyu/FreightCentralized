@@ -8,8 +8,8 @@ import { AuthService } from '@auth0/auth0-angular';
   `,
 })
 export class SignupButtonComponent {
-  @Input('stylingClasses') stylingClasses:string = '';
-  @Input('text') text:string = 'Sign Up';
+  @Input() stylingClasses = '';
+  @Input() text = 'Sign Up';
 
   constructor(private auth: AuthService) {}
 

@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-post-mobile.component.scss']
 })
 export class SearchPostMobileComponent {
-  @Output('closeSearch') closeSearch = new EventEmitter<string>();
+  @Output() closeSearch = new EventEmitter<string>();
   @ViewChild('freightSearchInput', { static: true })
   freightSearchInput!: ElementRef;
-  arrowkeyLocation:number = 0;
+  arrowkeyLocation = 0;
   apiResponse: any;
   isSearching: boolean;
-  successMessage: string = '';
+  successMessage = '';
 
 
   constructor(

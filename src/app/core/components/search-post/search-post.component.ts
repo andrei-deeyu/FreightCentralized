@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-post.component.scss']
 })
 export class SearchPostComponent {
-  @Input('isMobile') isMobile = false;
+  @Input() isMobile = false;
   @ViewChild('freightSearchInput', { static: true })
   freightSearchInput!: ElementRef;
-  arrowkeyLocation:number = 0;
+  arrowkeyLocation = 0;
   apiResponse: any;
   isSearching: boolean;
-  successMessage: string = '';
+  successMessage = '';
 
   constructor(
     private service: ExchangeApiService,

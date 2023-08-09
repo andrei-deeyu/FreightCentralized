@@ -33,7 +33,7 @@ export class ContactDataComponent {
   ) {}
 
   saveProfile(f: FormGroup) {
-    let profile = {
+    const profile = {
       name: f.get('name')?.value,
       phoneNumber: String(f.get('phoneNumber')?.value)
     }

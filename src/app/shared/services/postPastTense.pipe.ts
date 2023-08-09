@@ -7,14 +7,14 @@ export class postPastTense implements PipeTransform {
   transform(value: Date) {
     if( !value ) return null;
 
-    let oneSecond = 1000;
-    let oneMinute = oneSecond * 60;
-    let oneHour = oneMinute * 60;
-    let oneDay = oneHour * 24;
-    let oneWeek = oneDay * 7;
-    let oneMonth = oneWeek * 4;
+    const oneSecond = 1000;
+    const oneMinute = oneSecond * 60;
+    const oneHour = oneMinute * 60;
+    const oneDay = oneHour * 24;
+    const oneWeek = oneDay * 7;
+    const oneMonth = oneWeek * 4;
 
-    let pastTense = Date.now() - new Date(value).getTime();
+    const pastTense = Date.now() - new Date(value).getTime();
 
     switch(true) {
       case pastTense < oneSecond * 10:

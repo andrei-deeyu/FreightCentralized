@@ -35,16 +35,16 @@
         <span *ngIf="data.details">{{ data.details }}</span>
 
         <span *ngIf="data.truck.type">{{ data.truck.type }}</span>
-        <span *ngIf="data.truck.regime == 'LTL'">LTL (less than truckload)</span>
-        <span *ngIf="data.truck.regime =='FTL'">FTL (full truckload)</span>
-        <span *ngIf="data.truck.regime =='ANY'">any truckload</span>
+        <span *ngIf="data.truck.regime === 'LTL'">LTL (less than truckload)</span>
+        <span *ngIf="data.truck.regime ==='FTL'">FTL (full truckload)</span>
+        <span *ngIf="data.truck.regime ==='ANY'">any truckload</span>
 
         <div class="col d-flex flex-column p-0 ps-md-3">
           <div *ngFor="let size of data.size | keyvalue; let i = index">
-            <span *ngIf="size.key == 'length' && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
-            <span *ngIf="size.key == 'height' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
-            <span *ngIf="size.key == 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
-            <span *ngIf="size.key == 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+            <span *ngIf="size.key === 'length' && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+            <span *ngIf="size.key === 'height' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+            <span *ngIf="size.key === 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
+            <span *ngIf="size.key === 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
           </div>
         </div>
         <span *ngIf="data.truck.features">{{ data.truck.features }}</span>

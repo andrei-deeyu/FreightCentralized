@@ -12,9 +12,9 @@ import { environment } from 'src/environments/environment';
   animations: [ expandedCollapsed ]
 })
 export class ExchangeFiltersComponent {
-  @Output('paginationFilters') paginationFilters = new EventEmitter<Object>();
+  @Output() paginationFilters = new EventEmitter<Object>();
 
-  isExpanded: boolean = false;
+  isExpanded = false;
   truckTypes = [
     'duba', 'decopertat', 'basculanta', 'transport auto',
     'prelata', 'agabaritic', 'container'
@@ -26,7 +26,7 @@ export class ExchangeFiltersComponent {
     tonnage: [0, 41],
     truckType: []
   };
-  activeFilters:number = 0;
+  activeFilters = 0;
   destinationPlaceholder = 'Unload city';
 
   ngOnInit() {
@@ -69,9 +69,9 @@ export class ExchangeFiltersComponent {
       truckType: []
     }
     this.activeFilters = 0;
-    let textInputs = document.querySelectorAll("input[type='text']") as NodeListOf<HTMLInputElement>;
+    const textInputs = document.querySelectorAll("input[type='text']") as NodeListOf<HTMLInputElement>;
       textInputs.forEach((input: HTMLInputElement) => input.value = '');
-    let checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
+    const checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
       checkboxes.forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
   }
 
@@ -96,7 +96,7 @@ export class ExchangeFiltersComponent {
 
   checkActiveFilters() {
     this.activeFilters = 0;
-    let defaultFilters:{[index:string]:any} = {
+    const defaultFilters:{[index:string]:any} = {
       origin: '',
       destination: '',
       distance: [0, 1100],
@@ -105,20 +105,20 @@ export class ExchangeFiltersComponent {
     };
 
     Object.entries(this.filters).forEach((el: any) => {
-      let key:string = el[0];
-      let value:string | Array<Number|String> = el[1];
+      const key:string = el[0];
+      const value:string | Array<number|string> = el[1];
 
       if(typeof value == 'string' && value !== defaultFilters[key]) {
         this.activeFilters++;
       } else if(typeof value !== 'string') {
-        let defaultFiltersValue:Array<Number|String> = defaultFilters[key];
+        const defaultFiltersValue:Array<number|string> = defaultFilters[key];
         value.every((v) => !defaultFiltersValue.includes(v) ? this.activeFilters++ : null);
       }
     });
   }
 
   loadAutoComplete() {
-    let subj: Subject<Object> = new Subject<Object>;
+    const subj: Subject<Object> = new Subject<Object>;
     const loader = new Loader({
       apiKey: environment.google_maps_api_key,
       version: "weekly",

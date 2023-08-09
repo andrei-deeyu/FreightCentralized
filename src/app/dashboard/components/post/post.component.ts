@@ -24,11 +24,11 @@ import { postDeleted } from 'sharedServices/animations';
 
 export class PostComponent implements OnInit {
   singlePost$ = this.store.select(selectSinglePost);
-  singlePostLoaded: boolean = false;
-  singlePostError: boolean = false;
-  popUpAlert: boolean = false;
-  deleteAlert: boolean = false;
-  postDeleted: boolean = false;
+  singlePostLoaded = false;
+  singlePostError = false;
+  popUpAlert = false;
+  deleteAlert = false;
+  postDeleted = false;
   userId: string | undefined = '';
   isAuthor$ = new EventEmitter<boolean>();
 
@@ -64,7 +64,7 @@ export class PostComponent implements OnInit {
     this.store.dispatch(SinglePostApiActions.initSinglePost());
     this.route.paramMap
       .subscribe(params => {
-        let id:string = params.get('id') ?? '';
+        const id:string = params.get('id') ?? '';
 
         theService.getSingle(id)
           .subscribe({
@@ -99,7 +99,7 @@ export class PostComponent implements OnInit {
 
   share(where: string) {
     this.singlePost$.subscribe(post => {
-      let postLink = `${environment.domainLink}exchange/${post._id}`;
+      const postLink = `${environment.domainLink}exchange/${post._id}`;
       console.log(postLink)
       if(where == 'whatsapp') {
         window.location.href =

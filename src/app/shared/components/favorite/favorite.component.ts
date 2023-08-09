@@ -7,7 +7,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class FavoriteComponent {
   @Input('isLiked') isSelected: boolean | undefined = false;
-  @Output('change') change = new EventEmitter();
+  @Output() change = new EventEmitter();
 
   onClick() {
     this.isSelected = !this.isSelected;

@@ -11,14 +11,14 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  changingSubscription: boolean = false;
+  changingSubscription = false;
   user$ = this.authService.user$;
   code$ = this.user$.pipe(map((user) => JSON.stringify(user, null, 2)));
-  email_verification_resent: boolean = false;
-  emailToOpen:string = '';
-  editing:boolean = false;
-  newName: string = '';
-  user_subscription: string = '';
+  email_verification_resent = false;
+  emailToOpen = '';
+  editing = false;
+  newName = '';
+  user_subscription = '';
 
   constructor(public authService: AuthService, private store: Store, private service: AuthApiService) { }
 
@@ -27,7 +27,7 @@ export class ProfileComponent {
       console.log(user)
       this.user_subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
       if(user) {
-        let domain:string[] = user?.email?.split("@") ?? [''];
+        const domain:string[] = user?.email?.split("@") ?? [''];
         if(domain[1].includes('gmail')) {
           this.emailToOpen = 'https://mail.google.com/';
         } else if(domain[1].includes('yahoo')) {
@@ -46,7 +46,7 @@ export class ProfileComponent {
           this.email_verification_resent = true;
         }
     })
-  };
+  }
 
   openEmail() {
     if(this.emailToOpen) window.location.href = this.emailToOpen;

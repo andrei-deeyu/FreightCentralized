@@ -17,7 +17,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ProfileComponent {
   company!: Company;
-  companyLoaded: boolean = false;
+  companyLoaded = false;
   new_employee: User = {
     userId: '',
     email: '',
@@ -29,14 +29,14 @@ export class ProfileComponent {
     name: new FormControl(''),
     cui: new FormControl(null)
   })
-  editing: Boolean = false;
+  editing = false;
 
   @ViewChild('userSearchInput', { static: true })
   userSearchInput!: ElementRef<HTMLInputElement>;
-  arrowkeyLocation:number = 0;
+  arrowkeyLocation = 0;
   apiResponse: any;
   isSearching: boolean;
-  successMessage: string = '';
+  successMessage = '';
 
   constructor(private service: CompanyProfileApiService) {
     this.isSearching = false;
@@ -66,9 +66,9 @@ export class ProfileComponent {
     fromEvent(this.userSearchInput.nativeElement, 'keyup')
       .pipe(
         map((event: Event) => {
-          let elem = event.target as HTMLInputElement;
-          let pattern = new RegExp("^[A-Za-z0-9_.@-]+$");
-          let value = pattern.test(elem.value);
+          const elem = event.target as HTMLInputElement;
+          const pattern = new RegExp("^[A-Za-z0-9_.@-]+$");
+          const value = pattern.test(elem.value);
           if(value) return elem.value
           return '';
         }),
@@ -116,7 +116,7 @@ export class ProfileComponent {
   }
 
   createCompany(f: FormGroup) {
-    let newCompany = {
+    const newCompany = {
       name: f.value.name,
       cui: f.value.cui
     }
@@ -135,7 +135,7 @@ export class ProfileComponent {
   }
 
   updateCompany(f: FormGroup) {
-    let updates = {
+    const updates = {
       name: f.value.name
     }
 

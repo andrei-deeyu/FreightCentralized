@@ -22,7 +22,7 @@
               <input [formControlName]="characteristic.key" [id]="characteristic.key"
                     (blur)="onBlur(characteristic.key)" (focus)="onFocus(characteristic.key)"
                     type="number" class="form-control m-0" [placeholder]="characteristic.key" style="width: 8rem;"
-                    [class]="characteristic.key == 'tonnage' ? 'requiredInput' : ''">
+                    [class]="characteristic.key === 'tonnage' ? 'requiredInput' : ''">
               <div class="input-group-text" style="width: 3rem;">{{characteristic.value}}</div>
             </div>
           </div>

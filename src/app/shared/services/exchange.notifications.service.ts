@@ -29,8 +29,8 @@ export class ExchangeNotificationsService {
       return element in object;
     }
 
-    let ExchangeKeys = Object.keys(ExchangeMockup);
-    let result:Array<boolean> = [];
+    const ExchangeKeys = Object.keys(ExchangeMockup);
+    const result:Array<boolean> = [];
 
     ExchangeKeys.forEach((key) => {
       result.push(instanceOfExchange(_data, key))
@@ -41,11 +41,11 @@ export class ExchangeNotificationsService {
   }
 
   async connect(sessionID: string) {
-    let user = await firstValueFrom(this.authService.user$)
+    const user = await firstValueFrom(this.authService.user$)
     if( !user ) return;
 
-    let userId: string | undefined = user?.sub?.split('auth0|')[1]
-    let socket:WebSocketSubject<any> = webSocket(environment.WS_URL + '?' + userId + '/' + sessionID);
+    const userId: string | undefined = user?.sub?.split('auth0|')[1]
+    const socket:WebSocketSubject<any> = webSocket(environment.WS_URL + '?' + userId + '/' + sessionID);
 
     socket.pipe(
       retry(this.retryConfig)
@@ -53,7 +53,7 @@ export class ExchangeNotificationsService {
       next: async ( data: any ) => {
         console.log(data)
         if( data._id && this.validKeys( data ) ) {
-          let _currentPage = await firstValueFrom(this.currentPage$)
+          const _currentPage = await firstValueFrom(this.currentPage$)
 
           if( this.router.url == '/exchange' && _currentPage.pageActive === 1) {
             data.new = true;
@@ -63,13 +63,13 @@ export class ExchangeNotificationsService {
         }
 
         if( data.removed ) {
-          let postId = data.removed;
+          const postId = data.removed;
           this.store.dispatch(ExchangeApiActions.removePost({ postId }))
         }
 
         if( data.liked ) {
-          let postId = data.liked;
-          let eventValue = data.eventValue;
+          const postId = data.liked;
+          const eventValue = data.eventValue;
           this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
         }
 
@@ -78,7 +78,7 @@ export class ExchangeNotificationsService {
             this.store.dispatch(BidApiActions.addBid({ bid: data }))
           }
           if(data.removedBid) {
-            let bidId = data.removedBid;
+            const bidId = data.removedBid;
             this.store.dispatch(BidApiActions.removeBid({ bidId }))
           }
         }

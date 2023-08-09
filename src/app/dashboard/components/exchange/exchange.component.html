@@ -23,11 +23,11 @@
             </div>
             <div class="col d-flex flex-column flex-fill align-items-end" style="width:0">
               <div *ngFor="let size of post.size | keyvalue; let i = index">
-                <span *ngIf="size.key == 'tonnage'  && size.value" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
-                <span *ngIf="size.key == 'length'  && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
-                <span *ngIf="size.key == 'height'  && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
-                <span *ngIf="size.key == 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
-                <span *ngIf="size.key == 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+                <span *ngIf="size.key === 'tonnage'  && size.value" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
+                <span *ngIf="size.key === 'length'  && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+                <span *ngIf="size.key === 'height'  && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+                <span *ngIf="size.key === 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
+                <span *ngIf="size.key === 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
               </div>
             </div>
           </div>
@@ -38,9 +38,9 @@
             <span *ngIf="post.truck.features">{{ post.truck.features }}</span>
             <span *ngIf="post.budget" class="fw-bold">{{ post.budget }} euro</span>
 
-            <span *ngIf="post.truck.regime == 'LTL'">LTL (less than truckload)</span>
-            <span *ngIf="post.truck.regime =='FTL'">FTL (full truckload)</span>
-            <span *ngIf="post.truck.regime =='ANY'">any truckload</span>
+            <span *ngIf="post.truck.regime === 'LTL'">LTL (less than truckload)</span>
+            <span *ngIf="post.truck.regime ==='FTL'">FTL (full truckload)</span>
+            <span *ngIf="post.truck.regime ==='ANY'">any truckload</span>
           </div>
         </div>
 
@@ -83,11 +83,11 @@
             </div>
             <div class="col d-flex flex-column flex-fill align-items-end" style="width:0">
               <div *ngFor="let size of post.size | keyvalue; let i = index">
-                <span *ngIf="size.key == 'tonnage'  && size.value" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
-                <span *ngIf="size.key == 'length'  && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
-                <span *ngIf="size.key == 'height'  && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
-                <span *ngIf="size.key == 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
-                <span *ngIf="size.key == 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
+                <span *ngIf="size.key === 'tonnage'  && size.value" class="fs-5 fw-bold" style="width:10rem">{{ size.value }}t</span>
+                <span *ngIf="size.key === 'length'  && size.value">{{ size.value }}m<i class="bi bi-arrow-up-right"></i></span>
+                <span *ngIf="size.key === 'height'  && size.value">{{ size.value }}m<i class="bi bi-arrows-expand"></i></span>
+                <span *ngIf="size.key === 'volume' && size.value">{{ size.value }}m<sup>3</sup></span>
+                <span *ngIf="size.key === 'width' && size.value">{{ size.value }}m<i class="bi bi-arrows-expand rotate-icon-90"></i></span>
               </div>
             </div>
           </div>
@@ -98,9 +98,9 @@
             <span *ngIf="post.truck.features">{{ post.truck.features }}</span>
             <span *ngIf="post.budget" class="fw-bold">{{ post.budget }} euro</span>
 
-            <span *ngIf="post.truck.regime == 'LTL'">LTL (less than truckload)</span>
-            <span *ngIf="post.truck.regime =='FTL'">FTL (full truckload)</span>
-            <span *ngIf="post.truck.regime =='ANY'">any truckload</span>
+            <span *ngIf="post.truck.regime === 'LTL'">LTL (less than truckload)</span>
+            <span *ngIf="post.truck.regime ==='FTL'">FTL (full truckload)</span>
+            <span *ngIf="post.truck.regime ==='ANY'">any truckload</span>
           </div>
         </div>
 

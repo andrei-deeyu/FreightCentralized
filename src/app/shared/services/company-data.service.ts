@@ -47,7 +47,7 @@ export class CompanyDataService {
       )
   }
 
-  update(updates: Object, company_id: String): Observable<Company> {
+  update(updates: Object, company_id: string): Observable<Company> {
     return this.http
       .patch<Company>(this.url + '/company/' + company_id, updates)
       .pipe(

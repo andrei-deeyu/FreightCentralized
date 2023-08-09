@@ -27,7 +27,7 @@ import { Component, Input } from '@angular/core';
   ]
 })
 export class FormInputErrorComponent {
-  @Input("control") control:any;
-  @Input("controlName") controlName:any;
-  @Input('blur') blur:any;
+  @Input() control:any;
+  @Input() controlName:any;
+  @Input() blur:any;
 }

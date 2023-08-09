@@ -25,7 +25,7 @@ import { Subject } from 'rxjs';
 export class ExchangeComponent implements OnInit {
   exchange$ = this.store.select(selectExchange)
   currentPaginationFilters: Subject<Object> = new Subject<Object>();
-  nearbyFreightsLoading: boolean = false;
+  nearbyFreightsLoading = false;
   isMobile: boolean;
 
   @HostListener('window:resize', ['$event']) getScreenSize() {
@@ -46,11 +46,11 @@ export class ExchangeComponent implements OnInit {
 
 
   nearbyFreights() {
-    let nearbyRange = 400;
+    const nearbyRange = 400;
     this.nearbyFreightsLoading = true;
 
     navigator.geolocation.getCurrentPosition((loc) => {
-      let geoLocation = {
+      const geoLocation = {
         lat: loc.coords.latitude,
         lng: loc.coords.longitude
       }
@@ -72,7 +72,7 @@ export class ExchangeComponent implements OnInit {
   }
 
   onFavoriteChanged(postId: string, eventArgs: FavoriteChangedEventArgs, ) {
-    let eventValue = Object.values(eventArgs)[0];
+    const eventValue = Object.values(eventArgs)[0];
 
     this.service.likePost(postId, eventValue, this.session.ID)
       .subscribe({

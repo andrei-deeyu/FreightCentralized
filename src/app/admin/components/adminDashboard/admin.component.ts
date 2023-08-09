@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AdminComponent {
   user$ = this.authService.user$;
-  isAdmin: boolean = false;
+  isAdmin = false;
 
   constructor(public authService: AuthService) {}
   ngOnInit() {

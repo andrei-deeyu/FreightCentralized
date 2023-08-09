@@ -14,13 +14,13 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
   isAuth0Loading$ = this.authService.isLoading$;
   isAuthenticated = this.authService.isAuthenticated$;
-  userLoaded: boolean = false;
-  errorNotification: string = '';
-  showErrorNotification: boolean = false;
-  profileSetup: boolean = false;
-  profileSettingStep: number = 0;
-  haveSubscription: boolean = false;
-  contactDataCompleted: boolean = false;
+  userLoaded = false;
+  errorNotification = '';
+  showErrorNotification = false;
+  profileSetup = false;
+  profileSettingStep = 0;
+  haveSubscription = false;
+  contactDataCompleted = false;
   email_verified: boolean | undefined = false;
 
   constructor(
@@ -41,9 +41,9 @@ export class AppComponent {
       console.log(user);
       if (user?.sub) this.userLoaded = true;
 
-      let haveSubscription =
+      const haveSubscription =
         user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
-      let phoneNumber =
+      const phoneNumber =
         user?.[`${environment.idtoken_namespace}app_metadata`]?.phoneNumber;
 
       if (haveSubscription) {

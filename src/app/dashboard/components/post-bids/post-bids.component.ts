@@ -23,7 +23,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 })
 export class PostBidsComponent {
   @Input('isAuthor') isAuthor$ = new Observable<boolean>();
-  @Input('postData') postData!: Exchange | null;
+  @Input() postData!: Exchange | null;
   isAuthorSubscription$!: Subscription
   postId!: string;
 
@@ -39,13 +39,13 @@ export class PostBidsComponent {
   form = new FormGroup({
     price: new FormControl<null | number>(null, [Validators.required])
   })
-  modifyingOffer: boolean = false;
+  modifyingOffer = false;
   liveEuroKm!: number;
   liveEuroKmTimer!: ReturnType<typeof setTimeout>;
 
-  deleteAlert: boolean = false;
+  deleteAlert = false;
   acceptingTheBid: Bid | undefined;
-  mapLoaded: boolean = false;
+  mapLoaded = false;
 
   constructor(
     private service: PostBidsService,
@@ -69,10 +69,10 @@ export class PostBidsComponent {
         this.bidsObs$.subscribe(currentBids => { updateBids = currentBids })
 
          this.newBid$ = this.store.select(selectBid).subscribe(newBid => {
-          let deleteAction = newBid.fromUser['userId'] ? false : true;
+          const deleteAction = newBid.fromUser['userId'] ? false : true;
 
           if (deleteAction) {
-            let deleteBidIndex = updateBids.map(i => i.fromUser['userId']).indexOf(newBid.fromUser['userId'])
+            const deleteBidIndex = updateBids.map(i => i.fromUser['userId']).indexOf(newBid.fromUser['userId'])
             updateBids.splice(deleteBidIndex, 1);
           } else {
             let doesntExist: boolean;
@@ -83,7 +83,7 @@ export class PostBidsComponent {
             }
             if (doesntExist) updateBids.push(newBid);
             else { // bid exists, then modify it
-              let modifyingBidIndex = updateBids.map(i => i.fromUser['userId']).indexOf(newBid.fromUser['userId'])
+              const modifyingBidIndex = updateBids.map(i => i.fromUser['userId']).indexOf(newBid.fromUser['userId'])
               updateBids[modifyingBidIndex] = newBid;
             }
           }
@@ -101,7 +101,7 @@ export class PostBidsComponent {
 
   checkSubscription() {
     this.authService.user$.subscribe(user => {
-      let subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
+      const subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
       if (subscription == 'carrier' || subscription == 'logistic') this.haveBiddingPermission = true;
       else this.haveBiddingPermission = false;
     })
@@ -126,8 +126,8 @@ export class PostBidsComponent {
   }
 
   setLiveEuroKm() {
-    let formControlPrice = this.form.get('price')?.value;
-    let toolpit = document.querySelector('#bid-tooltip') as HTMLElement;
+    const formControlPrice = this.form.get('price')?.value;
+    const toolpit = document.querySelector('#bid-tooltip') as HTMLElement;
     if(!(formControlPrice && this.postData && toolpit)) return;
 
     this.liveEuroKm = Number((formControlPrice / this.postData.distance).toFixed(2));
@@ -138,7 +138,7 @@ export class PostBidsComponent {
   }
 
   putBid(f: FormGroup) {
-    let offer = {
+    const offer = {
       price: f.get('price')?.value
     }
     this.service.putBid(this.postId, offer, this.session.ID)
@@ -169,7 +169,7 @@ export class PostBidsComponent {
           let updateBids: Array<Bid> = [];
 
           this.bidsObs$.subscribe(currentBids => { updateBids = currentBids })
-          let deleteBidIndex = updateBids.map(i => i._id).indexOf(id)
+          const deleteBidIndex = updateBids.map(i => i._id).indexOf(id)
           updateBids.splice(deleteBidIndex, 1);
           this.bids$.next(updateBids);
         },

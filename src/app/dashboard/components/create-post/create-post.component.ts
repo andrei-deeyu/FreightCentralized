@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 
 interface inputBlurInterface {
   input: {
-    [index: string]:Boolean
+    [index: string]:boolean
   }
 }
 
@@ -33,12 +33,12 @@ interface inputBlurInterface {
   animations: [ expandedCollapsed ]
 })
 export class CreatePostComponent {
-  haveAccess: boolean = false;
-  @Input('isComponentEmbedded') isComponentEmbedded: boolean = false;
+  haveAccess = false;
+  @Input() isComponentEmbedded = false;
 
   exchange$ = this.store.select(selectExchange)
   currentPage$ = this.store.select(selectCurrentPage);
-  isExpanded: boolean = false;
+  isExpanded = false;
   inputBlur: inputBlurInterface = { input: {} }
   numberRegEx = '^[0-9]{1,9}([,.][0-9]{1,9})?$';
   truckTypes = [
@@ -95,7 +95,7 @@ export class CreatePostComponent {
 
   checkSubscription() {
     this.authService.user$.subscribe(user => {
-      let subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
+      const subscription = user?.[`${environment.idtoken_namespace}app_metadata`]?.subscription;
       console.log(subscription);
       if(subscription == 'shipper' || subscription == 'forwarder') this.haveAccess = true;
     })
@@ -119,7 +119,7 @@ export class CreatePostComponent {
     if(event.target.checked){
       formArray.push(new FormControl(event.target.value));
     } else {
-      let i: number = 0;
+      let i = 0;
 
       formArray.controls.forEach((ctrl: AbstractControl) => {
         if(ctrl.value == event.target.value) {
@@ -141,7 +141,7 @@ export class CreatePostComponent {
 
   async createPost(f: FormGroup) {
     console.log(f.value)
-    let insertPost: any = {
+    const insertPost: any = {
       origin: this.routeData.origin,
       destination: this.routeData.destination,
       distance: this.routeData.distance,
@@ -179,7 +179,7 @@ export class CreatePostComponent {
         }
           f.reset();
           this.inputBlur.input = {}
-          let checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
+          const checkboxes = document.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
           checkboxes.forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
           this.clearCheckFormControls('type');
           this.clearCheckFormControls('features');

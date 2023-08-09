@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./create-post-routes.component.scss']
 })
 export class CreatePostRoutesComponent {
-  @Output('routeData') routeData: EventEmitter<RouteData> = new EventEmitter<RouteData>;
+  @Output() routeData: EventEmitter<RouteData> = new EventEmitter<RouteData>;
   distance = 0;
   location = '';
   destination = '';
@@ -28,7 +28,7 @@ export class CreatePostRoutesComponent {
   }
 
   loadMap() {
-    let subj: Subject<RouteData> = new Subject<RouteData>;
+    const subj: Subject<RouteData> = new Subject<RouteData>;
     const loader = new Loader({
       apiKey: environment.google_maps_api_key,
       version: "weekly",

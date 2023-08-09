@@ -15,8 +15,8 @@ import { Observable } from 'rxjs';
 export class PaginationComponent {
   currentPage$ = this.store.select(selectCurrentPage);
   selectedPagination = 0;
-  pagesToShow:number = 0;
-  @Input('filtersObs') filtersObs!: Observable<Object>;
+  pagesToShow = 0;
+  @Input() filtersObs!: Observable<Object>;
 
   constructor (
     private service: ExchangeApiService,
@@ -32,7 +32,7 @@ export class PaginationComponent {
     .subscribe(( response ) => {
       this.pagesToShow = response.pagesToShow;
 
-      let exchange:Exchange[] = response.result
+      const exchange:Exchange[] = response.result
       this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
     });
   }
@@ -42,11 +42,11 @@ export class PaginationComponent {
     .subscribe(( response ) => {
       this.pagesToShow = response.pagesToShow;
 
-      let currentPage:CurrentPage = { pageActive: response.pageActive } ;
+      const currentPage:CurrentPage = { pageActive: response.pageActive } ;
       this.selectedPagination = response.pageActive;
       this.store.dispatch(pageActiveActions.changePage({ currentPage }))
 
-      let exchange:Exchange[] = response.result
+      const exchange:Exchange[] = response.result
       this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({ exchange }))
     });
   }

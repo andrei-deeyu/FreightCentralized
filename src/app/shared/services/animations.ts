@@ -1,6 +1,6 @@
 import { animate, animation, keyframes, state, style, transition, trigger, useAnimation } from '@angular/animations';
 
-export let bounceOutLeftAnimation = animation(
+export const bounceOutLeftAnimation = animation(
   animate('0.5s ease-out', keyframes([
     style({
       offset: .2,
@@ -14,7 +14,7 @@ export let bounceOutLeftAnimation = animation(
     }),
 ])));
 
-export let slide = trigger('slide', [
+export const slide = trigger('slide', [
   transition(':enter', [
     style({ transform: 'translateX(-10px)' }),
     animate(500)
@@ -23,7 +23,7 @@ export let slide = trigger('slide', [
   transition(':leave', useAnimation(bounceOutLeftAnimation))
 ])
 
-export let fadeInAnimation = animation([
+export const fadeInAnimation = animation([
   style({ opacity: 0 }),
   animate('{{ duration }} {{ easing }}')
 ], {
@@ -33,24 +33,24 @@ export let fadeInAnimation = animation([
   }
 })
 
-export let fadeOutAnimation = animation([
+export const fadeOutAnimation = animation([
   animate('200ms ease-in', style({ opacity: 0 }))
 ])
 
-export let fade = trigger('fade', [
+export const fade = trigger('fade', [
   state('void', style({ opacity: 0 })),
   transition(':enter',useAnimation(fadeInAnimation)),
   transition(':leave', useAnimation(fadeOutAnimation))
 ])
 
-export let fadeOnOff = trigger('fadeOnOff', [
+export const fadeOnOff = trigger('fadeOnOff', [
   state('off', style({ opacity: 0, marginRight: '-2rem' })),
   transition('off => on',useAnimation(fadeInAnimation)),
   transition('on => off', useAnimation(fadeOutAnimation))
 ])
 
 
-export let expandedCollapsed = trigger('expandedCollapsed', [
+export const expandedCollapsed = trigger('expandedCollapsed', [
   state('collapsed', style({
     height: 0,
     opacity: 0
@@ -69,7 +69,7 @@ export let expandedCollapsed = trigger('expandedCollapsed', [
   ])
  ])
 
- export let menuExpandedCollapsed = trigger('menuExpandedCollapsed', [
+ export const menuExpandedCollapsed = trigger('menuExpandedCollapsed', [
   state('collapsed', style({
     top: '-104vh',
     opacity: 0
@@ -86,7 +86,7 @@ export let expandedCollapsed = trigger('expandedCollapsed', [
  ])
 
 
- export let popUpAlert = trigger('popUpAlert', [
+ export const popUpAlert = trigger('popUpAlert', [
   state('collapsed', style({
     marginTop: '-104vh',
     opacity: 0
@@ -103,7 +103,7 @@ export let expandedCollapsed = trigger('expandedCollapsed', [
   ])
  ])
 
- export let postDeleted = trigger('postDeleted', [
+ export const postDeleted = trigger('postDeleted', [
   state('off', style({
     marginTop: '-104vh',
     width: 0,
