@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Store } from '@ngrx/store';
 import { AuthApiService } from '../../../shared/services/auth.api.service';
@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   changingSubscription = false;
   user$ = this.authService.user$;
   code$ = this.user$.pipe(map((user) => JSON.stringify(user, null, 2)));
@@ -40,9 +40,9 @@ export class ProfileComponent {
   resendEmailVerification() {
     this.service.resendVerification()
     .subscribe({
-      next: (result: {[index: string]:Object}) => {
+      next: (result: { status: string }) => {
         console.log(result)
-        if(result['status'] == 'pending')
+        if(result.status == 'pending')
           this.email_verification_resent = true;
         }
     })
@@ -55,9 +55,9 @@ export class ProfileComponent {
   saveProfile() {
     this.service.saveProfile(this.newName)
     .subscribe({
-      next: (result: {[index: string]:Object}) => {
+      next: (result: { state: string }) => {
         console.log(result)
-        if(result['state'] == 'changed')
+        if(result.state == 'changed')
           console.log(result);
           this.authService.loginWithRedirect({
             appState: {

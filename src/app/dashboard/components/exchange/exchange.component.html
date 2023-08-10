@@ -47,7 +47,7 @@
         <div class="row row-cols-2 row-cols-md-2 mt-2 text-black-50" style="font-size: .8rem;">
           <div class="col-10 d-flex flex-fill flex-row p-0 align-items-center">
             <div class="col d-flex flex-row p-0 align-items-center">
-              <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
+              <favorite [isLiked]="post.isLiked" (changeValue)="onFavoriteChanged(post._id, $event)"></favorite>
             </div>
             <div class="col">
               <span>
@@ -107,7 +107,7 @@
         <div class="row row-cols-2 row-cols-md-2 mt-2 text-black-50" style="font-size: .8rem;">
           <div class="col-10 d-flex flex-fill flex-row p-0 align-items-center">
             <div class="col d-flex flex-row p-0 align-items-center">
-              <favorite [isLiked]="post.isLiked" (change)="onFavoriteChanged(post._id, $event)"></favorite>
+              <favorite [isLiked]="post.isLiked" (changeValue)="onFavoriteChanged(post._id, $event)"></favorite>
             </div>
             <div class="col">
               <span>

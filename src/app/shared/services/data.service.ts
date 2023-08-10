@@ -21,25 +21,25 @@ export class DataService {
 
   }
 
-  resendVerification(): Observable<{[index: string]:Object}> {
+  resendVerification(): Observable<{ status: string }> {
     return this.http
-    .get<{[index: string]:Object}>(this.url + '/verification-email')
+    .get<{ status: string }>(this.url + '/verification-email')
     .pipe(
       catchError(this.handleError)
     )
   }
 
-  saveProfile(newName?: string, phoneNumber?: string): Observable<{[index: string]:Object}> {
+  saveProfile(newName?: string, phoneNumber?: string): Observable<{ state: string }> {
     return this.http
-    .post<{[index: string]:Object}>(this.url + '/saveProfile', { name: newName, phoneNumber })
+    .post<{ state: string }>(this.url + '/saveProfile', { name: newName, phoneNumber })
     .pipe(
       catchError(this.handleError)
     )
   }
 
-  changeSubscription(type: string): Observable<{[index: string]:Object}> {
+  changeSubscription(type: string): Observable<{ state: string }> {
     return this.http
-    .post<{[index: string]:Object}>(this.url + '/subscription', { type: type })
+    .post<{ state: string }>(this.url + '/subscription', { type: type })
     .pipe(
       catchError(this.handleError)
     )
@@ -64,7 +64,7 @@ export class DataService {
     )
   }
 
-  getAll(choosePage: number, filters: Object): Observable<GetPagination> {
+  getAll(choosePage: number, filters: object): Observable<GetPagination> {
     const headers = new HttpHeaders()
       .set("choosePage", JSON.stringify(choosePage))
       .set('filters', encodeURIComponent(JSON.stringify(filters)));
@@ -100,7 +100,7 @@ export class DataService {
       );
   }
 
-  create(post: Object, sessionID: string): Observable<Exchange> {
+  create(post: object, sessionID: string): Observable<Exchange> {
     const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
     return this.http
       .post<Exchange>(this.url + '/exchange', post, { headers })
@@ -117,7 +117,7 @@ export class DataService {
       )
   }
 
-  likePost(postId: string, eventArgs: boolean, sessionID: string):Observable<Object> {
+  likePost(postId: string, eventArgs: boolean, sessionID: string):Observable<object> {
     const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
     return this.http.patch(this.url + '/exchange/post/' + postId,{ isLiked: eventArgs }, { headers })
       .pipe(
@@ -125,7 +125,7 @@ export class DataService {
       )
   }
 
-  putBid(postId: string, offer: Object, sessionID: string): Observable<Array<Bid>> {
+  putBid(postId: string, offer: object, sessionID: string): Observable<Array<Bid>> {
     const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
     return this.http
       .put<Array<Bid>>(this.url + '/exchange/' + postId + '/bid', offer, { headers })

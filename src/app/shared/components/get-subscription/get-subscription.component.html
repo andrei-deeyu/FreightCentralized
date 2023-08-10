@@ -3,7 +3,10 @@
   <div class="row row-cols-1 row-cols-md-2 g-2">
     <div *ngFor="let subscription of subscriptionsAvailable | keyvalue: asIsOrder;index as i;key" class="col">
       <div class="card p-3">
-        <div class="card-body" (click)="getSubscription(subscription.key)">
+        <div class="card-body"
+             (click)="getSubscription(subscription.key)"
+             (keyup.enter)="getSubscription(subscription.key)"
+             tabindex="0">
           <h3>{{ subscription.key }}</h3>
           <p>{{ subscription.value.desc }}</p>
         </div>

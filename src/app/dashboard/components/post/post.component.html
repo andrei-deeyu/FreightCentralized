@@ -60,9 +60,9 @@
       <span class="createdAt text-black-50">
         {{ data.createdAt | date: 'd.M.yyyy'}} -
         {{ data.createdAt | postExpireDate: data.valability | date: 'd.M.yyyy' }}</span>
-      <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button>
+      <button *ngIf="data.fromUser.userId === userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button>
     </li>
   </ul>
 </div>
 
-<post-bids [isAuthor]="isAuthor$" [postData]="(singlePost$ | async)"></post-bids>
+<post-bids [isAuthor$]="isAuthor$" [postData]="(singlePost$ | async)"></post-bids>

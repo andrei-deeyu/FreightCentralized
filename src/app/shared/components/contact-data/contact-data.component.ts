@@ -43,9 +43,9 @@ export class ContactDataComponent {
 
     this.service.saveProfile(profile.name, profile.phoneNumber)
     .subscribe({
-      next: (result: {[index: string]:Object}) => {
+      next: (result: { state: string }) => {
         console.log(result)
-        if(result['state'] == 'changed')
+        if(result.state == 'changed')
           this.authService.loginWithRedirect({
             appState: {
               target: '/profile',

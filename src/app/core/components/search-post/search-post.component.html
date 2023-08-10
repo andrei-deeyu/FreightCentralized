@@ -18,8 +18,12 @@
     </ng-container>
     <ng-template #elseTemplate>
       <div *ngFor="let freight of apiResponse;index as i">
-        <div (click)="arrowkeyLocation = i;clearSearchReponseSelector()" [routerLink]="'/exchange/' + freight._id" class="apiResponse card"
-          [class]="i == arrowkeyLocation ? 'highlightEmployee' : ''">
+        <div (click)="arrowkeyLocation = i;clearSearchReponseSelector()"
+             (keyup.enter)="arrowkeyLocation = i;clearSearchReponseSelector()"
+             [routerLink]="'/exchange/' + freight._id"
+             tabindex="0"
+             class="apiResponse card"
+          [class]="i === arrowkeyLocation ? 'highlightEmployee' : ''">
           <div class="card-body pt-2 pb-2">
             <div class="d-flex align-items-center">
               <span class="tonnage mt-2"><strong>{{ freight.size.tonnage }}t</strong></span>

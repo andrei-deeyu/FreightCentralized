@@ -5,7 +5,7 @@ import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'logout-button',
   template: `
-    <a [class]="stylingClasses" (click)="handleLogout()">Log Out</a>
+    <a [class]="stylingClasses" (click)="handleLogout()" (keyup.enter)="handleLogout()" tabindex="0">Log Out</a>
   `,
 })
 export class LogoutButtonComponent {

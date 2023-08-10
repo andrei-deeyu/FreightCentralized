@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { ErrorNotificationService } from 'sharedServices/error.notification';
 import { ExchangeNotificationsService } from 'sharedServices/exchange.notifications.service';
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   isAuth0Loading$ = this.authService.isLoading$;
   isAuthenticated = this.authService.isAuthenticated$;
   userLoaded = false;

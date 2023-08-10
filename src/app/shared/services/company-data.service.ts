@@ -39,7 +39,7 @@ export class CompanyDataService {
     )
   }
 
-  create(newCompany: Object): Observable<Company> {
+  create(newCompany: object): Observable<Company> {
     return this.http
       .post<Company>(this.url + '/company', newCompany)
       .pipe(
@@ -47,7 +47,7 @@ export class CompanyDataService {
       )
   }
 
-  update(updates: Object, company_id: string): Observable<Company> {
+  update(updates: object, company_id: string): Observable<Company> {
     return this.http
       .patch<Company>(this.url + '/company/' + company_id, updates)
       .pipe(

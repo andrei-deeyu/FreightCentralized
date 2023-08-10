@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { debounceTime, distinctUntilChanged, filter, fromEvent, map, switchMap } from 'rxjs';
 import { ExchangeApiService } from '../../../dashboard/services/exchange.api.service';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './search-post.component.html',
   styleUrls: ['./search-post.component.scss']
 })
-export class SearchPostComponent {
+export class SearchPostComponent implements AfterViewInit {
   @Input() isMobile = false;
   @ViewChild('freightSearchInput', { static: true })
   freightSearchInput!: ElementRef;
@@ -64,10 +64,14 @@ export class SearchPostComponent {
         if(this.arrowkeyLocation < this.apiResponse.length - 1)
             this.arrowkeyLocation++;
         break;
-      case 'Enter':
-        this.router.navigate(['/exchange/' + this.apiResponse[this.arrowkeyLocation]._id])
-        this.clearSearchReponseSelector();
+      case 'Enter': {
+        const searchResponse = this.apiResponse[this.arrowkeyLocation]?._id;
+        if(searchResponse) {
+          this.router.navigate(['/exchange/' + searchResponse])
+          this.clearSearchReponseSelector();
+        }
       }
+    }
   }
 
   clearSearchReponseSelector() {

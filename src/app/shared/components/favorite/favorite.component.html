@@ -1,9 +1,11 @@
 <span
   class="bi"
   [ngClass]="{
-    'bi-heart-fill': isSelected,
-    'bi-heart': !isSelected,
-    'text-dark': isSelected
+    'bi-heart-fill': isLiked,
+    'bi-heart': !isLiked,
+    'text-dark': isLiked
   }"
   (click)="onClick()"
+  (keyup.enter)="onClick()"
+  tabindex="0"
 ></span>

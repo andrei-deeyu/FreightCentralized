@@ -8,7 +8,6 @@ import { AuthApiService } from 'sharedServices/auth.api.service';
   styleUrls: ['./get-subscription.component.scss']
 })
 export class GetSubscriptionComponent {
-  Object = Object;
   subscriptionsAvailable = {
     shipper: {
       desc: 'Businesses looking to ship their goods and list freight requirements.',
@@ -36,10 +35,8 @@ export class GetSubscriptionComponent {
   getSubscription(type: string) {
     this.service.changeSubscription(type)
       .subscribe({
-        next: (result: {[index: string]:Object}) => {
-          console.log(result)
-          if(result['status'] == 'changed')
-            console.log(result);
+        next: (result: { state: string }) => {
+          if(result.state == 'changed')
             this.authService.loginWithRedirect({
               appState: {
                 target: '/profile',

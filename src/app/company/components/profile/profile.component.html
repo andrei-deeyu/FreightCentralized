@@ -62,8 +62,11 @@
       </ng-container>
       <ng-template #elseTemplate>
         <div *ngFor="let user of apiResponse;index as i">
-          <div (click)="arrowkeyLocation = i;addEmployee()" class="apiResponse card"
-            [class]="i == arrowkeyLocation ? 'highlightEmployee' : ''">
+          <div (click)="arrowkeyLocation = i;addEmployee()"
+               (keyup.enter)="arrowkeyLocation = i;addEmployee()"
+               class="apiResponse card"
+               [class]="i === arrowkeyLocation ? 'highlightEmployee' : ''"
+               tabindex="0">
             <div class="card-body pt-2 pb-2">
               <div class="d-flex align-items-center">
                 <img [src]="user.picture" alt="profile picture" />

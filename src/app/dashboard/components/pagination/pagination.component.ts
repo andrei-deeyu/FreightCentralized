@@ -16,7 +16,7 @@ export class PaginationComponent {
   currentPage$ = this.store.select(selectCurrentPage);
   selectedPagination = 0;
   pagesToShow = 0;
-  @Input() filtersObs!: Observable<Object>;
+  @Input() filtersObs!: Observable<object>;
 
   constructor (
     private service: ExchangeApiService,
@@ -27,7 +27,7 @@ export class PaginationComponent {
     this.filtersObs.subscribe((filters) => this.getFirstPage(filters));
   }
 
-  getFirstPage(filters: Object) {
+  getFirstPage(filters: object) {
     this.service.getAll(1, filters)
     .subscribe(( response ) => {
       this.pagesToShow = response.pagesToShow;

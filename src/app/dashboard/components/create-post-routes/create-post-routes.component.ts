@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { RouteData } from '@shared/models/routeData.model';
 import { Subject } from 'rxjs';
@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './create-post-routes.component.html',
   styleUrls: ['./create-post-routes.component.scss']
 })
-export class CreatePostRoutesComponent {
+export class CreatePostRoutesComponent implements OnInit {
   @Output() routeData: EventEmitter<RouteData> = new EventEmitter<RouteData>;
   distance = 0;
   location = '';
@@ -136,7 +136,7 @@ export class CreatePostRoutesComponent {
           }
 
           // route initiation on the map
-          const me = this;
+          const me = this; // eslint-disable-line @typescript-eslint/no-this-alias
           return this.directionsService.route(
             {
               origin: { placeId: this.originPlaceId },

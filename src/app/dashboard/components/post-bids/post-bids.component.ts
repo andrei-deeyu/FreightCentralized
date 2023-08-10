@@ -22,7 +22,7 @@ import { Loader } from '@googlemaps/js-api-loader';
   animations: [fade]
 })
 export class PostBidsComponent {
-  @Input('isAuthor') isAuthor$ = new Observable<boolean>();
+  @Input() isAuthor$ = new Observable<boolean>();
   @Input() postData!: Exchange | null;
   isAuthorSubscription$!: Subscription
   postId!: string;
@@ -257,7 +257,7 @@ export class PostBidsComponent {
           }
 
           // route initiation on the map
-          const me = this;
+          const me = this; // eslint-disable-line @typescript-eslint/no-this-alias
           return this.directionsService.route(
             {
               origin: { lat: this.originPlaceGeometry.lat, lng: this.originPlaceGeometry.lng },

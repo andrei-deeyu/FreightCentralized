@@ -27,7 +27,7 @@ export class postPastTense implements PipeTransform {
         return Math.round(pastTense/ oneHour) + 'hours'
       case pastTense < oneWeek:
         return Math.round(pastTense / oneDay) + 'days'
-      case pastTense < oneWeek:
+      case pastTense < oneMonth:
         return Math.round(pastTense / oneWeek) + 'weeks'
       case pastTense >= oneMonth:
         return Math.round(pastTense / oneMonth) + 'months'

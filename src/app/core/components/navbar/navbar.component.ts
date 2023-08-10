@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, HostListener, Inject, Input } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Store } from '@ngrx/store';
 import { fadeOnOff, menuExpandedCollapsed } from 'sharedServices/animations';
@@ -13,7 +14,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./navbar.component.scss'],
   animations: [ menuExpandedCollapsed, fadeOnOff ]
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   isMobile: boolean;
   isAuthenticated$ = this.authService.isAuthenticated$
   user$ = this.authService.user$;
@@ -29,6 +30,7 @@ export class NavbarComponent {
   constructor(
     private authService: AuthService,
     @Inject(DOCUMENT) private doc: Document,
+    public router: Router,
     private store: Store
   ) {
     this.isMobile = window.innerWidth <= 768;

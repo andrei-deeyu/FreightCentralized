@@ -1,4 +1,4 @@
-<ng-container *ngIf="(isAuthor$ | async) == false; else isTheAuthor">
+<ng-container *ngIf="(isAuthor$ | async) === false; else isTheAuthor">
   <div *ngIf="bidsObs$ | async as bid" class="mt-4">
     <div *ngIf="bid.length > 0; else placeAnOffer" class="container">
       <h5 class="mb-0">My offer</h5>
@@ -90,14 +90,14 @@
                 {{ data.createdAt | date: 'd.M.yyyy'}} -
               </span>
               <!-- {{ data.createdAt | postExpireDate: data.valability | date: 'd.M.yyyy' }}</span> -->
-            <!-- <button *ngIf="data.fromUser.userId == userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button> -->
+            <!-- <button *ngIf="data.fromUser.userId === userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button> -->
             <span class="d-flex flex-fill justify-content-end">
               <button (click)="acceptBid(data)" class="btn btn-outline-secondary" style="line-height: 1rem;">Accept</button>
             </span>
           </span>
           </div>
         </li>
-        <li *ngIf="(bidsObs$ | async)?.length == 0" class="list-group-item">
+        <li *ngIf="(bidsObs$ | async)?.length === 0" class="list-group-item">
           <div class="row d-flex flex-row align-items-center">
             <div class="col d-flex flex-row align-items-center text-secondary">
               no offers

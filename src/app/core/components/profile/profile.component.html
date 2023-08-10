@@ -24,7 +24,7 @@
                 *ngIf="email_verification_resent"
                 class="email_verification_status email_verification_resent p-1 align-middle">
                 email verification resent. <br>
-                <a (click)="openEmail()" [class]="emailToOpen ? 'openEmail' : ''">Check your email</a>
+                <a (click)="openEmail()" (keyup.enter)="openEmail()" [class]="emailToOpen ? 'openEmail' : ''" tabindex="0">Check your email</a>
               </span>
               <button
                 *ngIf="!user.email_verified && !email_verification_resent"

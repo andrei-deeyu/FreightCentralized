@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { selectExchange } from 'src/app/state/exchange.selectors';
@@ -22,9 +22,9 @@ import { Subject } from 'rxjs';
   animations: [ fade ]
 })
 
-export class ExchangeComponent implements OnInit {
+export class ExchangeComponent {
   exchange$ = this.store.select(selectExchange)
-  currentPaginationFilters: Subject<Object> = new Subject<Object>();
+  currentPaginationFilters: Subject<object> = new Subject<object>();
   nearbyFreightsLoading = false;
   isMobile: boolean;
 
@@ -39,11 +39,6 @@ export class ExchangeComponent implements OnInit {
   ) {
     this.isMobile = window.innerWidth <= 768;
   }
-
-  ngOnInit() {
-
-  }
-
 
   nearbyFreights() {
     const nearbyRange = 400;

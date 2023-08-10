@@ -20,13 +20,20 @@
             <a routerLinkActive="active" class="nav-link bi-star-fill" routerLink="admin"></a>
           </li>
           <li class="nav-item d-flex flex-fill align-items-center flex-row-reverse me-2">
-            <a class="nav-link bi bi-search" (click)="openSearch = true"></a>
+            <a class="nav-link bi bi-search" (click)="openSearch = true" (keyup.enter)="openSearch = true" tabindex="0"></a>
             <search-post-mobile *ngIf="openSearch" (closeSearch)="openSearch = false"></search-post-mobile>
           </li>
 
           <div *ngIf="user$ | async as user" class="nav-item profile d-flex align-items-center flex-row-reverse">
-            <img (click)="isExpanded = !isExpanded" [src]="user.picture" alt="profile picture" />
-            <span *ngIf="notifications$ | async as data" (click)="isExpanded = !isExpanded" class="alertNotification">
+            <img (click)="isExpanded = !isExpanded"
+                 (keyup.enter)="isExpanded = !isExpanded"
+                 tabindex="0"
+                 [src]="user.picture" alt="profile picture" />
+            <span *ngIf="notifications$ | async as data"
+                  (click)="isExpanded = !isExpanded"
+                  (keyup.enter)="isExpanded = !isExpanded"
+                  class="alertNotification"
+                  tabindex="0">
               <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
                 <span class="bi bi-bell-fill"></span>
               </span>
@@ -74,8 +81,15 @@
           </li>
 
           <div *ngIf="user$ | async as user" class="nav-item profile d-flex align-items-center flex-row-reverse">
-            <img (click)="isExpanded = !isExpanded" [src]="user.picture" alt="profile picture" />
-            <span *ngIf="notifications$ | async as data" (click)="isExpanded = !isExpanded" class="alertNotification">
+            <img (click)="isExpanded = !isExpanded"
+                 (keyup.enter)="isExpanded = !isExpanded"
+                 [src]="user.picture" alt="profile picture"
+                 tabindex="0"/>
+            <span *ngIf="notifications$ | async as data"
+                  (click)="isExpanded = !isExpanded"
+                  (keyup.enter)="isExpanded = !isExpanded"
+                  class="alertNotification"
+                  tabindex="0">
               <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
                 <span class="bi bi-bell-fill"></span>
               </span>
@@ -97,30 +111,46 @@
   </ng-template>
 
 <div *ngIf="user$ | async as user"
-  [@menuExpandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'"
-  class="d-flex flex-column profileMenu pb-4 shadow">
-  <li class="item list-unstyled d-flex flex-row align-items-center" (click)="isExpanded = false" routerLink="profile">
+      [@menuExpandedCollapsed]="isExpanded ? 'expanded' : 'collapsed'"
+      class="d-flex flex-column profileMenu pb-4 shadow">
+  <li class="item list-unstyled d-flex flex-row align-items-center"
+      (click)="isExpanded = false"
+      (keyup.enter)="isExpanded = false"
+      routerLink="profile"
+      tabindex="0">
     <img [src]="user.picture" alt="profile picture" />
     <p class="p-0 m-0 ms-2">{{ user.name }}</p>
   </li>
   <div class="separator"></div>
 
   <div *ngIf="notifications$ | async as data">
-    <li *ngIf="data.fromUser.userId" (click)="isExpanded = false;deleteNotification()"  class="item list-unstyled d-flex flex-row align-items-center notification" [routerLink]="['/exchange', data._id]">
+    <li *ngIf="data.fromUser.userId"
+        (click)="isExpanded = false;deleteNotification()"
+        (keyup.enter)="isExpanded = false;deleteNotification();router.navigate(['/exchange', data._id])"
+        class="item list-unstyled d-flex flex-row align-items-center notification"
+        [routerLink]="['/exchange', data._id]"
+        tabindex="0">
       <span class="icon"><span class="bi bi-bell-fill"></span></span>
       <span *ngIf="data.details" class="p-0 m-0 ms-2">{{ data.details | summary:50 }}</span>
       <span *ngIf="!data.details" class="p-0 m-0 ms-2"><strong>{{ data.size.tonnage }}t</strong> Oradea <span class="bi bi-arrow-right"></span> Timisoara</span>
       <span class="d-flex flex-fill justify-content-end">
-        <button (click)="deleteNotification()" class="btn bi bi-x pe-1"></button>
+        <button (click)="deleteNotification()" (keyup.enter)="deleteNotification()" class="btn bi bi-x pe-1" tabindex="0"></button>
       </span>
     </li>
   </div>
 
-  <li class="item list-unstyled d-flex flex-row align-items-center" (click)="isExpanded = false" routerLink="form-test">
+  <li class="item list-unstyled d-flex flex-row align-items-center"
+      (click)="isExpanded = false"
+      (keyup.enter)="isExpanded = false;router.navigate(['form-test'])"
+      routerLink="form-test"
+      tabindex="0">
     <span class="icon"><span class="bi bi-lightbulb-fill"></span></span>
     <p class="p-0 m-0 ms-2">Form Test</p>
   </li>
-  <li class="item list-unstyled d-flex flex-row align-items-center"  (click)="handleLogout()">
+  <li class="item list-unstyled d-flex flex-row align-items-center"
+      (click)="handleLogout()"
+      (keyup.enter)="handleLogout()"
+      tabindex="-1">
     <span class="icon"><span class="bi bi-door-open-fill"></span></span>
     <p class="p-0 m-0 ms-2">Logout</p>
   </li>

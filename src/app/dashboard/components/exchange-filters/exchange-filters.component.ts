@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
   animations: [ expandedCollapsed ]
 })
 export class ExchangeFiltersComponent {
-  @Output() paginationFilters = new EventEmitter<Object>();
+  @Output() paginationFilters = new EventEmitter<object>();
 
   isExpanded = false;
   truckTypes = [
@@ -118,7 +118,7 @@ export class ExchangeFiltersComponent {
   }
 
   loadAutoComplete() {
-    const subj: Subject<Object> = new Subject<Object>;
+    const subj: Subject<object> = new Subject<object>;
     const loader = new Loader({
       apiKey: environment.google_maps_api_key,
       version: "weekly",

@@ -6,12 +6,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./favorite.component.scss']
 })
 export class FavoriteComponent {
-  @Input('isLiked') isSelected: boolean | undefined = false;
-  @Output() change = new EventEmitter();
+  @Input() isLiked: boolean | undefined = false;
+  @Output() changeValue = new EventEmitter();
 
   onClick() {
-    this.isSelected = !this.isSelected;
-    this.change.emit({ liked: this.isSelected })
+    this.isLiked = !this.isLiked;
+    this.changeValue.emit({ liked: this.isLiked })
   }
 }
 

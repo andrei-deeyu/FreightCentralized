@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Exchange } from '@shared/models/exchange.model';
 import { PublicApiService } from 'sharedServices/public-api.service';
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   brandName = environment.brandName;
   brandDesc = environment.brandDesc;
   githubRepo = environment.githubRepo;

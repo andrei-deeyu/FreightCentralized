@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CompanyProfileApiService } from '../../services/company-profile.api.service';
 import { Company } from '@shared/models/company.model';
 import { User } from '@shared/models/user.model';
@@ -15,7 +15,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit, AfterViewInit {
   company!: Company;
   companyLoaded = false;
   new_employee: User = {

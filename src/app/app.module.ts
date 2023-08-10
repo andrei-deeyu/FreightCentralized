@@ -5,7 +5,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 /* Mock Backend */
-import { MockBackendInterceptor } from './mock-backend';
+// import { MockBackendInterceptor } from './mock-backend';
 
 /* Components */
 import { AppComponent } from './app.component';

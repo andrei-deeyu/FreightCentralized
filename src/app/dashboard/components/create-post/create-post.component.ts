@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -32,7 +32,7 @@ interface inputBlurInterface {
   styleUrls: ['./create-post.component.scss'],
   animations: [ expandedCollapsed ]
 })
-export class CreatePostComponent {
+export class CreatePostComponent implements OnInit {
   haveAccess = false;
   @Input() isComponentEmbedded = false;
 
