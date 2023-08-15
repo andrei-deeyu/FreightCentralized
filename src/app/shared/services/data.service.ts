@@ -9,6 +9,7 @@ import { BadInput } from './Errors/bad-input';
 import { NoInternetConnection } from './Errors/no-internet-connection';
 import { Exchange } from '@shared/models/exchange.model';
 import { Bid } from '@shared/models/bid.model';
+import { Contract } from '@shared/models/contract.model';
 
 export interface GetPagination {
   pagesToShow: number;
@@ -125,15 +126,6 @@ export class DataService {
       )
   }
 
-  putBid(postId: string, offer: object, sessionID: string): Observable<Array<Bid>> {
-    const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
-    return this.http
-      .put<Array<Bid>>(this.url + '/exchange/' + postId + '/bid', offer, { headers })
-      .pipe(
-        catchError(this.handleError)
-      )
-  }
-
   getBids(postId: string): Observable<Array<Bid>> {
     return this.http
       .get<Array<Bid>>(this.url + '/exchange/' + postId + '/bids')
@@ -145,9 +137,73 @@ export class DataService {
       );
   }
 
+  putBid(postId: string, offer: object, sessionID: string, shipperUserId: string): Observable<Array<Bid>> {
+    const headers = new HttpHeaders()
+      .set("userSession", JSON.stringify(sessionID))
+      .set("shipper_userId", JSON.stringify(shipperUserId))
+
+    return this.http
+      .put<Array<Bid>>(this.url + '/exchange/' + postId + '/bid', offer, { headers })
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  negotiateBid(postId: string, bidId: string, offer: object): Observable<Bid> {
+    return this.http
+      .patch<Bid>(this.url + '/exchange/' + postId + '/' + bidId + '/negotiate', offer, { })
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
   removeBid(bidId: string, sessionID: string) {
     const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
     return this.http.delete(this.url + '/exchange/' + bidId + '/bid', { headers })
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  getContracts(): Observable<Array<object>> {
+    return this.http
+      .get<Array<object>>(this.url + '/contracts')
+      .pipe(
+        map((res) => {
+          return res || [];
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  getSingleContract(contractId: string): Observable<object> {
+    return this.http
+      .get<object>(this.url + '/contracts/' + contractId)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  createContract(postId: string, bidId: string, sessionID: string): Observable<object> {
+    const headers = new HttpHeaders().set("userSession", JSON.stringify(sessionID))
+    return this.http
+      .post<object>(this.url + '/exchange/' + postId + '/' + bidId, {}, { headers })
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  negotiateContract(contractId: string, offer: object): Observable<Contract> {
+    return this.http
+      .patch<Contract>(this.url + '/contracts/' + contractId + '/negotiate', offer, { })
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  confirmContract(contractId: string, transportationDate: object): Observable<object> {
+    return this.http
+      .patch<object>(this.url + '/contracts/' + contractId + '/confirm', transportationDate, {})
       .pipe(
         catchError(this.handleError)
       )

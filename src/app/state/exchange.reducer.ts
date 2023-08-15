@@ -1,8 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { Exchange, ExchangeMockup } from '@shared/models/exchange.model';
-import { BidApiActions, ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
+import { BidApiActions, ContractNotificationsActions, ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions, pageActiveActions } from './exchange.actions';
 import { CurrentPage } from '@shared/models/currentPage.model';
 import { Bid, BidMockup } from '@shared/models/bid.model';
+import { Contract } from '@shared/models/contract.model';
 
 export const initialState: Array<Exchange> = [];
 
@@ -11,6 +12,7 @@ export const pageActiveInitialState: CurrentPage = { pageActive: 1 };
 export const SinglePostInitialState: Exchange = ExchangeMockup;
 export const BidInitialState: Bid = BidMockup;
 export const ExchangeNotificationsInitialState: Exchange = ExchangeMockup;
+export const ContractNotificationInitialState: Contract = { _id: '' };
 
 export const exchangeReducer = createReducer(
   initialState,
@@ -34,6 +36,12 @@ export const singlePostReducer = createReducer(
 
   on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
   on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
+  on(SinglePostApiActions.markAsContracted, (_state, { }) => {
+    return {
+      markedAsContracted: true,
+      ..._state
+    }
+  }),
 );
 
 export const BidReducer = createReducer(
@@ -58,6 +66,13 @@ export const ExchangeNotificationReducer = createReducer(
   on(ExchangeNotificationsActions.addNotification, (_state, { post }) => post),
   on(ExchangeApiActions.retrievedExchangePosts, (_state, { exchange }) => exchange[0]),
   on(ExchangeNotificationsActions.removeNotification, () => ExchangeNotificationsInitialState)
+)
+
+export const ContractNotificationReducer = createReducer(
+  ContractNotificationInitialState,
+
+  on(ContractNotificationsActions.addNotification, (_state, { data }) => data),
+  on(ContractNotificationsActions.removeNotification, () => ContractNotificationInitialState)
 )
 
 export const currentPageReducer = createReducer(

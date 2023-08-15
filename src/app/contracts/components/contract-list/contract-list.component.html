@@ -1,0 +1,56 @@
+<div class="container mt-4" *ngIf="user$ | async as user">
+  <h5 class="mb-0">Contracts</h5>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let data of contracts; index as i">
+      <div class="row d-flex flex-row align-items-center">
+        <div class="col-6 col-md d-flex flex-column order-1 fw-bold cursor-pointer" [routerLink]="'/contracts/' + data._id">
+          <span>{{ data.freight_data.origin }}</span>
+          <span>{{ data.freight_data.destination }}</span>
+        </div>
+        <div class="col-6 col-md d-flex flex-column order-2 cursor-pointer" [routerLink]="'/contracts/' + data._id">
+          <!-- <span>{{ data.shipper.name }}</span> -->
+          <div class="form-floating">
+            <span type="text" class="form-control" id="floatingInputValue"
+                  [style.color]="data.consignee.email === user.email ? 'rgba(0, 60, 255, 0.8)' : ''">
+                  {{ data.consignee.name }}
+            </span>
+            <label for="floatingInputValue">Consignee</label>
+          </div>
+        </div>
+        <span [routerLink]="'/contracts/' + data._id"
+              class="col-6 col-md text-end text-md-start order-4 order-md-3
+        d-flex flex-row flex-grow-1 flex-md-grow-1 flex-md justify-content-end euroKm cursor-pointer">
+          <span>{{ data.price }} euro</span>
+          <span class="text-secondary ms-2">({{ (data.price/data.freight_data.distance).toFixed(2) }} EUR/km)</span>
+        </span>
+        <span class="col col-md-2 col-lg order-3 order-md-4 text-black-50 d-flex align-items-center">
+        <span class="d-flex flex-fill justify-content-start justify-content-md-end">
+          <span *ngIf="data.status !== 'pending_consignee' && data.consignee.email == user.email
+                      || data.shipper.email == user.email"
+                class="border border-primary rounded p-2" style="line-height: 1rem;"
+                [class]="data.status == 'confirmed' ? 'border-success' : 'border-primary'">
+            {{ data.status }}
+          </span>
+          <button *ngIf="data.status == 'pending_consignee' && data.consignee.email == user.email"
+                  (click)="confirmContractAlertIndex = i" class="btn btn-outline-secondary"
+                  style="line-height: 1rem;">
+            Accept
+          </button>
+        </span>
+      </span>
+      </div>
+      <div *ngIf="confirmContractAlertIndex == i" class="bidDeleteAlert position-absolute end-0 d-flex justify-content-center">
+        <div class="card p-4 pt-2" >
+          <p><strong class="fw-bolder">Confirm this contract</strong></p>
+          <contract-date-picker (transportationDate)="transportationDate = $event"></contract-date-picker>
+          <div class="d-flex flex-row mt-2">
+            <button (click)="confirmContract(data._id)" class="btn btn-primary"
+                    [disabled]="!(transportationDate.pickup && transportationDate.delivery)">Confirm</button>
+            <button (click)="confirmContractAlertIndex = -1" class="btn btn-outline-secondary ms-2">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div *ngIf="confirmContractAlertIndex >= 0" class="alertOverlay"></div>

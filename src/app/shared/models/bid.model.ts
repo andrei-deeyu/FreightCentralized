@@ -2,6 +2,7 @@ import { User } from "@auth0/auth0-angular";
 
 export interface Bid extends User {
   price: number,
+  valability: string,
   fromUser: User,
   createdAt: Date,
   _id?: string,
@@ -10,6 +11,7 @@ export interface Bid extends User {
 
 export const BidMockup = {
   price: 0,
+  valability: '7days',
   fromUser: {
     userId: '',
     email: '',

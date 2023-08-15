@@ -2,7 +2,7 @@
 
 <div class="container" *ngIf="singlePost$ | async as data">
 
-  <div class="popUpAlert" *ngIf="popUpAlert">
+  <div *ngIf="popUpAlert" class="popUpAlert">
     <div class="container popUpAlertCardContainer d-flex justify-content-center" (outsideClick)="!postDeleted ? popUpAlert = false : null">
       <div class="card p-4 pt-2" *ngIf="deleteAlert">
         <p class="fs-5 fw-normal">Are you sure you want to <strong class="fw-bolder">delete this post?</strong></p>
@@ -16,7 +16,7 @@
   </div>
 
 
-  <ul class="list-group" *ngIf="data._id">
+  <ul class="list-group" *ngIf="data._id" [class.markedAsContracted]="data.markedAsContracted">
     <li class="list-group-item title d-flex align-items-center">
       <span class="ms-3 flex-fill">
         {{ data.origin }}
@@ -63,6 +63,19 @@
       <button *ngIf="data.fromUser.userId === userId" (click)="popUpAlert = true;deleteAlert = true;" class="btn bi bi-x p-0 ms-2"></button>
     </li>
   </ul>
+  <div *ngIf="data.markedAsContracted" class="popUpAlert">
+    <div *ngIf="data.markedAsContracted" class="container" style="margin-top: 8rem;">
+      <div class="card p-4">
+        <span>
+          This freight has been contracted right now.
+          <span class="fw-bold cursor-pointer" routerLink="/exchange">
+              Go to Exchange<span class="bi bi-arrow-right fs-6"></span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
 </div>
 
-<post-bids [isAuthor$]="isAuthor$" [postData]="(singlePost$ | async)"></post-bids>
+<not-found *ngIf="singlePostNotFound"></not-found>
+<post-bids [isAuthor$]="isAuthor$"></post-bids>

@@ -18,7 +18,7 @@
   .alertNotification {
     z-index: 10;
     cursor: pointer;
-    color: rgba(255, 0, 0, 0.8);
+    color: rgba(0, 60, 255, 0.8);
     text-align: center;
     margin-right: -.6rem;
     margin-top: -1rem;
@@ -28,8 +28,8 @@
 .profileMenu {
   width: 20rem;
   position: fixed;
-  z-index: 10;
-  top: 4rem;
+  z-index: 100;
+  top: 3.5rem;
   right: 0;
   background-color: rgb(253, 253, 253);
   border-radius: .375rem;
@@ -62,7 +62,11 @@
 
   .notification {
     .icon {
-      color: rgba(255, 0, 0, 0.8);
+      color: rgba(0, 60, 255, 0.8);
+    }
+
+    .icon_contract_confirmed {
+      color: rgba(0, 155, 60, 0.8);
     }
     span {
       word-wrap: anywhere;
@@ -77,5 +81,11 @@
     margin-right: 10px;
     background-color: rgb(233, 233, 233);
     border-radius: .375rem;
+  }
+}
+
+@media only screen and (max-width: 769px) {
+  .profileMenu {
+    top: 4rem;
   }
 }

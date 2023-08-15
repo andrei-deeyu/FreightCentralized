@@ -26,6 +26,7 @@ export interface Exchange extends RouteData {
   isLiked?: boolean,
   createdAt: Date,
   new?: boolean,
+  markedAsContracted?: boolean,
   __v? : number
 }
 

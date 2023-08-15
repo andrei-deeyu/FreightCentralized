@@ -3,9 +3,10 @@ import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Store } from '@ngrx/store';
+import { mergeWith } from 'rxjs/operators';
 import { fadeOnOff, menuExpandedCollapsed } from 'sharedServices/animations';
-import { ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
-import { selectExchangeNotifications } from 'src/app/state/exchange.selectors';
+import { ContractNotificationsActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
+import { selectContractNotifications, selectExchangeNotifications } from 'src/app/state/exchange.selectors';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -21,7 +22,11 @@ export class NavbarComponent implements OnInit {
   isAdmin = false;
   canPostFreight = false;
   isExpanded = false;
-  notifications$ = this.store.select(selectExchangeNotifications);
+  exchangeNotifications$ = this.store.select(selectExchangeNotifications);
+  contractNotifications$ = this.store.select(selectContractNotifications);
+  newNotification$ = this.exchangeNotifications$.pipe(mergeWith(this.contractNotifications$))
+
+  newNotification = false;
   openSearch = false;
   @HostListener('window:resize', ['$event']) getScreenSize() {
     this.isMobile = window.innerWidth <= 768;
@@ -46,8 +51,12 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-  deleteNotification() {
+  deleteExchangeNotification() {
     this.store.dispatch(ExchangeNotificationsActions.removeNotification());
+  }
+
+  deleteContractNotification() {
+    this.store.dispatch(ContractNotificationsActions.removeNotification());
   }
 
   handleLogout(): void {

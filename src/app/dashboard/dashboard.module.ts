@@ -51,9 +51,9 @@ import { MatSliderModule } from '@angular/material/slider';
     RouterModule.forChild([
       { path: 'exchange', canActivate: [AuthGuard], component: ExchangeComponent },
       { path: 'exchange/create-post', canActivate: [AuthGuard], component: CreatePostComponent },
-      { path: 'exchange/:id', component: PostComponent},
+      { path: 'exchange/:id', component: PostComponent}
     ]),
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class DashboardModule { }

@@ -1,0 +1,132 @@
+    <div class="acceptingTheBid d-flex justify-content-center">
+      <div class="card">
+
+        <div id="mapControls">
+          <span id="originOutput" class="controls"></span>
+          <span id="destinationOutput" class="controls"></span>
+          <div id="distance-priceOutput" class="controls d-flex flex-row">
+            <span id="distance"></span>
+            <span id="pricePerKm" class="text-secondary ms-2"></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="container" fluid="sm" id="map"></div>
+
+        <div class="p-2 pb-4 p-md-4 pt-md-2" *ngIf="contract as data">
+          <div class="d-flex flex-column flex-md-row">
+            <div class="me-md-2">
+              <span class="fw-bold">Shipper:</span>
+              <div class="d-flex align-items-center mt-1 mb-2">
+                <img [src]="data.shipper.picture" alt="profile picture" class="acceptingTheBidImage"/>
+                <span class="ms-2">
+                  <span class="fw-bold text-secondary ">{{ data.shipper.name }}</span>
+                    <br>
+                  <span class="fw-normal text-secondary ">{{ data.shipper.email }}</span>
+                    <br>
+                  <span class="fw-normal text-secondary ">{{ data.shipper.phoneNumber }}</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="ms-md-2">
+              <span class="fw-bold">Consignee:</span>
+              <div class="d-flex align-items-center mt-1 mb-2">
+                <img [src]="data.consignee.picture" alt="profile picture" class="acceptingTheBidImage"/>
+                <span class="ms-2">
+                  <span class="fw-bold text-secondary ">{{ data.consignee.name }}</span>
+                    <br>
+                  <span class="fw-normal text-secondary ">{{ data.consignee.email }}</span>
+                    <br>
+                  <span class="fw-normal text-secondary ">{{ data.consignee.phoneNumber }}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <p class="fw-bold mb-2">
+            Cargo Description: <span class="fw-normal text-secondary ">{{ data.freight_data.details }}</span>
+          </p>
+          <p class="fw-bold mb-2">
+            Special Instructions: <span class="fw-normal text-secondary ">[Any special handling instructions]</span>
+          </p>
+          <p class="fw-bold mb-2">
+            Weight: <span class="fw-normal text-secondary ">{{ data.freight_data.size.tonnage }}t / kilograms</span>
+          </p>
+          <p class="fw-bold mb-2" *ngIf="data.transportationDate">
+            Date of Shipment: <span class="fw-normal text-secondary ">
+              {{ data.transportationDate.pickup | date: 'd.M.yyyy' }} - {{ data.transportationDate.delivery | date: 'd.M.yyyy' }}
+            </span>
+          </p>
+          <p class="fw-bold d-flex mb-2">
+            Freight Charges:
+            <span class="d-flex">
+              <span class="fw-normal text-secondary ms-1">{{ data.price }} EUR</span>
+              <span class="fw-normal text-secondary ms-1">({{ (data.price/data.freight_data.distance).toFixed(2) }} EUR/km)</span>
+            </span>
+          </p>
+          <div class="d-flex flex-row mt-2">
+            <span class="border rounded p-2"  style="line-height: 1rem;"
+            [class]="data.status == 'confirmed' ? 'border-success' : 'border-primary'">
+              {{ data.status }}
+            </span>
+            <button *ngIf="data.status == 'pending_consignee' && data.consignee.email == (user$ | async)?.email"
+                    (click)="confirmContractAlert = true" class="btn btn-outline-secondary ms-2"
+                    style="line-height: 1rem;">
+              Accept
+            </button>
+            <button *ngIf="data.status == 'pending_shipper' && data.shipper.email == (user$ | async)?.email"
+                    (click)="confirmContractAlert = true" class="btn btn-outline-secondary ms-2"
+                    style="line-height: 1rem;">
+              Accept
+            </button>
+
+            <button *ngIf="data.status == 'pending_consignee' && data.consignee.email == (user$ | async)?.email"
+                    (click)="negotiateChargesAlert = true" class="btn btn-outline-secondary ms-2"
+                    style="line-height: 1rem;">
+              accept+negotiate charges
+            </button>
+
+
+            <div *ngIf="confirmContractAlert && data.status == 'pending_shipper'" class="bidDeleteAlert position-absolute bottom-0 d-flex justify-content-center">
+              <div class="card p-4 pt-2" >
+                <p><strong class="fw-bolder">Confirm this contract</strong></p>
+                <div class="d-flex flex-row mt-2">
+                  <button (click)="confirmContract(data._id)" class="btn btn-primary">Confirm</button>
+                  <button (click)="confirmContractAlert = false" class="btn btn-outline-secondary ms-2">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="confirmContractAlert && data.status == 'pending_consignee'" class="bidDeleteAlert position-absolute bottom-0 d-flex justify-content-center">
+              <div class="card p-4 pt-2" >
+                <p><strong class="fw-bolder">Confirm this contract</strong></p>
+                <contract-date-picker (transportationDate)="transportationDate = $event"></contract-date-picker>
+                <div class="d-flex flex-row mt-2">
+                  <button (click)="confirmContract(data._id)" class="btn btn-primary"
+                          [disabled]="!(transportationDate.pickup && transportationDate.delivery)">Confirm</button>
+                  <button (click)="confirmContractAlert = false" class="btn btn-outline-secondary ms-2">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="negotiateChargesAlert"
+                  class="bidDeleteAlert position-absolute bottom-0 d-flex justify-content-center">
+              <div class="card p-4 pt-2" >
+                <p><strong class="fw-bolder">Accept + Negotiate charges</strong></p>
+                <form [formGroup]="form" (ngSubmit)="negotiateContract(form)" class="mt-2">
+                  <input  formControlName="price" type="number"
+                          (focus)="this.form.controls.price.setValue(data.price)"
+                          class="form-control modifyOffer no-spinner mb-2"
+                          [placeholder]="data.price + ' euro'">
+                  <contract-date-picker (transportationDate)="transportationDate = $event"></contract-date-picker>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button (click)="negotiateChargesAlert = false" class="btn btn-outline-secondary ms-2">Cancel</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div *ngIf="confirmContractAlert || negotiateChargesAlert" class="alertOverlay"></div>

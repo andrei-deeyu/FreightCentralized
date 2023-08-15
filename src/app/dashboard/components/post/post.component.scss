@@ -10,6 +10,10 @@ div.container {
   word-wrap: anywhere;
 }
 
+.markedAsContracted li {
+  color: rgb(150, 150, 150);
+}
+
 .popUpAlert {
   background-color: rgba(45, 45, 45, 0.208);
   position: fixed;

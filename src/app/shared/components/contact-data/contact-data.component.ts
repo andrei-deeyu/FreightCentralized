@@ -15,10 +15,15 @@ export class ContactDataComponent {
   phoneNumberRegEx = '^[0-9]{8,15}$';
 
   form = new FormGroup({
-    name: new FormControl('',
+    firstName: new FormControl('',
     [
       Validators.required,
-      Validators.min(5),
+      Validators.min(3),
+    ]),
+    lastName: new FormControl('',
+    [
+      Validators.required,
+      Validators.min(3),
     ]),
     phoneNumber: new FormControl(null,
     [
@@ -33,11 +38,13 @@ export class ContactDataComponent {
   ) {}
 
   saveProfile(f: FormGroup) {
+    const firstName = f.get('firstName')?.value;
+    const lastName = f.get('lastName')?.value;
     const profile = {
-      name: f.get('name')?.value,
+      name: firstName + " " + lastName,
       phoneNumber: String(f.get('phoneNumber')?.value)
     }
-    if(!profile.name || !profile.phoneNumber) {
+    if(!firstName || !lastName || !profile.phoneNumber) {
       return this.form.setErrors(new BadInput('Both name and phone number are required').message)
     }
 

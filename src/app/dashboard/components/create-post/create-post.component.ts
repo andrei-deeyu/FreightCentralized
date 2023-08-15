@@ -57,7 +57,7 @@ export class CreatePostComponent implements OnInit {
   form = new FormGroup({
     details: new FormControl('', [ Validators.required ]),
     budget: new FormControl(null, Validators.pattern(this.numberRegEx)),
-    valability: new FormControl('7days'),
+    valability: new FormControl('7days', { nonNullable: true }),
     pallet: new FormGroup({
       type: new FormControl(''),
       number: new FormControl(null, Validators.pattern(this.numberRegEx)),

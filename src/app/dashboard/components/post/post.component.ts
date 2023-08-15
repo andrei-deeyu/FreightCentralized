@@ -26,6 +26,7 @@ export class PostComponent implements OnInit {
   singlePost$ = this.store.select(selectSinglePost);
   singlePostLoaded = false;
   singlePostError = false;
+  singlePostNotFound = false;
   popUpAlert = false;
   deleteAlert = false;
   postDeleted = false;
@@ -49,7 +50,10 @@ export class PostComponent implements OnInit {
       if( user ) {
         this.getSinglePost(this.service);
         this.singlePost$.subscribe((post) => {
-          if(post.fromUser.userId) {
+          if(!post) return this.singlePostNotFound = true;
+          if(post.markedAsContracted) return console.log('marked a contracted');
+
+          if(post?.fromUser.userId) {
             if(post.fromUser.userId == this.userId) this.isAuthor$.next(true);
             else this.isAuthor$.next(false);
           }

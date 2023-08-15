@@ -1,0 +1,15 @@
+<div>
+  <mat-form-field>
+    <mat-label>Transportation Date</mat-label>
+    <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+      <input matStartDate formControlName="pickup" placeholder="Pickup date">
+      <input matEndDate formControlName="delivery" placeholder="Delivery date">
+    </mat-date-range-input>
+    <mat-hint class="text-secondary">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    <mat-error *ngIf="dateRange.controls.pickup.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+    <mat-error *ngIf="dateRange.controls.delivery.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+  </mat-form-field>
+</div>

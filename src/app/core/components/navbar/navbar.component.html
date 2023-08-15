@@ -16,6 +16,9 @@
           <li class="nav-item ms-3">
             <a routerLinkActive="active" class="nav-link bi-building-fill" routerLink="company"></a>
           </li>
+          <li class="nav-item ms-3">
+            <a routerLinkActive="active" class="nav-link bi bi-file-text-fill" routerLink="contracts"></a>
+          </li>
           <li *ngIf="isAdmin" class="nav-item ms-3">
             <a routerLinkActive="active" class="nav-link bi-star-fill" routerLink="admin"></a>
           </li>
@@ -29,12 +32,12 @@
                  (keyup.enter)="isExpanded = !isExpanded"
                  tabindex="0"
                  [src]="user.picture" alt="profile picture" />
-            <span *ngIf="notifications$ | async as data"
+            <span *ngIf="newNotification$ | async as data "
                   (click)="isExpanded = !isExpanded"
                   (keyup.enter)="isExpanded = !isExpanded"
                   class="alertNotification"
                   tabindex="0">
-              <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
+              <span [@fadeOnOff]="data._id ? 'on' : 'off'">
                 <span class="bi bi-bell-fill"></span>
               </span>
             </span>
@@ -73,6 +76,9 @@
           <li class="nav-item">
             <a routerLinkActive="active" class="nav-link" routerLink="company">Company</a>
           </li>
+          <li class="nav-item">
+            <a routerLinkActive="active" class="nav-link" routerLink="contracts">Contracts</a>
+          </li>
           <li *ngIf="isAdmin" class="nav-item">
             <a routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
           </li>
@@ -85,12 +91,12 @@
                  (keyup.enter)="isExpanded = !isExpanded"
                  [src]="user.picture" alt="profile picture"
                  tabindex="0"/>
-            <span *ngIf="notifications$ | async as data"
+            <span *ngIf="newNotification$ | async as data"
                   (click)="isExpanded = !isExpanded"
                   (keyup.enter)="isExpanded = !isExpanded"
                   class="alertNotification"
                   tabindex="0">
-              <span [@fadeOnOff]="data.fromUser.userId ? 'on' : 'off'">
+              <span [@fadeOnOff]="data._id ? 'on' : 'off'">
                 <span class="bi bi-bell-fill"></span>
               </span>
             </span>
@@ -123,10 +129,26 @@
   </li>
   <div class="separator"></div>
 
-  <div *ngIf="notifications$ | async as data">
+  <div *ngIf="contractNotifications$ | async as data">
+    <li *ngIf="data?.['shipper']?.userId"
+        (click)="isExpanded = false;deleteContractNotification()"
+        (keyup.enter)="isExpanded = false;deleteContractNotification();router.navigate(['/contracts', data._id])"
+        class="item list-unstyled d-flex flex-row align-items-center notification"
+        [routerLink]="['/contracts', data._id]"
+        tabindex="0">
+      <span class="icon" [class.icon_contract_confirmed]="data?.['status'] == 'confirmed'"><span class="bi bi-bell-fill"></span></span>
+      <!-- <span *ngIf="data.details" class="p-0 m-0 ms-2">{{ data.details | summary:50 }}</span> -->
+      <span *ngIf="data?.['freight_data'].origin" class="p-0 m-0 ms-2">{{ data?.['freight_data'].origin }} <span class="bi bi-arrow-right"></span> {{ data?.['freight_data'].destination }}</span>
+      <span class="d-flex flex-fill justify-content-end">
+        <button (click)="deleteContractNotification()" (keyup.enter)="deleteContractNotification()" class="btn bi bi-x pe-1" tabindex="0"></button>
+      </span>
+    </li>
+  </div>
+
+  <div *ngIf="exchangeNotifications$ | async as data">
     <li *ngIf="data.fromUser.userId"
-        (click)="isExpanded = false;deleteNotification()"
-        (keyup.enter)="isExpanded = false;deleteNotification();router.navigate(['/exchange', data._id])"
+        (click)="isExpanded = false;deleteExchangeNotification()"
+        (keyup.enter)="isExpanded = false;deleteExchangeNotification();router.navigate(['/exchange', data._id])"
         class="item list-unstyled d-flex flex-row align-items-center notification"
         [routerLink]="['/exchange', data._id]"
         tabindex="0">
@@ -134,7 +156,7 @@
       <span *ngIf="data.details" class="p-0 m-0 ms-2">{{ data.details | summary:50 }}</span>
       <span *ngIf="!data.details" class="p-0 m-0 ms-2"><strong>{{ data.size.tonnage }}t</strong> Oradea <span class="bi bi-arrow-right"></span> Timisoara</span>
       <span class="d-flex flex-fill justify-content-end">
-        <button (click)="deleteNotification()" (keyup.enter)="deleteNotification()" class="btn bi bi-x pe-1" tabindex="0"></button>
+        <button (click)="deleteExchangeNotification()" (keyup.enter)="deleteExchangeNotification()" class="btn bi bi-x pe-1" tabindex="0"></button>
       </span>
     </li>
   </div>

@@ -41,6 +41,8 @@ testem.log
 .DS_Store
 Thumbs.db
 ./environments/environment.ts
+./environments/environment.prod.ts
 
 # Todo File
 TODOs.txt
+TODO

@@ -2,6 +2,7 @@ import { createActionGroup, props } from '@ngrx/store';
 import { Exchange } from '@shared/models/exchange.model';
 import { CurrentPage } from '@shared/models/currentPage.model';
 import { Bid } from '@shared/models/bid.model';
+import { Contract } from '@shared/models/contract.model';
 
 
 export const ExchangeApiActions = createActionGroup({
@@ -19,6 +20,7 @@ export const SinglePostApiActions = createActionGroup({
   events: {
     'Init Single Post': props<any>(),
     'Retrieved Single Post': props<{ singlePost: Exchange }>(),
+    'Mark As Contracted': props<any>()
   },
 });
 
@@ -36,6 +38,14 @@ export const ExchangeNotificationsActions = createActionGroup({
     'Remove Notification': props<any>(),
     'Add Notification': props<{post: Exchange}>()
   },
+});
+
+export const ContractNotificationsActions = createActionGroup({
+  source: 'Contract Notification Actions',
+  events: {
+    'Remove Notification': props<any>(),
+    'Add Notification': props<{ data: Contract }>()
+  }
 });
 
 export const pageActiveActions = createActionGroup({

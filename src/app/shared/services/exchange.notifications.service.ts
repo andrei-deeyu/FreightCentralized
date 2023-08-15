@@ -4,7 +4,7 @@ import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { Exchange, ExchangeMockup } from '@shared/models/exchange.model';
 import { selectCurrentPage, selectExchange } from 'src/app/state/exchange.selectors';
 import { RetryConfig, firstValueFrom, retry } from 'rxjs';
-import { BidApiActions, ExchangeApiActions, ExchangeNotificationsActions } from 'src/app/state/exchange.actions';
+import { BidApiActions, ContractNotificationsActions, ExchangeApiActions, ExchangeNotificationsActions, SinglePostApiActions } from 'src/app/state/exchange.actions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NoInternetConnection } from './Errors/no-internet-connection';
@@ -65,12 +65,25 @@ export class ExchangeNotificationsService {
         if( data.removed ) {
           const postId = data.removed;
           this.store.dispatch(ExchangeApiActions.removePost({ postId }))
+          // && SinglePostApi
+        }
+
+        if(data.contractCreated) {
+          const postId = data.postId;
+          this.store.dispatch(ExchangeApiActions.removePost({ postId }))
+          if(this.router.url == '/exchange/' + postId) {
+            this.store.dispatch(SinglePostApiActions.markAsContracted());
+          }
         }
 
         if( data.liked ) {
           const postId = data.liked;
           const eventValue = data.eventValue;
           this.store.dispatch(ExchangeApiActions.likePost({ postId, eventValue }))
+        }
+
+        if( data.shipper && data.consignee && data.status ) {
+          this.store.dispatch(ContractNotificationsActions.addNotification({ data }))
         }
 
         if(this.router.url == '/exchange/' + data.postId) {

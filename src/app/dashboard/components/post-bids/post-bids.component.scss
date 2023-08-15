@@ -20,7 +20,7 @@ input[type=number]::-webkit-outer-spin-button {
   position: absolute;
   top: 2.35rem;
   left: 1rem;
-  background: #3d3d3d2e;
+  background: rgba(208, 208, 208, 0.84);
   // color: #643045;
   font-weight: bold;
   padding: 5px 10px;
@@ -48,10 +48,22 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+.markedAsContracted {
+  color: rgb(150, 150, 150);
+  button {
+    background-color: lightgray;
+    border: none;
+  }
+}
+
 img {
   max-width: 1.4rem;
   border-radius: 50%;
 }
+
+// .createdAt {
+//   font-size: 12px;
+// }
 
 .alertOverlay {
   position: absolute;
@@ -90,6 +102,11 @@ span.lowestOffer {
 @media only screen and (min-width: 1000px) {
   #map {
     width: 590px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  div.acceptingTheBid div.card {
+    width: 400px;
   }
 }
 
@@ -145,6 +162,16 @@ span.lowestOffer {
 
   #distance-priceOutput {
     line-height: unset;
+  }
+
+  .createdAt {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  div.acceptingTheBid div.card {
+    width: 100%;
   }
 }
 
