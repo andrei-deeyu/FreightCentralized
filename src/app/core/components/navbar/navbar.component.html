@@ -136,7 +136,7 @@
         class="item list-unstyled d-flex flex-row align-items-center notification"
         [routerLink]="['/contracts', data._id]"
         tabindex="0">
-      <span class="icon" [class.icon_contract_confirmed]="data?.['status'] == 'confirmed'"><span class="bi bi-bell-fill"></span></span>
+      <span class="icon" [class.icon_contract_confirmed]="data?.['status'] === 'confirmed'"><span class="bi bi-bell-fill"></span></span>
       <!-- <span *ngIf="data.details" class="p-0 m-0 ms-2">{{ data.details | summary:50 }}</span> -->
       <span *ngIf="data?.['freight_data'].origin" class="p-0 m-0 ms-2">{{ data?.['freight_data'].origin }} <span class="bi bi-arrow-right"></span> {{ data?.['freight_data'].destination }}</span>
       <span class="d-flex flex-fill justify-content-end">

@@ -223,8 +223,7 @@ export class PostBidsComponent {
     }
 
     this.singlePostSubscription$ = this.singlePost$.subscribe(_post => {
-      let shipperUserId: string;
-      shipperUserId = _post.fromUser.userId
+      const shipperUserId = _post.fromUser.userId
 
       this.service.putBid(this.postId, offer, this.session.ID, shipperUserId)
         .subscribe({

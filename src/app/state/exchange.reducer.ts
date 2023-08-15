@@ -36,7 +36,7 @@ export const singlePostReducer = createReducer(
 
   on(SinglePostApiActions.initSinglePost, () => SinglePostInitialState),
   on(SinglePostApiActions.retrievedSinglePost, (_state, { singlePost }) => singlePost),
-  on(SinglePostApiActions.markAsContracted, (_state, { }) => {
+  on(SinglePostApiActions.markAsContracted, (_state) => {
     return {
       markedAsContracted: true,
       ..._state

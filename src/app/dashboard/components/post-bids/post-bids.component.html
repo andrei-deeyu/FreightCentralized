@@ -115,7 +115,7 @@
                 <div id="bid-tooltip" class="bid-tooltip" style="display: none;">
                   {{ liveEuroKm }} EUR/km
                 </div>
-                <button *ngIf="negotiatingOffer[dataIndex] == true" class="btn btn-outline-primary" style="line-height: 1rem;">Negotiate</button>
+                <button *ngIf="negotiatingOffer[dataIndex] === true" class="btn btn-outline-primary" style="line-height: 1rem;">Negotiate</button>
                 <span *ngIf="negotiatingOffer[dataIndex] !== true" class="text-secondary ms-md-2">({{ (data.price/postData.distance).toFixed(2) }} EUR/km)</span>
               </form>
             </span>

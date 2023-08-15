@@ -66,28 +66,28 @@
           </p>
           <div class="d-flex flex-row mt-2">
             <span class="border rounded p-2"  style="line-height: 1rem;"
-            [class]="data.status == 'confirmed' ? 'border-success' : 'border-primary'">
+            [class]="data.status === 'confirmed' ? 'border-success' : 'border-primary'">
               {{ data.status }}
             </span>
-            <button *ngIf="data.status == 'pending_consignee' && data.consignee.email == (user$ | async)?.email"
+            <button *ngIf="data.status === 'pending_consignee' && data.consignee.email === (user$ | async)?.email"
                     (click)="confirmContractAlert = true" class="btn btn-outline-secondary ms-2"
                     style="line-height: 1rem;">
               Accept
             </button>
-            <button *ngIf="data.status == 'pending_shipper' && data.shipper.email == (user$ | async)?.email"
+            <button *ngIf="data.status === 'pending_shipper' && data.shipper.email === (user$ | async)?.email"
                     (click)="confirmContractAlert = true" class="btn btn-outline-secondary ms-2"
                     style="line-height: 1rem;">
               Accept
             </button>
 
-            <button *ngIf="data.status == 'pending_consignee' && data.consignee.email == (user$ | async)?.email"
+            <button *ngIf="data.status === 'pending_consignee' && data.consignee.email === (user$ | async)?.email"
                     (click)="negotiateChargesAlert = true" class="btn btn-outline-secondary ms-2"
                     style="line-height: 1rem;">
               accept+negotiate charges
             </button>
 
 
-            <div *ngIf="confirmContractAlert && data.status == 'pending_shipper'" class="bidDeleteAlert position-absolute bottom-0 d-flex justify-content-center">
+            <div *ngIf="confirmContractAlert && data.status === 'pending_shipper'" class="bidDeleteAlert position-absolute bottom-0 d-flex justify-content-center">
               <div class="card p-4 pt-2" >
                 <p><strong class="fw-bolder">Confirm this contract</strong></p>
                 <div class="d-flex flex-row mt-2">
@@ -97,7 +97,7 @@
               </div>
             </div>
 
-            <div *ngIf="confirmContractAlert && data.status == 'pending_consignee'" class="bidDeleteAlert position-absolute bottom-0 d-flex justify-content-center">
+            <div *ngIf="confirmContractAlert && data.status === 'pending_consignee'" class="bidDeleteAlert position-absolute bottom-0 d-flex justify-content-center">
               <div class="card p-4 pt-2" >
                 <p><strong class="fw-bolder">Confirm this contract</strong></p>
                 <contract-date-picker (transportationDate)="transportationDate = $event"></contract-date-picker>

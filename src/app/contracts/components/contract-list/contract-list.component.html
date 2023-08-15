@@ -25,13 +25,13 @@
         </span>
         <span class="col col-md-2 col-lg order-3 order-md-4 text-black-50 d-flex align-items-center">
         <span class="d-flex flex-fill justify-content-start justify-content-md-end">
-          <span *ngIf="data.status !== 'pending_consignee' && data.consignee.email == user.email
-                      || data.shipper.email == user.email"
+          <span *ngIf="data.status !== 'pending_consignee' && data.consignee.email === user.email
+                      || data.shipper.email === user.email"
                 class="border border-primary rounded p-2" style="line-height: 1rem;"
-                [class]="data.status == 'confirmed' ? 'border-success' : 'border-primary'">
+                [class]="data.status === 'confirmed' ? 'border-success' : 'border-primary'">
             {{ data.status }}
           </span>
-          <button *ngIf="data.status == 'pending_consignee' && data.consignee.email == user.email"
+          <button *ngIf="data.status === 'pending_consignee' && data.consignee.email === user.email"
                   (click)="confirmContractAlertIndex = i" class="btn btn-outline-secondary"
                   style="line-height: 1rem;">
             Accept
@@ -39,7 +39,7 @@
         </span>
       </span>
       </div>
-      <div *ngIf="confirmContractAlertIndex == i" class="bidDeleteAlert position-absolute end-0 d-flex justify-content-center">
+      <div *ngIf="confirmContractAlertIndex === i" class="bidDeleteAlert position-absolute end-0 d-flex justify-content-center">
         <div class="card p-4 pt-2" >
           <p><strong class="fw-bolder">Confirm this contract</strong></p>
           <contract-date-picker (transportationDate)="transportationDate = $event"></contract-date-picker>
