@@ -64,26 +64,26 @@
               <span class="fw-normal text-secondary ms-1">({{ (data.price/data.freight_data.distance).toFixed(2) }} EUR/km)</span>
             </span>
           </p>
-          <div class="d-flex flex-row mt-2">
-            <span class="border rounded p-2"  style="line-height: 1rem;"
+          <div class="d-flex flex-column flex-md-row mt-2">
+            <span class="border rounded p-2 text-center"
             [class]="data.status === 'confirmed' ? 'border-success' : 'border-primary'">
               {{ data.status }}
             </span>
             <button *ngIf="data.status === 'pending_consignee' && data.consignee.email === (user$ | async)?.email"
-                    (click)="confirmContractAlert = true" class="btn btn-outline-secondary ms-2"
+                    (click)="confirmContractAlert = true" class="col btn btn-outline-secondary ms-0 ms-md-2 mt-2 mt-md-0"
                     style="line-height: 1rem;">
               Accept
             </button>
             <button *ngIf="data.status === 'pending_shipper' && data.shipper.email === (user$ | async)?.email"
-                    (click)="confirmContractAlert = true" class="btn btn-outline-secondary ms-2"
+                    (click)="confirmContractAlert = true" class="col btn btn-outline-secondary ms-0 ms-md-2 mt-2 mt-md-0"
                     style="line-height: 1rem;">
               Accept
             </button>
 
             <button *ngIf="data.status === 'pending_consignee' && data.consignee.email === (user$ | async)?.email"
-                    (click)="negotiateChargesAlert = true" class="btn btn-outline-secondary ms-2"
+                    (click)="negotiateChargesAlert = true" class="col btn btn-outline-secondary m-0 ms-md-2 mt-2 mt-md-0"
                     style="line-height: 1rem;">
-              accept+negotiate charges
+              Accept + Negotiate charges
             </button>
 
 
