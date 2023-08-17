@@ -59,8 +59,21 @@
               <div class="form-group d-flex flex-row align-items-center col-3"> <!-- budget -->
                 <input formControlName="budget" id="budget"
                       (blur)="onBlur('budget')" (focus)="onFocus('budget')"
-                      type="number" class="form-control m-0" placeholder="budget" style="width: 10rem;">
+                      type="number" class="form-control m-0" placeholder="budget" style="width: 8rem;">
                 <div class="input-group-text" style="width: 8rem;">euro</div>
+              </div>
+            </div>
+            <div>
+              <div class="form-group d-flex flex-row align-items-center col-3"> <!-- payment deadline -->
+                <select formControlName="payment_deadline" class="form-select" id="payment_deadline" style="width: 10rem;">
+                  <option value="1days">1 day</option>
+                  <option value="14days">14 days</option>
+                  <option value="30days">30 days</option>
+                  <option value="60days">60 days</option>
+                  <option value="90days">90 days</option>
+                </select>
+
+                <div class="input-group-text" style="width: 10rem;">payment deadline</div>
               </div>
             </div>
           </div>

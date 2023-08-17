@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { Loader } from '@googlemaps/js-api-loader';
 import { Subject } from 'rxjs';
 import { expandedCollapsed } from 'sharedServices/animations';
@@ -14,6 +15,8 @@ import { environment } from 'src/environments/environment';
 export class ExchangeFiltersComponent {
   @Output() paginationFilters = new EventEmitter<object>();
 
+  user$ = this.authService.user$;
+  userId: string | undefined;
   isExpanded = false;
   truckTypes = [
     'duba', 'decopertat', 'basculanta', 'transport auto',
@@ -24,10 +27,15 @@ export class ExchangeFiltersComponent {
     destination: '',
     distance: [0, 1100],
     tonnage: [0, 41],
-    truckType: []
+    truckType: [],
+    onlyFromReqUser: false
   };
   activeFilters = 0;
   destinationPlaceholder = 'Unload city';
+
+  constructor(private authService: AuthService) {
+    this.user$.subscribe(user => this.userId = user?.sub?.split('auth0|')[1]);
+  }
 
   ngOnInit() {
     // Load Google Maps Autocomplete
@@ -66,7 +74,8 @@ export class ExchangeFiltersComponent {
       destination: '',
       distance: [0, 1100],
       tonnage: [0, 41],
-      truckType: []
+      truckType: [],
+      onlyFromReqUser: false
     }
     this.activeFilters = 0;
     const textInputs = document.querySelectorAll("input[type='text']") as NodeListOf<HTMLInputElement>;
@@ -82,13 +91,13 @@ export class ExchangeFiltersComponent {
   }
 
   submitPaginationFilters() {
-    console.log(this.filters)
     this.paginationFilters.next({
       origin: this.filters.origin,
       destination: this.filters.destination,
       distance: [this.filters.distance[0], this.filters.distance[1] > 1000 ? null : this.filters.distance[1]],
       'size.tonnage': [this.filters.tonnage[0], this.filters.tonnage[1] > 40 ? null : this.filters.tonnage[1] ],
-      'truck.type': this.filters.truckType
+      'truck.type': this.filters.truckType,
+      'fromUser.userId': this.filters.onlyFromReqUser ? this.userId : null
     })
     this.isExpanded = false;
     this.checkActiveFilters();
@@ -101,16 +110,17 @@ export class ExchangeFiltersComponent {
       destination: '',
       distance: [0, 1100],
       tonnage: [0, 41],
-      truckType: []
+      truckType: [],
+      onlyFromReqUser: false
     };
 
     Object.entries(this.filters).forEach((el: any) => {
       const key:string = el[0];
-      const value:string | Array<number|string> = el[1];
+      const value:string | boolean | Array<number|string> = el[1];
 
-      if(typeof value == 'string' && value !== defaultFilters[key]) {
+      if((typeof value == 'string' || typeof value == 'boolean') && value !== defaultFilters[key]) {
         this.activeFilters++;
-      } else if(typeof value !== 'string') {
+      } else if(typeof value !== 'string' && typeof value !== 'boolean') {
         const defaultFiltersValue:Array<number|string> = defaultFilters[key];
         value.every((v) => !defaultFiltersValue.includes(v) ? this.activeFilters++ : null);
       }

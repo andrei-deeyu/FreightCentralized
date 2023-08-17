@@ -57,6 +57,7 @@ export class CreatePostComponent implements OnInit {
   form = new FormGroup({
     details: new FormControl('', [ Validators.required ]),
     budget: new FormControl(null, Validators.pattern(this.numberRegEx)),
+    payment_deadline: new FormControl('60days', Validators.pattern(this.numberRegEx)),
     valability: new FormControl('7days', { nonNullable: true }),
     pallet: new FormGroup({
       type: new FormControl(''),
@@ -147,7 +148,8 @@ export class CreatePostComponent implements OnInit {
       distance: this.routeData.distance,
       geometry: this.routeData.geometry,
       details: f.value.details ?? '',
-      budget: f.value.budget ?? null,
+      budget: f.value.budget,
+      payment_deadline: f.value.payment_deadline,
       valability: f.value.valability,
       pallet: {
         type: f.value.pallet.type,

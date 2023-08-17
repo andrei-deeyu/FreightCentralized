@@ -8,6 +8,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Contract } from '@shared/models/contract.model';
 import { Store } from '@ngrx/store';
 import { selectContractNotifications } from 'src/app/state/exchange.selectors';
+import { BadInput } from 'sharedServices/Errors/bad-input';
+import { AppError } from 'sharedServices/Errors/app-error';
+
 
 @Component({
   selector: 'contract-data',
@@ -54,14 +57,14 @@ export class ContractDataComponent {
           this.contract = contract;
           this.loadMap(contract);
         },
-        error: (err) => { throw err; }
+        error: (err) => { throw new AppError(); }
       })
   }
 
 
   negotiateContract(f: FormGroup) {
     const offer = {
-      price: f.get('price')?.value,
+      price: f.get('price')?.value ?? this.contract.price,
       transportationDate: this.transportationDate
     }
 
@@ -75,7 +78,7 @@ export class ContractDataComponent {
           this.transportationDate.pickup = undefined;
           this.transportationDate.delivery = undefined;
         },
-        error: (err) => { throw err }
+        error: (err) => { throw new BadInput(err.originalError.error.message) }
       });
   }
 

@@ -134,3 +134,7 @@
 </div>
 
 <pagination [filtersObs]="currentPaginationFilters.asObservable()"></pagination>
+
+<div *ngIf="warningMessage" class="alert alert-warning position-absolute bottom-0 mb-2 w-100">
+  {{ warningMessage }}
+</div>

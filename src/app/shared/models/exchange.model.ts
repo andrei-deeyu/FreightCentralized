@@ -4,7 +4,8 @@ import { RouteData } from "./routeData.model";
 export interface Exchange extends RouteData {
   details: string;
   budget: number;
-  valability: string
+  payment_deadline: string;
+  valability: string;
   pallet: {
     type: string;
     number: number;
@@ -36,6 +37,7 @@ export const ExchangeMockup = {
   distance: 596,
   details: '',
   budget: 0,
+  payment_deadline: '60days',
   valability: '1days',
   pallet: {
     type: '',

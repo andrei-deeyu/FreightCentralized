@@ -190,6 +190,13 @@
               <span class="fw-normal text-secondary ms-1">({{ acceptingTheBid ? (acceptingTheBid.price/postData.distance).toFixed(2) : 0 }} EUR/km)</span>
             </span>
           </p>
+
+          <p class="fw-bold d-flex mb-2">
+            Payment deadline
+            <span class="fw-normal text-secondary ms-1" *ngIf="postData.payment_deadline">
+              {{ postData.payment_deadline.split('days')[0] }} days
+            </span>
+          </p>
           <div class="d-flex flex-row mt-2">
             <button (click)="createContract(acceptingTheBid?._id)" class="col me-1 btn btn-primary">Accept</button>
             <button (click)="acceptingTheBid = undefined" class="col ms-1 btn btn-outline-secondary">Cancel</button>

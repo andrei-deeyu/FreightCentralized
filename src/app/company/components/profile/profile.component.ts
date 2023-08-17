@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         setTimeout(() => {
           this.company = res;
           this.successMessage = '';
-        }, 3000);
+        }, 2000);
       },
       error: (err) => { throw new BadInput(err.message.error.message)}
     });
@@ -145,7 +145,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.editing = false;
         f.reset();
         this.company = res;
-        setTimeout(() => this.successMessage = '', 3000);
+        setTimeout(() => this.successMessage = '', 2000);
       },
       error: (err) => { throw new BadInput(err.message.error.message)}
     });

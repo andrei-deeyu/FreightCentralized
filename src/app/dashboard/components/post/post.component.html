@@ -49,6 +49,7 @@
         </div>
         <span *ngIf="data.truck.features">{{ data.truck.features }}</span>
         <span *ngIf="data.budget" class="fw-bold">{{ data.budget }} euro</span>
+        <span *ngIf="data.payment_deadline">{{ data.payment_deadline.split('days')[0] }} days payment deadline</span>
       </div>
     </li>
 

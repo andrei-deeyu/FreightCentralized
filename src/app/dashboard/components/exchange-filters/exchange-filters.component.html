@@ -48,12 +48,23 @@
         <span class="ms-2">{{ filters.distance[1] > 1000 ? '1100 km+' : filters.distance[1] }}</span>
       </div>
     </div>
-    <div class="mt-2">
-      <span class="fw-bold">Required truck </span>
-      <div *ngFor="let type of truckTypes;let i = index">
-        <div class="form-check mt-2">
-          <span class="form-check-label" >{{ type }}</span>
-          <input [value]="type" (change)="onCheckChange($event)" type="checkbox" [id]="type" class="form-check-input"/>
+    <div class="row">
+      <div class="col">
+        <span class="fw-bold">Required truck </span>
+        <div *ngFor="let type of truckTypes;let i = index">
+          <div class="form-check mt-2">
+            <span class="form-check-label" >{{ type }}</span>
+            <input [value]="type" (change)="onCheckChange($event)" type="checkbox" [id]="type" class="form-check-input"/>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <!-- <span class="fw-bold">Required truck </span> -->
+        <div>
+          <div class="form-check mt-2">
+            <span class="form-check-label fw-bold">only my freights</span>
+            <input [(ngModel)]="filters.onlyFromReqUser" type="checkbox" id="onlyFromReqUser" class="form-check-input"/>
+          </div>
         </div>
       </div>
     </div>

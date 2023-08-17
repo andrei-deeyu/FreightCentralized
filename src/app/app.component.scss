@@ -1,12 +1,13 @@
 .alert {
   width: 100%;
   font-weight: bold;
+  z-index: 3000;
 }
 
 .alert-warning {
   position: fixed;
   bottom: 0;
-  z-index: 10;
+  z-index: 3000;
 }
 
 

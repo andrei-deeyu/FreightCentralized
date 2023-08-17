@@ -27,6 +27,7 @@ export class ExchangeComponent {
   currentPaginationFilters: Subject<object> = new Subject<object>();
   nearbyFreightsLoading = false;
   isMobile: boolean;
+  warningMessage = '';
 
   @HostListener('window:resize', ['$event']) getScreenSize() {
     this.isMobile = window.innerWidth <= 768;
@@ -44,11 +45,26 @@ export class ExchangeComponent {
     const nearbyRange = 400;
     this.nearbyFreightsLoading = true;
 
+
+    navigator.permissions.query({"name": "geolocation"})
+    .then(permission => {
+      if(permission.state !== 'granted') {
+        this.warningMessage = 'You must allow geolocation to use nearby search'
+        setTimeout(() => {
+          this.warningMessage = '';
+          this.nearbyFreightsLoading = false;
+        }, 3000);
+      }
+    })
+
+
     navigator.geolocation.getCurrentPosition((loc) => {
       const geoLocation = {
         lat: loc.coords.latitude,
         lng: loc.coords.longitude
       }
+      if(!geoLocation) return;
+
       this.service.getNearby(geoLocation, nearbyRange).subscribe({
         next: (result) => {
           this.store.dispatch(ExchangeApiActions.retrievedExchangePosts({exchange: result}))

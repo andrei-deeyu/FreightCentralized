@@ -46,9 +46,9 @@
           <p class="fw-bold mb-2">
             Cargo Description: <span class="fw-normal text-secondary ">{{ data.freight_data.details }}</span>
           </p>
-          <p class="fw-bold mb-2">
+          <!-- <p class="fw-bold mb-2">
             Special Instructions: <span class="fw-normal text-secondary ">[Any special handling instructions]</span>
-          </p>
+          </p> -->
           <p class="fw-bold mb-2">
             Weight: <span class="fw-normal text-secondary ">{{ data.freight_data.size.tonnage }}t / kilograms</span>
           </p>
@@ -64,6 +64,13 @@
               <span class="fw-normal text-secondary ms-1">({{ (data.price/data.freight_data.distance).toFixed(2) }} EUR/km)</span>
             </span>
           </p>
+          <p class="fw-bold d-flex mb-2">
+            Payment deadline
+            <span class="fw-normal text-secondary ms-1" *ngIf="data.payment_deadline">
+              {{ data.payment_deadline.split('days')[0] }} days
+            </span>
+          </p>
+
           <div class="d-flex flex-column flex-md-row mt-2">
             <span class="border rounded p-2 text-center"
             [class]="data.status === 'confirmed' ? 'border-success' : 'border-primary'">

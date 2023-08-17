@@ -182,10 +182,14 @@ export class PostBidsComponent {
     theService.getBids(this.postId)
       .subscribe({
         next: (bids: Array<any>) => {// | Array<{lowestBid: Bid, reqUserBidPosition: number }>) => {
-          if (bids[0] && bids[1] && bids[1].lowestBid && bids[1].reqUserBidPosition && !_isAuthor) {
-            this.lowestBid = bids[1].lowestBid
-            if (this.lowestBid._id == bids[0]._id) this.whoseLowestBid = 'yours';
-            this.reqUserBidPosition = bids[1].reqUserBidPosition;
+          const userBid = bids[0];
+          const lowestBid = bids[1]?.lowestBid;
+          const reqUserBidPosition = bids[1]?.reqUserBidPosition
+
+          if (userBid && bids[1] && lowestBid && reqUserBidPosition && !_isAuthor) {
+            this.lowestBid = lowestBid;
+            if (this.lowestBid._id == userBid._id) this.whoseLowestBid = 'yours';
+            this.reqUserBidPosition = reqUserBidPosition;
             bids.splice(1, 1);
           }
 
@@ -256,7 +260,6 @@ export class PostBidsComponent {
       .subscribe({
         next: (bid: Bid) => {
           let currentBids: Array<Bid> = [];
-
           this.bidsBehaviourSubject$.subscribe(_currentBids => currentBids = _currentBids);
 
           currentBids.map((value, index) => {
