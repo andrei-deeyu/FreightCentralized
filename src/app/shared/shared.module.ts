@@ -17,6 +17,8 @@ import { PublicApiService } from 'sharedServices/public-api.service';
 import { GetSubscriptionComponent } from './components/get-subscription/get-subscription.component';
 import { ContactDataComponent } from './components/contact-data/contact-data.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ExchangePostComponent } from './components/exchange-post/exchange-post.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -24,7 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   declarations: [
     FavoriteComponent,
@@ -39,6 +42,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LogoutButtonComponent,
     GetSubscriptionComponent,
     ContactDataComponent,
+    ExchangePostComponent
   ],
 
   providers: [
@@ -59,7 +63,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ContactDataComponent,
     LoginButtonComponent,
     SignupButtonComponent,
-    LogoutButtonComponent
+    LogoutButtonComponent,
+    ExchangePostComponent
   ]
 })
 export class SharedModule { }

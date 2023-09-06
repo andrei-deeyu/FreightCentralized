@@ -7,6 +7,7 @@ import { ContractListComponent } from './components/contract-list/contract-list.
 import { SharedModule } from '@shared/shared.module';
 import { ContractDatePickerComponent } from './components/contract-date-picker/contract-date-picker.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 
 @NgModule({
@@ -24,8 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     ContractDatePickerComponent,
     RouterModule.forChild([
-      { path: 'contracts', component: ContractListComponent },
-      { path: 'contracts/:id', component: ContractDataComponent },
+      { path: 'contracts', canActivate: [AuthGuard], component: ContractListComponent },
+      { path: 'contracts/:id', canActivate: [AuthGuard], component: ContractDataComponent },
     ])
   ]
 })

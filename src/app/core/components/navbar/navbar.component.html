@@ -8,10 +8,13 @@
 
         <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
           <li class="nav-item">
-            <a routerLinkActive="active" class="nav-link bi bi-box-fill" routerLink="exchange"></a>
+            <a routerLinkActive="active" class="nav-link bi bi-boxes" routerLink="exchange"></a>
           </li>
           <li class="nav-item ms-3" *ngIf="canPostFreight">
             <a routerLinkActive="active" class="nav-link bi bi-plus-circle-fill" routerLink="exchange/create-post"></a>
+          </li>
+          <li class="nav-item ms-3" *ngIf="canPostFreight">
+            <a routerLinkActive="active" class="nav-link bi bi-box-fill" routerLink="my-freights"></a>
           </li>
           <li class="nav-item ms-3">
             <a routerLinkActive="active" class="nav-link bi-building-fill" routerLink="company"></a>
@@ -72,6 +75,9 @@
           </li>
           <li class="nav-item" *ngIf="canPostFreight">
             <a routerLinkActive="active" class="nav-link" routerLink="exchange/create-post">Post Freight</a>
+          </li>
+          <li class="nav-item" *ngIf="canPostFreight">
+            <a routerLinkActive="active" class="nav-link" routerLink="my-freights">My Freights</a>
           </li>
           <li class="nav-item">
             <a routerLinkActive="active" class="nav-link" routerLink="company">Company</a>

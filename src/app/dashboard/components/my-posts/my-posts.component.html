@@ -1,0 +1,8 @@
+<div *ngIf="(exchange$ | async) as exchange;" class="container p-0">
+  <h5 class="ms-2 ms-md-0">My freights</h5>
+  <ul class="list-group">
+    <div *ngFor="let post of exchange$ | async; even as isEven, index as i">
+      <exchange-post [post]="post" [isEven]="isEven"></exchange-post>
+    </div>
+  </ul>
+</div>

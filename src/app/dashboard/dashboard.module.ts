@@ -20,6 +20,7 @@ import { ExchangeFiltersComponent } from './components/exchange-filters/exchange
 import { PostBidsComponent } from './components/post-bids/post-bids.component';
 import { PostBidsService } from './services/post-bids.api.service';
 import { MatSliderModule } from '@angular/material/slider';
+import { MyPostsComponent } from './components/my-posts/my-posts.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { MatSliderModule } from '@angular/material/slider';
     CreatePostRoutesComponent,
     ExchangeFiltersComponent,
     PostBidsComponent,
+    MyPostsComponent,
   ],
 
   imports: [
@@ -51,9 +53,10 @@ import { MatSliderModule } from '@angular/material/slider';
     RouterModule.forChild([
       { path: 'exchange', canActivate: [AuthGuard], component: ExchangeComponent },
       { path: 'exchange/create-post', canActivate: [AuthGuard], component: CreatePostComponent },
-      { path: 'exchange/:id', component: PostComponent}
+      { path: 'exchange/:id', component: PostComponent},
+      { path: 'my-freights', canActivate: [AuthGuard], component: MyPostsComponent }
     ]),
     ReactiveFormsModule,
-  ]
+  ],
 })
 export class DashboardModule { }
