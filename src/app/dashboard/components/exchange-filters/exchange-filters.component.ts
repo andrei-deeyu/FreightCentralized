@@ -31,7 +31,7 @@ export class ExchangeFiltersComponent {
     onlyFromReqUser: false
   };
   activeFilters = 0;
-  destinationPlaceholder = 'Unload city';
+  destinationPlaceholder = 'Descarcare';
 
   constructor(private authService: AuthService) {
     this.user$.subscribe(user => this.userId = user?.sub?.split('auth0|')[1]);
@@ -43,7 +43,7 @@ export class ExchangeFiltersComponent {
       mapResults.subscribe((results: any) => {
         this.filters.origin = results.origin;
         this.filters.destination = results.destination;
-        this.destinationPlaceholder = 'anywhere'
+        this.destinationPlaceholder = 'oriunde'
       })
     });
   }

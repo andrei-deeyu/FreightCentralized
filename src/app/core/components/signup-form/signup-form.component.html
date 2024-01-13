@@ -1,29 +1,29 @@
 <div class="container" >
   <form [formGroup]="form" (ngSubmit)="submit(form)" class="card">
     <div formGroupName="account" class="card-body">
-      <h2>Sign Up</h2>
+      <h2>Inregistrare</h2>
       <div class="form-group">
         <label for="username">Username</label>
         <input formControlName="username" appInputFormat id="username" type="text" class="form-control" placeholder="use lowercase characters">
-        <div *ngIf="username?.pending">Checking for uniqueness...</div>
+        <div *ngIf="username?.pending">verificare...</div>
         <div *ngIf="username?.touched && username?.invalid" class="alert alert-danger p-2">
           <div *ngIf="username?.errors?.['required']">
-            Username is required
+            Username e necesar
           </div>
           <div *ngIf="username?.errors?.['minlength']">
-            Username should be minimum {{ username?.errors?.['minlength'].requiredLength }} characters
+            Username minim {{ username?.errors?.['minlength'].requiredLength }} caractere
           </div>
           <div *ngIf="username?.errors?.['cannotContainSpace']">
-            Username cannot contain space
+            Username nu poate contine spatiu alb
           </div>
           <div *ngIf="username?.errors?.['shouldBeUnique']">
-            Username already exists
+            Username-ul deja exista
           </div>
         </div>
       </div>
       <br>
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">Parola</label>
         <input
           formControlName="password" id="password"
           type="password" class="form-control">
@@ -47,7 +47,7 @@
 
     <button [disabled]="!form.valid" class="btn btn-primary">Submit</button>
     <div *ngIf="form.errors" class="alert alert-danger">
-      The username or password is invalid
+      Username sau parola e invalida
     </div>
   </form>
 </div>

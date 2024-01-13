@@ -1,7 +1,18 @@
 @import url('../../../shared/styles/exchange-list.style.scss');
 
+.backgroundImage {
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  z-index: -1000;
+  opacity: .6
+}
+
 .header {
   height: 60vh;
+  // color: white;
+  // background-color: rgb(253, 253, 253);
+  padding-top: 1rem;
   p { max-width: 30em }
   a {
     text-decoration: none;

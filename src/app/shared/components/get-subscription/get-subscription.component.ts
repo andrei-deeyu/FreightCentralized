@@ -10,20 +10,24 @@ import { AuthApiService } from 'sharedServices/auth.api.service';
 export class GetSubscriptionComponent {
   subscriptionsAvailable = {
     shipper: {
-      desc: 'Businesses looking to ship their goods and list freight requirements.',
-      price: 0
+      desc: 'Afaceri ce doresc sa expedieze marfurile si sa listeze cereri de transport.',
+      price: 0,
+      color: '#FFD6D6',
     },
     carrier: {
-      desc: 'Transportation companies and freight carriers interested in finding freight to transport.',
+      desc: 'Transportatori interesati sa gaseasca marfuri de transportat.',
       price: 0,
+      color: '#D6E4FF'
     },
     forwarder: {
-      desc: 'Companies specializing in arranging transportation and handling logistics for shippers',
-      price: 0
+      desc: 'Afaceri specializate in aranjarea transportului si manipularii logisticii pentru expeditori',
+      price: 0,
+      color: '#FFF9D6',
     },
     logistic: {
-      desc: 'Businesses providing comprehensive logistics services.',
-      price: 0
+      desc: 'Companii care oferă servicii logistice complete.',
+      price: 0,
+      color: '#D6FFE4'
     }
   }
 

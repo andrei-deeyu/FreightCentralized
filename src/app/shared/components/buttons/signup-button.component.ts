@@ -9,7 +9,7 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class SignupButtonComponent {
   @Input() stylingClasses = '';
-  @Input() text = 'Sign Up';
+  @Input() text = 'Inregistrare';
 
   constructor(private auth: AuthService) {}
 

@@ -66,24 +66,24 @@
     <nav class="navbar fixed-top navbar-expand bg-body-tertiary p-0">
       <ul class="navbar-nav p-2 ps-xxl-3 pe-xxl-3">
         <li class="nav-item">
-          <a routerLinkActive="active" class="nav-link" routerLink="">Home</a>
+          <a routerLinkActive="active" class="nav-link" routerLink="">Acasa</a>
         </li>
 
         <ng-container *ngIf="isAuthenticated$ | async; else unAuthenticated">
           <li class="nav-item">
-            <a routerLinkActive="active" class="nav-link" routerLink="exchange">Exchange</a>
+            <a routerLinkActive="active" class="nav-link" routerLink="exchange">Bursa</a>
           </li>
           <li class="nav-item" *ngIf="canPostFreight">
-            <a routerLinkActive="active" class="nav-link" routerLink="exchange/create-post">Post Freight</a>
+            <a routerLinkActive="active" class="nav-link" routerLink="exchange/create-post">Posteaza marfa</a>
           </li>
           <li class="nav-item" *ngIf="canPostFreight">
-            <a routerLinkActive="active" class="nav-link" routerLink="my-freights">My Freights</a>
+            <a routerLinkActive="active" class="nav-link" routerLink="my-freights">Marfurile mele</a>
           </li>
           <li class="nav-item">
-            <a routerLinkActive="active" class="nav-link" routerLink="company">Company</a>
+            <a routerLinkActive="active" class="nav-link" routerLink="company">Companie</a>
           </li>
           <li class="nav-item">
-            <a routerLinkActive="active" class="nav-link" routerLink="contracts">Contracts</a>
+            <a routerLinkActive="active" class="nav-link" routerLink="contracts">Contracte</a>
           </li>
           <li *ngIf="isAdmin" class="nav-item">
             <a routerLinkActive="active" class="nav-link" routerLink="admin">Admin</a>
@@ -167,13 +167,37 @@
     </li>
   </div>
 
-  <li class="item list-unstyled d-flex flex-row align-items-center"
+  <!-- <li class="item list-unstyled d-flex flex-row align-items-center"
       (click)="isExpanded = false"
       (keyup.enter)="isExpanded = false;router.navigate(['form-test'])"
       routerLink="form-test"
       tabindex="0">
     <span class="icon"><span class="bi bi-lightbulb-fill"></span></span>
     <p class="p-0 m-0 ms-2">Form Test</p>
+  </li> -->
+  <li class="item list-unstyled d-flex flex-row align-items-center"
+      (click)="isExpanded = false"
+      (keyup.enter)="isExpanded = false;router.navigate(['profile'])"
+      routerLink="profile"
+      tabindex="0">
+    <span class="icon"><span class="bi bi-person-fill"></span></span>
+    <p class="p-0 m-0 ms-2">Profilul meu</p>
+  </li>
+  <li class="item list-unstyled d-flex flex-row align-items-center"
+      (click)="isExpanded = false"
+      (keyup.enter)="isExpanded = false;router.navigate(['exchange/create-post'])"
+      routerLink="exchange/create-post"
+      tabindex="0">
+    <span class="icon"><span class="bi bi-plus-circle-fill"></span></span>
+    <p class="p-0 m-0 ms-2">Posteaza marfa</p>
+  </li>
+  <li class="item list-unstyled d-flex flex-row align-items-center"
+      (click)="isExpanded = false"
+      (keyup.enter)="isExpanded = false;router.navigate(['exchange'])"
+      routerLink="exchange"
+      tabindex="0">
+    <span class="icon"><span class="bi bi-boxes"></span></span>
+    <p class="p-0 m-0 ms-2">Bursa</p>
   </li>
   <li class="item list-unstyled d-flex flex-row align-items-center"
       (click)="handleLogout()"

@@ -1,13 +1,15 @@
 <div class="header container">
   <h1>{{ brandName }}</h1>
-  <p class="text-secondary">{{ brandDesc }}</p>
-  <signup-button [stylingClasses]="'btn btn-primary'" [text]="'Get started'"></signup-button>
-  <span class="bi bi-arrow-right ms-4"></span><a [href]="githubRepo" class="text-body"> read more</a>
+  <p class="text-secondary">{{ brandDesc }}<br>{{brandDesc2}}</p>
+  <signup-button [stylingClasses]="'btn btn-primary'" [text]="'Transporta'"></signup-button>
+  <signup-button [stylingClasses]="'btn btn-outline-primary ms-2'" [text]="'Expediaza'"></signup-button>
+  <!-- <span class="bi bi-arrow-right ms-4"></span><a [href]="githubRepo" class="text-body"> mai multe</a> -->
+  <img *ngIf="!isMobile" class="backgroundImage" [src]="backgroundImage">
 </div>
 
 <div class="container">
   <p class="text-secondary mb-0">
-    latest 3 freights
+    ultimele 3 marfuri
   </p>
 </div>
 <div *ngIf="exchange$ | async" class="container p-0 mt-0">
@@ -21,20 +23,20 @@
 <div class="container">
   <div class="section">
     <div class="data">
-      <h4>The Key to Accelerated Business Success</h4>
+      <h4>Accelereaza succesul afacerii</h4>
       <p class="text-secondary">
-        Maximize your business performance with cutting-edge tools, advanced analytics, and seamless collaboration. Optimize logistics, reduce lead times, and deliver exceptional customer service. Empower yourself as an industry leader with our powerful capabilities.
+        Maximizeaza performanta afacerii cu instrumente de ultima generatie, analize avansate si colaborare fara intreruperi. Optimizeaza logistica, reduce timpul de livrare si ofera servicii exceptionale pentru clienti. Devin-o lider in industrie cu capabilitatile noastre puternice.
       </p>
     </div>
   </div>
 
   <div class="section">
     <div class="data">
-      <h4>Don't spend unnecessary</h4>
+      <h4>Nu cheltuii degeaba</h4>
       <p class="text-secondary">
-        Reduce empty truck journeys, minimize carbon footprint, and enhance the overall efficiency of supply chain operations.
+        Redu cursele cu camioane goale, minimizeaza amprenta de carbon, consumul de combustibil, si imbunatateste eficienta totala a lantului de aprovizionare.
       </p>
-      <signup-button [stylingClasses]="'btn btn-primary'" [text]="'Start now'"></signup-button>
+      <signup-button [stylingClasses]="'btn btn-primary'" [text]="'Incepe acum'"></signup-button>
     </div>
   </div>
 </div>
@@ -44,6 +46,6 @@
     <h4>{{ brandName }}</h4>
     <a [href]="githubRepo">GitHub Repo</a> <br>
     <a [href]="'mailto:'+contactEmail">Contact</a>
-    <p class="copyright">2023 Copyright. All Rights Reserved.</p>
+    <p class="copyright">2024 Copyright. All Rights Reserved.</p>
   </div>
 </div>

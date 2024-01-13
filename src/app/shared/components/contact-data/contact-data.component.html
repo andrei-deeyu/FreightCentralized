@@ -1,24 +1,24 @@
 <div class="container">
-  <h3>Contact Details</h3>
+  <h3>Detalii contact</h3>
   <form [formGroup]="form" (ngSubmit)="saveProfile(form)">
 
     <div class="form-floating mb-3">
       <input formControlName="firstName" id="firstName" type="text" class="form-control" placeholder="First Name">
-      <label for="firstName">First Name</label>
+      <label for="firstName">Prenume</label>
     </div>
 
     <div class="form-floating mb-3">
       <input formControlName="lastName" id="lastName" type="text" class="form-control" placeholder="Last Name">
-      <label for="lastName">Last Name</label>
+      <label for="lastName">Nume</label>
     </div>
 
     <div class="form-floating mb-3">
       <input formControlName="phoneNumber" id="phoneNumber" type="number" class="form-control no-spinner" placeholder="Phone Number">
-      <label for="phoneNumber">Phone Number</label>
+      <label for="phoneNumber">Telefon</label>
     </div>
 
     <div class="d-flex flex-row">
-      <button class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      <button class="btn btn-primary" [disabled]="!form.valid">Salveaza</button>
       <div *ngIf="form.errors" class="alert alert-danger m-0 pt-1 pb-1">{{ form.errors | json }}</div>
     </div>
   </form>

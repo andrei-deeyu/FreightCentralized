@@ -14,8 +14,10 @@ import { environment } from 'src/environments/environment';
 export class HomeComponent implements OnInit {
   brandName = environment.brandName;
   brandDesc = environment.brandDesc;
+  brandDesc2 = environment.brandDesc2;
   githubRepo = environment.githubRepo;
   contactEmail = environment.contactEmail;
+  backgroundImage = '../../assets/landing_page.jpg';
   exchange$ = this.store.select(selectExchange);
   isMobile: boolean;
 
