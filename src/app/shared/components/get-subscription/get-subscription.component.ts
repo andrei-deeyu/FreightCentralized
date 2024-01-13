@@ -13,21 +13,25 @@ export class GetSubscriptionComponent {
       desc: 'Afaceri ce doresc sa expedieze marfurile si sa listeze cereri de transport.',
       price: 0,
       color: '#FFD6D6',
+      displayName: 'Expeditor'
     },
     carrier: {
       desc: 'Transportatori interesati sa gaseasca marfuri de transportat.',
       price: 0,
-      color: '#D6E4FF'
+      color: '#D6E4FF',
+      displayName: 'Transportator'
     },
     forwarder: {
       desc: 'Afaceri specializate in aranjarea transportului si manipularii logisticii pentru expeditori',
       price: 0,
       color: '#FFF9D6',
+      displayName: 'Casa Expeditii'
     },
     logistic: {
       desc: 'Companii care oferă servicii logistice complete.',
       price: 0,
-      color: '#D6FFE4'
+      color: '#D6FFE4',
+      displayName: 'Logistic'
     }
   }
 

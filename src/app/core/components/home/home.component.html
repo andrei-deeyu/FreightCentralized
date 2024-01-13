@@ -32,7 +32,7 @@
 
   <div class="section">
     <div class="data">
-      <h4>Nu cheltuii degeaba</h4>
+      <h4>Nu cheltui degeaba</h4>
       <p class="text-secondary">
         Redu cursele cu camioane goale, minimizeaza amprenta de carbon, consumul de combustibil, si imbunatateste eficienta totala a lantului de aprovizionare.
       </p>
@@ -44,8 +44,12 @@
 <div class="footer">
   <div class="content">
     <h4>{{ brandName }}</h4>
-    <a [href]="githubRepo">GitHub Repo</a> <br>
-    <a [href]="'mailto:'+contactEmail">Contact</a>
+    <h5 class="text-secondary">Contact</h5>
+    <p class="text-secondary">
+      Email: {{ contactEmail }}
+    </p>
+    <!-- <a [href]="githubRepo">GitHub Repo</a> <br> -->
+    <!-- <a [href]="'mailto:'+contactEmail">Contact</a> -->
     <p class="copyright">2024 Copyright. All Rights Reserved.</p>
   </div>
 </div>

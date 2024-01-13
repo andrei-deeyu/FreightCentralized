@@ -7,7 +7,7 @@
              (click)="getSubscription(subscription.key)"
              (keyup.enter)="getSubscription(subscription.key)"
              tabindex="0">
-          <h3>{{ subscription.key }}</h3>
+          <h3>{{ subscription.value.displayName }}</h3>
           <p>{{ subscription.value.desc }}</p>
         </div>
       </div>
