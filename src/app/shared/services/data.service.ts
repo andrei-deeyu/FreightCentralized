@@ -10,6 +10,7 @@ import { NoInternetConnection } from './Errors/no-internet-connection';
 import { Exchange } from '@shared/models/exchange.model';
 import { Bid } from '@shared/models/bid.model';
 import { Contract } from '@shared/models/contract.model';
+import { DeviceInfo } from '@shared/types/device-info.interface';
 
 export interface GetPagination {
   pagesToShow: number;
@@ -20,6 +21,14 @@ export interface GetPagination {
 export class DataService {
   constructor( private url:string, private http: HttpClient) {
 
+  }
+
+  signupLog(CTAText: string, deviceInfo: DeviceInfo) {
+    return this.http
+    .post(this.url + '/signupLog', { CTAText, ...deviceInfo }, { headers: { 'Content-Type': 'application/json' }})
+    .pipe(
+      catchError(this.handleError)
+    )
   }
 
   resendVerification(): Observable<{ status: string }> {
